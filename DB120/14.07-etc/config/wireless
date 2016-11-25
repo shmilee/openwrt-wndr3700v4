@@ -1,0 +1,15 @@
+config wifi-device  radio0
+	option type     mac80211
+	option channel  11
+	option hwmode	11g
+	option path	'pci0000:00/0000:00:01.0/ssb0:0'
+	option txpower '20'
+	option country 'CN'
+
+config wifi-iface
+	option device   radio0
+	option network  lan
+	option mode     ap
+	option ssid 'OpenWrt'
+	option encryption 'psk2'
+	option key 'wuxianmimazijishezhiquba'

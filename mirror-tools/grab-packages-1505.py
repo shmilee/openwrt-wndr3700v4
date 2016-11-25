@@ -12,16 +12,15 @@ from multiprocessing import Pool
 from urllib import response
 from contextlib import closing
 
-# /etc/openwrt_release
+# 15.05.1 /etc/openwrt_release
 DISTRIB_ID       = "OpenWrt"
-DISTRIB_RELEASE  = "14.07"
-DISTRIB_REVISION = "r42625"
-DISTRIB_CODENAME = "barrier_breaker"
+DISTRIB_RELEASE  = "15.05.1"
+DISTRIB_REVISION = "r48532"
+DISTRIB_CODENAME = "chaos_calmer"
 DISTRIB_TARGET   = "ar71xx/nand"
 
 # package group
 IPKGRPS=('base', 'luci', 'management', 'packages', 'routing',
-         'oldpackages',
          #'telephony' #坑, > 400M
          )
 
@@ -111,7 +110,7 @@ def download_package_db(psize):
     start = time.time()
     p = Pool(psize)
     for group in IPKGRPS:
-        for f in ('/Packages', '/Packages.gz', '/md5sums'):
+        for f in ('/Packages', '/Packages.gz', '/Packages.sig'):
             url = BASEURL + group + f
             outfile = SAVEDIR + group + f
             p.apply_async(download_helper, args=(url, outfile, None))

@@ -124,7 +124,7 @@ tftp> quit
 TODO full 128M
 ===============
 
-https://wiki.openwrt.org/doc/techref/flash.layout
-https://dev.openwrt.org/changeset/48456/trunk
-http://blog.sina.com.cn/s/blog_5f66526e0102wfzo.html
-http://www.right.com.cn/forum/thread-144853-1-1.html
+* https://wiki.openwrt.org/doc/techref/flash.layout
+* https://dev.openwrt.org/changeset/48456/trunk
+* http://blog.sina.com.cn/s/blog_5f66526e0102wfzo.html
+* http://www.right.com.cn/forum/thread-144853-1-1.html

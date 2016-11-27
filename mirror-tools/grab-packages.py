@@ -75,6 +75,9 @@ def download_helper(url, outfile, ha, title):
         print('\033[31m[Download %s Error]\033[0m' % shot_title, err)
         return (url, shot_title)
     finally:
+        if not os.path.exists(outfile):
+            print('\033[31m[%s]\033[0m No such file!' % title)
+            return (url, shot_title)
         if ha and ha != hashfun(open(outfile, 'rb').read()).hexdigest():
             print('\033[31m[%s]\033[0m BROKEN!' % title)
             return (url, shot_title)

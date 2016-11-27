@@ -12,9 +12,9 @@ SAVE_PREFIX = './openwrt-ipks-'
 # set available PROFILE, see Profiles.py
 #PROFILE = 'PROFILE_10031_brcm63'
 #PROFILE = 'PROFILE_1209_brcm63'
-PROFILE = 'PROFILE_1407_brcm63'
+#PROFILE = 'PROFILE_1407_brcm63'
 #PROFILE = 'PROFILE_1407_ar71'
-#PROFILE = 'PROFILE_15051_ar71'
+PROFILE = 'PROFILE_15051_ar71'
 
 # set save directory
 SAVEDIR = '%s%s/%s/packages' % (
@@ -23,5 +23,5 @@ SAVEDIR = '%s%s/%s/packages' % (
     PROFILES[PROFILE]['DISTRIB_TARGET']
 )
 
-# set processes number, 20-40
-PSIZE = 30
+# set processes number, 2-90
+PSIZE = 50

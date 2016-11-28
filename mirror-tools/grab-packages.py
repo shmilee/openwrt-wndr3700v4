@@ -41,17 +41,11 @@ else:
     raise NameError("Profiles.PROFILES['%s']['DB_HASH']"
                     % setting.PROFILE)
 
-if not os.path.exists(SAVEDIR):
-    os.makedirs(SAVEDIR)
-
 print('==> fetch url : %s\n==> save directory : %s'
       % (BASEURL, SAVEDIR))
 
 
 def download_helper(url, outfile, ha, title):
-    if not os.path.exists(os.path.split(outfile)[0]):
-        os.makedirs(os.path.split(outfile)[0])
-
     if ha and os.path.exists(outfile) \
             and ha == hashfun(open(outfile, 'rb').read()).hexdigest():
         print('\033[32m[%s]\033[0m exists, pass.' % title)
@@ -90,8 +84,13 @@ def download_package_db(psize):
     print('==> [DB] Task: Download package databases ...')
     if IPK_GROUPS:
         db_files = ['%s/%s' % (g, d) for g in IPK_GROUPS for d in DB_FILES]
+        for g in IPK_GROUPS:
+            if not os.path.exists(SAVEDIR + '/' + g):
+                os.makedirs(SAVEDIR + '/' + g)
     else:
         db_files = DB_FILES
+        if not os.path.exists(SAVEDIR):
+            os.makedirs(SAVEDIR)
 
     p = Pool(psize)
     db_fails = []

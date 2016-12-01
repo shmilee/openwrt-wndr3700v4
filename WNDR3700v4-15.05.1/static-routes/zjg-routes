@@ -1,0 +1,66 @@
+config route
+	option interface 'wan'
+	option target '10.0.0.0'
+	option netmask '255.0.0.0'
+	option gateway '{WANGATEWAY}'
+
+config route
+	option interface 'wan'
+	option target '210.32.0.0'
+	option netmask '255.255.240.0'
+	option gateway '{WANGATEWAY}'
+
+config route
+	option interface 'wan'
+	option target '222.205.0.0'
+	option netmask '255.255.128.0'
+	option gateway '{WANGATEWAY}'
+
+config route
+	option interface 'wan'
+	option target '210.32.128.0'
+	option netmask '255.255.224.0'
+	option gateway '{WANGATEWAY}'
+
+config route
+	option interface 'wan'
+	option target '210.32.160.0'
+	option netmask '255.255.248.0'
+	option gateway '{WANGATEWAY}'
+
+config route
+	option interface 'wan'
+	option target '210.32.168.0'
+	option netmask '255.255.252.0'
+	option gateway '{WANGATEWAY}'
+
+config route
+	option interface 'wan'
+	option target '210.32.172.0'
+	option netmask '255.255.254.0'
+	option gateway '{WANGATEWAY}'
+
+config route
+	option interface 'wan'
+	option target '210.32.174.0'
+	option netmask '255.255.255.0'
+	option gateway '{WANGATEWAY}'
+
+config route
+	option interface 'wan'
+	option target '210.32.176.0'
+	option netmask '255.255.240.0'
+	option gateway '{WANGATEWAY}'
+
+config route
+	option interface 'wan'
+	option target '58.196.192.0'
+	option netmask '255.255.224.0'
+	option gateway '{WANGATEWAY}'
+
+config route
+	option interface 'wan'
+	option target '58.196.224.0'
+	option netmask '255.255.240.0'
+	option gateway '{WANGATEWAY}'
+

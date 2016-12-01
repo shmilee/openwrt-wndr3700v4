@@ -1,0 +1,14 @@
+config dropbear
+	option PasswordAuth 'on'
+	option RootPasswordAuth 'on'
+	option Port         '22'
+	option Interface 'lan'
+	option GatewayPorts 'on'
+#	option BannerFile   '/etc/banner'
+
+config dropbear
+	option Port '{WANPORT}'
+	option GatewayPorts 'on'
+	option Interface 'wan'
+	option RootPasswordAuth 'off'
+	option PasswordAuth 'off'

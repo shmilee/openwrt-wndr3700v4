@@ -5,15 +5,16 @@
 * 解压 -> `ImageBuilder-15.05.1-ar71xx-nand`
 * 修改软件源 `ImageBuilder-15.05.1-ar71xx-nand/repositories.conf`  
   用 mirror url, 或 mirror-tools 下载到本地的位置 替换官方缓慢的源。  
-  一个例子：  
-  ```shell
-  src/gz chaos_calmer_base file:../../mirror-tools/openwrt-ipks-15.05.1/ar71xx/nand/packages/base
-  src/gz chaos_calmer_luci file:../../mirror-tools/openwrt-ipks-15.05.1/ar71xx/nand/packages/luci
-  src/gz chaos_calmer_packages file:../../mirror-tools/openwrt-ipks-15.05.1/ar71xx/nand/packages/packages
-  src/gz chaos_calmer_routing file:../../mirror-tools/openwrt-ipks-15.05.1/ar71xx/nand/packages/routing
-  src/gz chaos_calmer_management file:../../mirror-tools/openwrt-ipks-15.05.1/ar71xx/nand/packages/management
-  src imagebuilder file:packages
-  ```
+  一个例子：
+
+```shell
+src/gz chaos_calmer_base file:../../mirror-tools/openwrt-ipks-15.05.1/ar71xx/nand/packages/base
+src/gz chaos_calmer_luci file:../../mirror-tools/openwrt-ipks-15.05.1/ar71xx/nand/packages/luci
+src/gz chaos_calmer_packages file:../../mirror-tools/openwrt-ipks-15.05.1/ar71xx/nand/packages/packages
+src/gz chaos_calmer_routing file:../../mirror-tools/openwrt-ipks-15.05.1/ar71xx/nand/packages/routing
+src/gz chaos_calmer_management file:../../mirror-tools/openwrt-ipks-15.05.1/ar71xx/nand/packages/management
+src imagebuilder file:packages
+```
 
 # 编译固件
 
@@ -25,7 +26,7 @@
 
 ```shell
 ## firmware = kernel + ubi, kernel is 2048k
-# cat /proc/cmdline 
+$ cat /proc/cmdline 
  board=WNDR3700_V4 console=ttyS0,115200 mtdparts=ar934x-nfc:256k(u-boot)ro,
 256k(u-boot-env)ro,256k(caldata),512k(pot),2048k(language),512k(config),
 3072k(traffic_meter),2048k(kernel),23552k(ubi),25600k@0x6c0000(firmware),
@@ -33,7 +34,7 @@
 
 以下是官方固件的信息:
 
-# cat /proc/mtd
+$ cat /proc/mtd
 dev:    size   erasesize  name
 mtd0: 00040000 00020000 "u-boot"
 mtd1: 00040000 00020000 "u-boot-env"
@@ -48,7 +49,7 @@ mtd9: 01900000 00020000 "firmware"
 mtd10: 00040000 00020000 "caldata_backup"
 mtd11: 06000000 00020000 "reserved"
 
-# cat /proc/partitions 
+$ cat /proc/partitions 
 major minor  #blocks  name
 
   31        0        256 mtdblock0
@@ -96,9 +97,11 @@ sed -i "s/\(^wndr4300_mtdlayout.*\)23552k\(.ubi..\)25600k\(.*$\)/\1${ubi}k\2${fi
 
 ## Profiles
 
-`make info` 查看支持的 Profiles. NETGEAR WNDR3700v4/WNDR430 共用一个 Profile.
+查看支持的 Profiles. NETGEAR WNDR3700v4/WNDR430 共用一个 Profile.
 
 ```shell
+$ cd ImageBuilder-15.05.1-ar71xx-nand/
+$ make info
 Current Target: "ar71xx (Generic devices with NAND flash)"
 Default Packages: base-files libc libgcc busybox dropbear mtd uci opkg
 netifd fstools kmod-gpio-button-hotplug swconfig kmod-ath9k wpad-mini
@@ -118,7 +121,7 @@ replace_ipks=(
     dnsmasq-full
 )
 luci_ipks=(
-    luci luci-i18n-base-zh-cn
+    luci luci-i18n-base-zh-cn luci-i18n-firewall-zh-cn
     luci-app-ddns luci-i18n-ddns-zh-cn
     #luci-app-minidlna luci-i18n-minidlna-zh-cn
     #luci-app-privoxy luci-i18n-privoxy-zh-cn
@@ -161,14 +164,30 @@ my_ipks=(
 )
 ```
 
+## 添加自定义配置
+
+所有修改过的配置, 按相应路径放入 `myfiles_templates/`, 这里相当于 `root /`.
+
+~~从 static-routes 选取一份静态路由,~~
+~~编辑 gateway 后添加到 `3700v4_files/etc/config/network`.~~
+
+**用 `myfiles_secret.py` 保存个人相关信息**, 一个示例 `myfiles_secret-example.py`.
+
+运行 `gen_myfiles.py`, 自动修改 `myfiles_templates/` 生成 自定义配置 `myfiles_for_image/`
+
 ## 编译
 
 ```shell
-make image PROFILE=WNDR4300 PACKAGES="$(echo ${replace_ipks[@]}\
+cd ImageBuilder-15.05.1-ar71xx-nand/
+make image \
+  PROFILE=WNDR4300 \
+  PACKAGES="$(echo\
+    ${replace_ipks[@]}\
     ${luci_ipks[@]}\
     ${zjuvpn_ipks[@]}\
     ${other_ipks[@]}\
-    ${my_ipks[@]})"
+    ${my_ipks[@]})" \
+  FILES="../myfiles_for_image"
 ```
 
 生成的镜像位置 `ImageBuilder-15.05.1-ar71xx-nand/bin/ar71xx/`,

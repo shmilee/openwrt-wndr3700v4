@@ -1,8 +1,12 @@
 ~
+__pycache__
+mirror-tools/openwrt-ipks-*
+
 WNDR3700v4-14.07/ipks/*
 WNDR3700v4-14.07/openwrt-*.img
-WNDR3700v4-15.05.1/ipks/*
+
 WNDR3700v4-15.05.1/openwrt-*.img
 WNDR3700v4-15.05.1/OpenWrt-ImageBuilder-*.tar.bz2
-mirror-tools/openwrt-ipks-*
-__pycache__
+WNDR3700v4-15.05.1/OpenWrt-SDK-*.tar.bz2
+
+

@@ -1,0 +1,137 @@
+diff --git a/files/autossh.config b/files/autossh.config
+index e52e3ce..e07471a 100644
+--- a/files/autossh.config
++++ b/files/autossh.config
+@@ -1,8 +1,6 @@
+-
+ config autossh
+ 	option enabled '1'
+-	option localport '22'
+-	option remoteport '19999'
+-	option monitorport '5678'
+-	option ssh 'root@127.0.0.1 -p22'
+-	option poll '600'
++	option gatetime '0'
++	option monitorport '21000'
++	option ssh '-i /etc/shmilee/.ssh/id_rsa -NT -D 192.168.1.1:3696 -p 3690 shmilee@192.168.1.1'
++	option poll '60'
+diff --git a/files/autossh.init b/files/autossh.init
+index ef7b404..097cbf7 100644
+--- a/files/autossh.init
++++ b/files/autossh.init
+@@ -1,6 +1,7 @@
+ #!/bin/sh /etc/rc.common
+ #
+ # Copyright (C) 2015 Jian Chang <aa65535@live.com>
++# Copyright (C) 2016 shmilee
+ #
+ # This is free software, licensed under the GNU General Public License v3.
+ # See /LICENSE for more information.
+@@ -9,33 +10,32 @@
+ START=99
+ 
+ start_instance() {
+-	config_get_bool enabled "$1" 'enabled'
+-	config_get localport "$1" 'localport'
+-	config_get remoteport "$1" 'remoteport'
+-	config_get monitorport "$1" 'monitorport'
+-	config_get ssh "$1" 'ssh'
+-	config_get poll "$1" 'poll'
+-	export AUTOSSH_GATETIME="30"
+-	export AUTOSSH_POLL="${poll:-600}"
+-	if [ "$enabled" = 1 ]; then
+-		echo ${monitorport:-20000}
+-		/usr/sbin/autossh \
+-			-M ${monitorport:-20000} \
+-			-f -N -R ${remoteport}:localhost:${localport} ${ssh}
+-	fi
++    local section="$1"
++
++    config_get_bool enabled "$section" 'enabled'
++    config_get gatetime "$section" 'gatetime'
++    config_get monitorport "$section" 'monitorport'
++    config_get ssh "$section" 'ssh'
++    config_get poll "$section" 'poll'
++
++    export AUTOSSH_GATETIME="${gatetime:-30}"
++    export AUTOSSH_POLL="${poll:-600}"
++
++    if [ "$enabled" = 1 ]; then
++        service_start /usr/sbin/autossh -M ${monitorport:-20000} -f ${ssh}
++    fi
+ }
+ 
+ start() {
+-	config_load 'autossh'
+-	config_foreach start_instance 'autossh'
++    config_load 'autossh'
++    config_foreach start_instance 'autossh'
+ }
+ 
+ stop() {
+-	killall autossh
+-	sleep 2
++    service_stop /usr/sbin/autossh
+ }
+ 
+ boot() {
+-	sleep 30
+-	start
++    sleep 30
++    start
+ }
+diff --git a/files/autossh_cbi.lua b/files/autossh_cbi.lua
+index 779922d..30c07b8 100644
+--- a/files/autossh_cbi.lua
++++ b/files/autossh_cbi.lua
+@@ -1,14 +1,15 @@
+ --[[
+  Copyright (C) 2015 Jian Chang <aa65535@live.com>
++ Copyright (C) 2016 shmilee
+ 
+  This is free software, licensed under the GNU General Public License v3.
+  See /LICENSE for more information.
+ ]]--
+ 
+ m = Map("autossh", translate("AutoSSH"),
+-	translate("设置路由器的 SSH 反向隧道"))
++	translate("Monitor and Restart ssh sessions"))
+ 
+-s = m:section(TypedSection, "autossh", translate("AutoSSH 设置"))
++s = m:section(TypedSection, "autossh", translate("AutoSSH Setting"))
+ s.anonymous   = true
+ s.addremove   = true
+ 
+@@ -16,24 +17,20 @@ o = s:option(Flag, "enabled", translate("Enable"))
+ o.default     = o.enabled
+ o.rmempty     = false
+ 
+-o = s:option(Value, "localport", translate("本地端口"))
+-o.placeholder = 22
+-o.datatype    = "port"
+-o.rmempty     = false
+-
+-o = s:option(Value, "remoteport", translate("远程端口"))
+-o.placeholder = 19999
+-o.datatype    = "port"
+-o.rmempty     = false
++o = s:option(Value, "gatetime", translate("Gate Time"))
++o.placeholder = 30
++o.default     = 30
++o.datatype    = "uinteger"
+ 
+-o = s:option(Value, "monitorport", translate("监视端口"))
++o = s:option(Value, "monitorport", translate("Monitoring Port"))
+ o.datatype    = "port"
++o.default     = 20000
+ o.rmempty     = false
+ 
+-o = s:option(Value, "ssh", translate("远程登陆"))
++o = s:option(Value, "ssh", translate("SSH Options"))
+ o.rmempty     = false
+ 
+-o = s:option(Value, "poll", translate("轮询时间"))
++o = s:option(Value, "poll", translate("Poll Time"))
+ o.placeholder = 600
+ o.default     = 600
+ o.datatype    = "uinteger"

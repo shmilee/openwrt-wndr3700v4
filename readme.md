@@ -1,8 +1,8 @@
-Information
-============
+WNDR3700v4 Information
+======================
 
 ```shell
-# cat /proc/cpuinfo 
+$ cat /proc/cpuinfo 
 system type		: Atheros AR9344 rev 2
 machine			: NETGEAR WNDR3700v4
 processor		: 0
@@ -15,116 +15,50 @@ extra interrupt vector	: yes
 hardware watchpoint	: yes, count: 4, address/irw mask: [0x0000, 0x0ff8, 0x0ff8, 0x0ff8]
 isa			: mips1 mips2 mips32r1 mips32r2
 ASEs implemented	: mips16 dsp dsp2
-shadow register sets	: 1
-kscratch registers	: 0
-core			: 0
-VCED exceptions		: not available
-VCEI exceptions		: not available
 
-# head -n1 /proc/meminfo
+$ head -n1 /proc/meminfo
 MemTotal:         126020 kB
 ```
 
-14.07
-======
+WNDR3700v4-15.05.1
+==================
 
-http://downloads.openwrt.org/barrier_breaker/14.07/ar71xx/nand/openwrt-ar71xx-nand-wndr3700v4-ubi-factory.img
+固件: 按 [WNDR3700v4-15.05.1/readme.md](WNDR3700v4-15.05.1/readme.md) 编译,
+当前版本 `openwrt-15.05.1-ar71xx-nand-wndr3700v4-ubi-factory-20161201-with-myfiles.img`.
+MD5(41c8f2930c22bb67ea1d90142852aed3)
 
-md5sum:0137f3e3a865434cfff5e2578e5abab4
-
-packages:
-
-    * luci-i18n-chinese
-    * vpn: xl2tpd ip kmod-l2tp kmod-pppol2tp ppp-mod-pppol2tp resolveip
-    * shadow: shadow-common shadow-su shadow-useradd
-    * openssh: openssh-client autossh openssh-keygen openssh-server ss
-
-backup:
-
-    * users: root; shmilee;
-    * connect: vpnid,vpnpasswd; Openwrt,ssidpasswd;
-    * ip addr; route; static ip;
-    * ssh keys for shmilee,root; firewall for ZJU input; wan RootLogin no, login passwd no, only key; autossh -D 3691 script;
-    * uhttp port 80 --> 180;
-
-About route:
-
-```shell
-config route
-	option interface 'wan'
-	option target '10.0.0.0'
-	option netmask '255.0.0.0'
-	option gateway 'xxx.xxx.xxx.xxx'
-
-config route
-	option interface 'wan'
-	option target '210.32.0.0'
-	option netmask '255.255.240.0'
-	option gateway 'xxx.xxx.xxx.xxx'
-
-config route
-	option interface 'wan'
-	option target '222.205.0.0'
-	option netmask '255.255.128.0'
-	option gateway 'xxx.xxx.xxx.xxx'
-
-config route
-	option interface 'wan'
-	option target '210.32.128.0'
-	option netmask '255.255.224.0'
-	option gateway 'xxx.xxx.xxx.xxx'
-
-config route
-	option interface 'wan'
-	option target '210.32.160.0'
-	option netmask '255.255.248.0'
-	option gateway 'xxx.xxx.xxx.xxx'
-
-config route
-	option interface 'wan'
-	option target '210.32.168.0'
-	option netmask '255.255.252.0'
-	option gateway 'xxx.xxx.xxx.xxx'
-
-config route
-	option interface 'wan'
-	option target '210.32.172.0'
-	option netmask '255.255.254.0'
-	option gateway 'xxx.xxx.xxx.xxx'
-
-config route
-	option interface 'wan'
-	option target '210.32.176.0'
-	option netmask '255.255.240.0'
-	option gateway 'xxx.xxx.xxx.xxx'
-
-config route
-	option interface 'wan'
-	option target '58.196.192.0'
-	option netmask '255.255.224.0'
-	option gateway 'xxx.xxx.xxx.xxx'
-
-config route
-	option interface 'wan'
-	option target '58.196.224.0'
-	option netmask '255.255.240.0'
-	option gateway 'xxx.xxx.xxx.xxx'
-```
-
-installation via serial console and TFTP
+Installation via serial console and TFTP
 ========================================
 
+Reset, 电源灯长闪绿灯后,
+
 ```shell
-tftp> tftp 192.168.1.1
+[$] tftp 192.168.1.1
 tftp> mode binary
 tftp> put openwrt-ar71xx-generic-wndr3700XXX-squashfs-factory.img
 tftp> quit
 ```
 
-TODO full 128M
-===============
+后续
+=====
 
-* https://wiki.openwrt.org/doc/techref/flash.layout
-* https://dev.openwrt.org/changeset/48456/trunk
-* http://blog.sina.com.cn/s/blog_5f66526e0102wfzo.html
-* http://www.right.com.cn/forum/thread-144853-1-1.html
+* 首次登录 http://192.168.1.1:180/cgi-bin/luci 后，设置 root 密码。
+
+* 禁用暂时不用的启动项 telnet, shadowsocks, ddns, adbyby
+
+* 添加 user shmilee
+
+```shell
+useradd -d /etc/shmilee -m -s /bin/ash shmilee
+passwd shmilee
+mkdir /etc/shmilee/.ssh
+```
+
+* 添加电脑的SSH公共密钥到 `/etc/dropbear/authorized_keys`.  
+  shmilee 登录需要 `/etc/shmilee/.ssh/authorized_keys`
+
+* wan ssh登录, 需确保防火墙入站数据为接受 `option input 'ACCEPT'`
+
+* 为 `autossh -D 3696` 生成一对密钥, 放在 `/etc/shmilee/.ssh/`.  
+  公钥添加到3690对应的主机. 手动登录一次, 以生成 `/root/.ssh/known_hosts`.
+

@@ -1,20 +1,19 @@
 diff --git a/files/autossh.config b/files/autossh.config
-index e52e3ce..e07471a 100644
+index e52e3ce..603ee99 100644
 --- a/files/autossh.config
 +++ b/files/autossh.config
 @@ -1,8 +1,6 @@
 -
  config autossh
- 	option enabled '1'
+-	option enabled '1'
 -	option localport '22'
 -	option remoteport '19999'
 -	option monitorport '5678'
--	option ssh 'root@127.0.0.1 -p22'
--	option poll '600'
++	option enabled '0'
 +	option gatetime '0'
 +	option monitorport '21000'
-+	option ssh '-i /etc/shmilee/.ssh/id_rsa -NT -D 192.168.1.1:3696 -p 3690 shmilee@192.168.1.1'
-+	option poll '60'
+ 	option ssh 'root@127.0.0.1 -p22'
+ 	option poll '600'
 diff --git a/files/autossh.init b/files/autossh.init
 index ef7b404..097cbf7 100644
 --- a/files/autossh.init

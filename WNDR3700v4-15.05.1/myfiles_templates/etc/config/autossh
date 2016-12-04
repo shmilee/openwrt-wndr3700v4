@@ -1,0 +1,6 @@
+config autossh
+	option enabled '1'
+	option gatetime '0'
+	option monitorport '21000'
+	option ssh '{SSHOptions}'
+	option poll '60'

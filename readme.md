@@ -24,8 +24,8 @@ WNDR3700v4-15.05.1
 ==================
 
 固件: 按 [WNDR3700v4-15.05.1/readme.md](WNDR3700v4-15.05.1/readme.md) 编译,
-当前版本 `openwrt-15.05.1-ar71xx-nand-wndr3700v4-ubi-factory-20161201-with-myfiles.img`.
-MD5(41c8f2930c22bb67ea1d90142852aed3)
+当前版本 `openwrt-15.05.1-ar71xx-nand-wndr3700v4-ubi-factory-20161204-with-myfiles.img`.
+MD5(f8621dee92836a2cadedfeffaa725dde)
 
 Installation via serial console and TFTP
 ========================================
@@ -35,7 +35,7 @@ Reset, 电源灯长闪绿灯后,
 ```shell
 [$] tftp 192.168.1.1
 tftp> mode binary
-tftp> put openwrt-ar71xx-generic-wndr3700XXX-squashfs-factory.img
+tftp> put openwrt-15.05.1-ar71xx-nand-wndr3700v4-ubi-factory-20161204-with-myfiles.img
 tftp> quit
 ```
 
@@ -62,3 +62,4 @@ mkdir /etc/shmilee/.ssh
 * 为 `autossh -D 3696` 生成一对密钥, 放在 `/etc/shmilee/.ssh/`.  
   公钥添加到3690对应的主机. 手动登录一次, 以生成 `/root/.ssh/known_hosts`.
 
+* 恢复 nginx 配置, `nginx-frontend.conf`, `ssl-certs/`.

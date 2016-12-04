@@ -142,7 +142,9 @@ zjuvpn_ipks=(
     xl2tpd
     )
 other_ipks=(
+    htop
     iftop
+    nginx
     openssh-client
     #sshfs
     shadow-su

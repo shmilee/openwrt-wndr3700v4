@@ -144,7 +144,6 @@ zjuvpn_ipks=(
 other_ipks=(
     htop
     iftop
-    nginx
     openssh-client
     #sshfs
     shadow-su
@@ -161,6 +160,7 @@ find ../mypackages -name '*.ipk' -exec \
 my_ipks=(
     adbyby luci-app-adbyby
     autossh
+    nginx
     shadowsocks-libev luci-app-shadowsocks
     vlmcsd luci-app-vlmcsd
 )

@@ -38,6 +38,38 @@ make package/autossh/compile V=sw
 生成的软件包在
 `SDK-15.05.1-ar71xx-nand/bin/ar71xx/packages/base/autossh_1.4e-1_ar71xx.ipk`
 
+# 编译 nginx
+
+15.05.1 源里的 nginx 版本是 `1.4.7-2`, 未开启 `TLS SNI`.
+
+这里编译 openwrt/packages master 分支最新的 [nginx](https://github.com/openwrt/packages/blob/master/net/nginx), 当前版本为 `1.10.1-2`.
+
+开启 `TLS SNI`, 保留 `proxy module` 的同时, 尽量去除其他的 module,
+如 autoindex, fastcgi, uwsgi, scgi, memcached, upstream hash, NAXSI 等.
+
+```shell
+# 进入 SDK
+cd SDK-15.05.1-ar71xx-nand/
+# 安装 feeds
+# backup: src-git masterpackages https://github.com/openwrt/packages.git^9b3666b
+echo "src-git masterpackages https://github.com/openwrt/packages.git;master" \
+    >> feeds.conf.default
+./scripts/feeds update masterpackages
+./scripts/feeds install -p masterpackages nginx
+# patch
+cp ../mypackages/nginx/1.10.1-2_Config.in \
+    ./package/feeds/masterpackages/nginx/Config.in
+cp ../mypackages/nginx/1.10.1-2_Makefile \
+    ./package/feeds/masterpackages/nginx/Makefile
+# 选择要编译的包 Network -> Web Servers/Proxies -> nginx
+make menuconfig
+# 编译
+make package/nginx/compile V=sw
+```
+
+生成的软件包在
+`SDK-15.05.1-ar71xx-nand/bin/ar71xx/packages/masterpackages/nginx_1.10.1-2_ar71xx.ipk`
+
 # 编译 shadowsocks-libev
 
 ```shell

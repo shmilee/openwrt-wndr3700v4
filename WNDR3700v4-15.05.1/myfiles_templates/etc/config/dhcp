@@ -16,12 +16,12 @@ config dnsmasq
 	option readethers	1
 	option leasefile	'/tmp/dhcp.leases'
 	option resolvfile	'/tmp/resolv.conf.auto'
-	option localservice	1  # disable to allow DNS requests from non-local subnets
+	option localservice	0  # disable to allow DNS requests from non-local subnets
 
 config dhcp lan
 	option interface	lan
 	option start 	100
-	option limit	115
+	option limit	15
 	option leasetime	12h
 	list dhcp_option '6,192.168.1.1'
 

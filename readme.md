@@ -25,12 +25,12 @@ WNDR3700v4-15.05.1
 
 固件: 按 [WNDR3700v4-15.05.1/readme.md](WNDR3700v4-15.05.1/readme.md) 编译,
 当前版本 `openwrt-15.05.1-ar71xx-nand-wndr3700v4-ubi-factory-20161204-with-myfiles.img`.
-MD5(f8621dee92836a2cadedfeffaa725dde)
+MD5(367ee4051681e0c773b8f5e15297ca89)
 
 Installation via serial console and TFTP
 ========================================
 
-Reset, 电源灯长闪绿灯后,
+Reset, 直到电源灯由 **橙色闪烁** 变到 **绿色闪烁**.
 
 ```shell
 [$] tftp 192.168.1.1

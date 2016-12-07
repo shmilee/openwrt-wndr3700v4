@@ -52,9 +52,8 @@ def download_helper(url, outfile, ha, title):
         return None
 
     shot_title = title.split(sep=r') ')[1]
-    timeout = min(setting.PSIZE * 3, 90)
     try:
-        with closing(requests.get(url, stream=True, timeout=timeout)) as rp:
+        with closing(requests.get(url, **setting.REQUESTS_KWARGS)) as rp:
             chunk_size = 1024
             content_size = int(rp.headers['content-length'])
             progress = ProgressBar(title, total=content_size, unit="KB",
@@ -70,7 +69,7 @@ def download_helper(url, outfile, ha, title):
         return (url, shot_title)
     finally:
         if not os.path.exists(outfile):
-            print('\033[31m[%s]\033[0m No such file!' % title)
+            print('\033[31m[%s]\033[0m Download failed!' % title)
             return (url, shot_title)
         if ha and ha != hashfun(open(outfile, 'rb').read()).hexdigest():
             print('\033[31m[%s]\033[0m BROKEN!' % title)
@@ -195,7 +194,7 @@ def download_package_group(psize, group):
 def main():
     mainstart = time.time()
 
-    download_package_db(4)
+    download_package_db(3)
 
     broken_list = []
     if IPK_GROUPS:

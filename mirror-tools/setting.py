@@ -28,5 +28,21 @@ SAVEDIR = '%s%s/%s/packages' % (
     PROFILES[PROFILE]['DISTRIB_TARGET']
 )
 
-# set processes number, 2-90
-PSIZE = 50
+# set processes number, 2-50
+PSIZE = 20
+
+# arguments that ``requests.request`` takes
+REQUESTS_KWARGS = dict(
+    stream=True,
+    timeout = min(PSIZE * 3, 90),
+    headers = {
+        'User-Agent': 'Wget/1.17.1 (linux-gnu)'
+        },
+    proxies = {
+        #'http': 'http://127.0.0.1:8087',
+        #'https': 'http://127.0.0.1:8087',
+        #'http': 'socks5://192.168.1.1:3696',
+        #'https': 'socks5://192.168.1.1:3696',
+        },
+    )
+

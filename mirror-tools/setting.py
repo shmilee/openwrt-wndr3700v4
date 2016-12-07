@@ -10,11 +10,16 @@ URL = 'http://openwrt.proxy.ustclug.org'
 SAVE_PREFIX = './openwrt-ipks-'
 
 # set available PROFILE, see Profiles.py
-#PROFILE = 'PROFILE_10031_brcm63'
-#PROFILE = 'PROFILE_1209_brcm63'
-#PROFILE = 'PROFILE_1407_brcm63'
-#PROFILE = 'PROFILE_1407_ar71'
-PROFILE = 'PROFILE_15051_ar71'
+#PROFILE = 'R10031_brcm63'
+#PROFILE = 'R1209_brcm63_generic'
+#PROFILE = 'R1407_brcm63_generic'
+#PROFILE = 'R1407_ar71_nand'
+PROFILE = 'R15051_ar71_nand'
+#PROFILE = 'R15051_ar71_generic'
+#PROFILE = 'R15051_brcm47_mips74k'
+#PROFILE = 'R15051_bcm53_generic'
+#PROFILE = 'R15051_ramips_mt7620'
+#PROFILE = 'Rtrunk_ramips_mt7628'
 
 # set save directory
 SAVEDIR = '%s%s/%s/packages' % (

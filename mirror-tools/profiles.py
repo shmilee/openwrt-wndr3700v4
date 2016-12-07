@@ -17,6 +17,8 @@ PROFILE_example_release_target = dict(
     # decompress 'Packages.gz' -> 'Packages'
     # 'md5sums' useless
     # >=15.05 'Packages.gpg', 'Packages.sig'
+    # 'Packages.gpg' useless for now
+    # 'Packages.sig', check signature of DB
     DB_FILES=('Packages.gz',),
     # packages Hash Algorithm
     # verify the ipk file
@@ -79,7 +81,9 @@ PROFILES = dict(
         IPK_GROUPS=('base', 'luci', 'management', 'packages', 'routing',
                     #'telephony'
                     ),
-        DB_FILES=('Packages.gz', 'Packages.gpg', 'Packages.sig'),
+        DB_FILES=('Packages.gz', 'Packages.sig',
+                  #'Packages.gpg'
+                  ),
         DB_HASH='SHA256sum',
     ),
 
@@ -91,7 +95,9 @@ PROFILES = dict(
         IPK_GROUPS=('base', 'luci', 'management', 'packages', 'routing',
                     #'telephony'
                     ),
-        DB_FILES=('Packages.gz', 'Packages.gpg', 'Packages.sig'),
+        DB_FILES=('Packages.gz', 'Packages.sig',
+                  #'Packages.gpg'
+                  ),
         DB_HASH='SHA256sum',
     ),
 
@@ -103,7 +109,9 @@ PROFILES = dict(
         IPK_GROUPS=('base', 'luci', 'management', 'packages', 'routing',
                     #'telephony'
                     ),
-        DB_FILES=('Packages.gz', 'Packages.gpg', 'Packages.sig'),
+        DB_FILES=('Packages.gz', 'Packages.sig',
+                  #'Packages.gpg'
+                  ),
         DB_HASH='SHA256sum',
     ),
 
@@ -115,7 +123,9 @@ PROFILES = dict(
         IPK_GROUPS=('base', 'luci', 'management', 'packages', 'routing',
                     #'telephony'
                     ),
-        DB_FILES=('Packages.gz', 'Packages.gpg', 'Packages.sig'),
+        DB_FILES=('Packages.gz', 'Packages.sig',
+                  #'Packages.gpg'
+                  ),
         DB_HASH='SHA256sum',
     ),
 
@@ -127,7 +137,9 @@ PROFILES = dict(
         IPK_GROUPS=('base', 'luci', 'management', 'packages', 'routing',
                     #'telephony'
                     ),
-        DB_FILES=('Packages.gz', 'Packages.gpg', 'Packages.sig'),
+        DB_FILES=('Packages.gz', 'Packages.sig',
+                  #'Packages.gpg'
+                  ),
         DB_HASH='SHA256sum',
     ),
 
@@ -140,7 +152,9 @@ PROFILES = dict(
                     'kernel',
                     #'telephony'
                     ),
-        DB_FILES=('Packages.gz', 'Packages.sig'),
+        DB_FILES=('Packages.gz', 'Packages.sig',
+                  #'Packages.gpg'
+                  ),
         DB_HASH='SHA256sum',
     ),
 )

@@ -77,6 +77,19 @@ def download_helper(url, outfile, ha, title):
         return None
 
 
+def check_db_sign(outfile):
+    if not setting.USIGN_CMD:
+        return None
+    odir = os.path.dirname(outfile)
+    ofile = os.path.basename(outfile)
+    if ofile != 'Packages.sig' and ofile != 'Packages.gz':
+        return None
+    if os.path.exists(odir + '/Packages') and os.path.exists(odir + '/Packages.sig'):
+        return not os.system(setting.USIGN_CMD + ' ' + odir + '/Packages')
+    else:
+        return None
+
+
 def download_package_db(psize):
     start = time.time()
 
@@ -98,6 +111,9 @@ def download_package_db(psize):
         outfile = SAVEDIR + '/' + d
         title = r'(%' + str(len(str(len(db_files)))) + r's/%s) %s'
         title = title % (i + 1, len(db_files), d)
+        if check_db_sign(outfile):
+            print('\033[32m[%s]\033[0m exists, pass.' % title)
+            continue
         result = p.apply_async(
             download_helper, args=(url, outfile, None, title))
         db_fails.append(result)

@@ -34,15 +34,20 @@ PSIZE = 20
 # arguments that ``requests.request`` takes
 REQUESTS_KWARGS = dict(
     stream=True,
-    timeout = min(PSIZE * 3, 90),
-    headers = {
+    timeout=min(PSIZE * 3, 90),
+    headers={
         'User-Agent': 'Wget/1.17.1 (linux-gnu)'
-        },
-    proxies = {
+    },
+    proxies={
         #'http': 'http://127.0.0.1:8087',
         #'https': 'http://127.0.0.1:8087',
         #'http': 'socks5://192.168.1.1:3696',
         #'https': 'socks5://192.168.1.1:3696',
-        },
-    )
+    },
+)
 
+# check signature of `Packages` by `Packages.sig`
+# <15.05, not x86_64, or force to refresh `Packages`
+#USIGN_CMD = None
+# >=15.05 and x86_64, `usign` from ImageBuilder, `keys` from Images
+USIGN_CMD = './db_sign/usign 2>/dev/null -V -P ./db_sign/keys -m'

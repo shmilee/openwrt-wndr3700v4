@@ -1,0 +1,7 @@
+config wifi-iface
+	option device 'radio0'
+	option mode 'ap'
+	option ssid '{SSID}'
+	option network 'guest'
+	option encryption 'psk2'
+	option key '{WIFIKEY}'

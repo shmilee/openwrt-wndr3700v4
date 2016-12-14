@@ -1,11 +1,10 @@
-
 config wifi-device 'radio0'
 	option type 'mac80211'
 	option channel '11'
 	option hwmode '11g'
 	option path 'platform/ar934x_wmac'
 	option htmode 'HT20'
-	option txpower '22'
+	option txpower '20'
 	option country 'CN'
 	option distance '10'
 
@@ -16,20 +15,4 @@ config wifi-iface
 	option ssid '{SSID}'
 	option encryption 'psk2'
 	option key '{WIFIKEY}'
-
-config wifi-device  radio1
-	option type     mac80211
-	option channel  36
-	option hwmode	11a
-	option path	'pci0000:00/0000:00:00.0'
-	option htmode	HT20
-	# REMOVE THIS LINE TO ENABLE WIFI:
-	option disabled 1
-
-config wifi-iface
-	option device   radio1
-	option network  lan
-	option mode     ap
-	option ssid     OpenWrt
-	option encryption none
 

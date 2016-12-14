@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+outdir = './myfiles_for_image'
+templatedir = './myfiles_templates'
+
 all_templates = """
 etc/config/dhcp
 etc/config/dropbear
@@ -13,60 +16,101 @@ etc/dnsmasq.conf
 etc/opkg/distfeeds.conf
 """
 
-# ('ADD', "str"), ('REPLACE', ('old', 'new')),
-# ('ADDFILE', 'filepath', ('old', 'new'))
+# ('ADD', "str"), ('REPLACE', ('old', 'new'), ('old', 'new')),
+# ('ADDFILE', 'filepath', ('old', 'new'), ('old', 'new'))
 
 all_myfiles = dict(
 
-    etc_config_dhcp=(
+    etc_config_dhcp=[
         ('ADD', """
 config host
 	option ip '192.168.1.100'
         option mac '00:11:22:33:44:55'
 	option name 'PC-eth0'
 """),
-    ),
+    ],
 
-    etc_config_dropbear=(
+    etc_config_dropbear=[
         ('REPLACE', ('{WANPORT}', '2333')),
-    ),
+    ],
 
-    etc_config_firewall=(),
-    etc_config_luci=(),
+    etc_config_firewall=[],
+    etc_config_luci=[],
 
-    etc_config_network=(
-        ('REPLACE', ('{WANNET}', """
-config interface 'wan'
-	option ifname 'eth0.2'
-	option _orig_ifname 'eth0.2'
-	option _orig_bridge 'false'
-	option proto 'static'
-	option ipaddr 'xxx.yyy.aa.bb'
-	option netmask '255.255.255.0'
-	option gateway 'xxx.yyy.aa.1'
-	option broadcast 'xxx.yyy.aa.255'
-	option macaddr '11:22:33:44:55:66'
-	option dns '10.10.0.21'
-""")),
-        ('REPLACE', ('{VPN-ID}', 'idexample')),
-        ('REPLACE', ('{VPN-PASSWD}', 'pswdexample')),
-        ('ADDFILE', './static-routes/yq-routes',
-            ('{WANGATEWAY}', 'xxx.yyy.aa.1')),
-    ),
-    etc_config_system=(),
-    etc_config_uhttpd=(),
+    etc_config_network=[
+        ('REPLACE', ('{IPADDR}', 'xxx.yyy.aa.bb'),
+         ('{NETMASK}', '255.255.255.0'),
+         ('{GATEWAY}', 'xxx.yyy.aa.1'),
+         ('{BROADCAST}', 'xxx.yyy.aa.255'),
+         ('{MACADDR}', '11:22:33:44:55:66'),),
+    ],
 
-    etc_config_wireless=(
-        ('REPLACE', ('{SSID}', 'OpenWrt')),
-        ('REPLACE', ('{WIFIKEY}', 'wifipasswd')),
-    ),
+    etc_config_system=[],
+    etc_config_uhttpd=[],
 
-    etc_dnsmasq_d_conf=(
+    etc_config_wireless=[
+        ('REPLACE', ('{SSID}', 'OpenWrt2.4G'),
+         ('{WIFIKEY}', 'wifipasswd'),),
+    ],
+
+    etc_dnsmasq_d_conf=[
         ('ADD', "address=/shmilee.io/xx.yy.zz.aa\n"),
-    ),
+    ],
 
-    etc_opkg_distfeeds_d_conf=(
+    etc_opkg_distfeeds_d_conf=[
         ('REPLACE', ('http://downloads.openwrt.org/chaos_calmer/15.05.1',
                      'http://shmilee.io/repo-shmilee/openwrt-ipks-15.05.1')),
-    ),
+    ],
 )
+
+# enable ZJU VPN
+all_myfiles['etc_config_network'].extend([
+    ('ADD', """
+config interface 'zjuvpn'
+	option proto 'l2tp'
+	option server '10.5.1.9'
+	option username 'vpnid@a'
+	option password 'vpnpassword'
+	option mtu '1428'
+
+"""),
+    ('ADDFILE', templatedir + '/static-routes/yq-routes',
+        ('{WANGATEWAY}', 'xxx.yyy.aa.1')),
+])
+
+all_myfiles['etc_config_firewall'].extend([
+    ('REPLACE', ("option network		'wan wan6'",
+                 "option network		'wan wan6 zjuvpn'")),
+])
+
+# enable 5G WiFi
+all_myfiles['etc_config_wireless'].extend([
+    ('ADDFILE', templatedir + '/wifi-5g/etc_config_wireless',
+        ("""
+	# REMOVE THIS LINE TO ENABLE WIFI:
+	option disabled 1""", ''),
+        ('{SSID}', 'OpenWrt5G'),
+        ('{WIFIKEY}', '5gwifipasswd'),),
+])
+
+# enable guest 2.4G WiFi
+all_myfiles['etc_config_wireless'].extend([
+    ('ADDFILE', templatedir + '/wifi-guest/etc_config_wireless',
+        ('{SSID}', 'Guest'),
+        ('{WIFIKEY}', 'guestpassword'),),
+])
+
+all_myfiles['etc_config_network'].extend([
+    ('ADDFILE', templatedir + '/wifi-guest/etc_config_network',
+        ('{IPADDR}', '192.168.xx.1')),
+])
+
+all_myfiles['etc_config_dhcp'].extend([
+    ('ADDFILE', templatedir + '/wifi-guest/etc_config_dhcp',
+        ('{DHCPOption}', '6,192.168.xx.1'),
+        ('{LeaseTime}', '6h'),),
+])
+
+all_myfiles['etc_config_firewall'].extend([
+    ('ADDFILE', templatedir + '/wifi-guest/etc_config_firewall'),
+])

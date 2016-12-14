@@ -13,7 +13,19 @@ config interface 'lan'
 	option ipaddr '192.168.1.1'
 	option netmask '255.255.255.0'
 	option ip6assign '60'
-{WANNET}
+
+config interface 'wan'
+	option ifname 'eth0.2'
+	option _orig_ifname 'eth0.2'
+	option _orig_bridge 'false'
+	option proto 'static'
+	option ipaddr '{IPADDR}'
+	option netmask '{NETMASK}'
+	option gateway '{GATEWAY}'
+	option broadcast '{BROADCAST}'
+	option macaddr '{MACADDR}'
+	option dns '10.10.0.21'
+
 config interface 'wan6'
 	option ifname 'eth0.2'
 	option proto 'dhcpv6'
@@ -32,11 +44,4 @@ config switch_vlan
 	option device 'switch0'
 	option vlan '2'
 	option ports '0t 5'
-
-config interface 'ZJUVPN'
-	option proto 'l2tp'
-	option server '10.5.1.9'
-	option username '{VPN-ID}'
-	option password '{VPN-PASSWD}'
-	option mtu '1428'
 

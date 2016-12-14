@@ -16,7 +16,7 @@ config zone
 
 config zone
 	option name		wan
-	option network		'wan wan6 ZJUVPN'
+	option network		'wan wan6'
 	option input		ACCEPT
 	option output		ACCEPT
 	option forward		REJECT

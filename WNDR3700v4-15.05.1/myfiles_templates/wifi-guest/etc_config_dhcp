@@ -1,0 +1,8 @@
+
+config dhcp 'guest'
+	option interface 'guest'
+	option start '200'
+	option limit '10'
+	list dhcp_option '{DHCPOption}'
+	option leasetime '{LeaseTime}'
+

@@ -1,0 +1,7 @@
+config interface 'guest'
+	option type 'bridge'
+	option _orig_ifname 'radio0.network2'
+	option _orig_bridge 'true'
+	option proto 'static'
+	option ipaddr '{IPADDR}'
+	option netmask '255.255.255.0'

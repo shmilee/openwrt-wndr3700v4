@@ -3,10 +3,8 @@
 
 import os
 import shutil
-from myfiles_secret import *
+from myfiles_secret import outdir, templatedir, all_templates, all_myfiles
 
-outdir = './myfiles_for_image'
-templatedir = './myfiles_templates'
 
 print('==> Templates:\n%s' % all_templates)
 print('==> Files TODO:\n')
@@ -39,20 +37,20 @@ for k in sorted(all_myfiles.keys()):
 
     for task in all_myfiles[k]:
         action = task[0]
-        print(' -> %s' % action)
-
         if action == 'ADD':
             temp = temp + task[1]
+            print(' -> ADD: %s' % task[1])
         elif action == 'REPLACE':
-            olddata = task[1][0]
-            newdata = task[1][1]
-            temp = temp.replace(olddata, newdata)
+            for olddata, newdata in task[1:]:
+                temp = temp.replace(olddata, newdata)
+                print(' -> REPLACE: %s\n -> TO: %s' % (olddata, newdata))
         elif action == 'ADDFILE':
-            infile = task[1]
-            olddata = task[2][0]
-            newdata = task[2][1]
-            indata = read_file(infile)
-            temp = temp + indata.replace(olddata, newdata)
+            indata = read_file(task[1])
+            print(' -> ADDFILE: %s' % task[1])
+            for olddata, newdata in task[2:]:
+                indata = indata.replace(olddata, newdata)
+                print('   -> REPLACE: %s\n   -> TO: %s' % (olddata, newdata))
+            temp = temp + indata
         else:
             print(' -> Unknown ACTION %s.' % action)
 

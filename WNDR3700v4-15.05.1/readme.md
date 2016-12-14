@@ -127,10 +127,10 @@ luci_ipks=(
     #luci-app-privoxy luci-i18n-privoxy-zh-cn
     luci-app-qos luci-i18n-qos-zh-cn
     #luci-app-samba luci-i18n-samba-zh-cn
-    #luci-app-sqm
+    luci-app-sqm
     luci-app-statistics luci-i18n-statistics-zh-cn
     #luci-app-tinyproxy  luci-i18n-tinyproxy-zh-cn
-    #luci-app-transmission luci-i18n-transmission-zh-cn
+    luci-app-transmission luci-i18n-transmission-zh-cn
     #luci-app-upnp luci-i18n-upnp-zh-cn
     luci-app-watchcat luci-i18n-watchcat-zh-cn
     luci-app-wol luci-i18n-wol-zh-cn
@@ -142,8 +142,10 @@ zjuvpn_ipks=(
     xl2tpd
     )
 other_ipks=(
+    ca-certificates # for aria2 verify https
     htop
     iftop
+    ip
     openssh-client
     #sshfs
     shadow-su
@@ -159,10 +161,13 @@ find ../mypackages -name '*.ipk' -exec \
     cp -v {} packages/ \;
 my_ipks=(
     adbyby luci-app-adbyby
+    aria2 luci-app-aria2 luci-i18n-aria2-zh-cn
+    ariang
     autossh
     nginx
     shadowsocks-libev luci-app-shadowsocks
     vlmcsd luci-app-vlmcsd
+    #yaaw
 )
 ```
 

@@ -192,3 +192,38 @@ make package/luci-app-adblock/compile V=sw
 生成的软件包在
 `SDK-15.05.1-ar71xx-nand/bin/ar71xx/packages/luci/luci-app-adblock_git-16.313.39362-9047456-1_all.ipk`,
 `SDK-15.05.1-ar71xx-nand/bin/ar71xx/packages/packages/adblock_1.5.4-1_all.ipk`
+
+# 编译 aria2 luci-app-aria2 yaaw AriaNg
+
+* webui-aria2 体积太大
+
+```shell
+# 进入 SDK
+cd SDK-15.05.1-ar71xx-nand/
+# 安装 feeds
+echo "src-git masterpackages https://github.com/openwrt/packages.git;master" \
+    >> feeds.conf.default
+# backup: src-git masterluci https://github.com/openwrt/luci.git^185e4c1 
+echo "src-git masterluci https://github.com/openwrt/luci.git;master" \
+    >> feeds.conf.default
+./scripts/feeds update masterpackages
+./scripts/feeds update masterluci
+./scripts/feeds install -p masterpackages aria2 yaaw
+./scripts/feeds install -p masterluci luci-app-aria2
+./scripts/feeds uninstall luci-base
+# 添加 AriaNg 到 luci-app-aria2
+cd package/feeds/masterluci/luci-app-aria2
+patch -p1 < ../../../../../mypackages/aria2/luci-app-aria2-185e4c1.patch
+cd ../../../../
+# 获取 AriaNg
+install -Dm644 ../mypackages/aria2/ariang/Makefile package/feeds/masterpackages/ariang/Makefile
+# 选择包
+# Network > File Transfer > Aria2 configuration Enable bittorrent suppor
+make menuconfig
+# 编译
+make package/aria2/compile V=sw
+make package/yaaw/compile V=sw
+make package/luci-app-aria2/compile V=sw
+make package/ariang/compile V=sw
+```
+

@@ -1,0 +1,45 @@
+diff -Nur luci-app-aria2.old/luasrc/controller/aria2.lua luci-app-aria2/luasrc/controller/aria2.lua
+--- luci-app-aria2.old/luasrc/controller/aria2.lua	2016-12-14 17:57:07.000000000 +0800
++++ luci-app-aria2/luasrc/controller/aria2.lua	2016-12-14 22:17:47.000000000 +0800
+@@ -34,7 +34,8 @@
+ 	local status = {
+ 		running = (sys.call("pidof aria2c > /dev/null") == 0),
+ 		yaaw = ipkg.installed("yaaw"),
+-		webui = ipkg.installed("webui-aria2")
++		webui = ipkg.installed("webui-aria2"),
++		ariang = ipkg.installed("ariang")
+ 	}
+ 
+ 	http.prepare_content("application/json")
+diff -Nur luci-app-aria2.old/luasrc/view/aria2/overview_status.htm luci-app-aria2/luasrc/view/aria2/overview_status.htm
+--- luci-app-aria2.old/luasrc/view/aria2/overview_status.htm	2016-12-14 17:57:07.000000000 +0800
++++ luci-app-aria2/luasrc/view/aria2/overview_status.htm	2016-12-14 22:15:45.000000000 +0800
+@@ -11,6 +11,9 @@
+ 				if (data.webui) {
+ 					links += '<input class="cbi-button mar-10" type="button" value="<%:Open WebUI-Aria2%>" onclick="openWebUI(\'webui-aria2\');" />';
+ 				}
++				if (data.ariang) {
++					links += '<input class="cbi-button mar-10" type="button" value="<%:Open AriaNg%>" onclick="openWebUI(\'ariang\');" />';
++				}
+ 				tb.innerHTML = links;
+ 			} else {
+ 				tb.innerHTML = '<em><%:The Aria2 service is not running.%></em>';
+diff -Nur luci-app-aria2.old/po/zh-cn/aria2.po luci-app-aria2/po/zh-cn/aria2.po
+--- luci-app-aria2.old/po/zh-cn/aria2.po	2016-12-14 17:57:07.000000000 +0800
++++ luci-app-aria2/po/zh-cn/aria2.po	2016-12-14 22:14:42.000000000 +0800
+@@ -8,10 +8,13 @@
+ msgstr "Aria2 状态"
+ 
+ msgid "Open YAAW"
+-msgstr "打开YAAW"
++msgstr "打开 YAAW"
+ 
+ msgid "Open WebUI-Aria2"
+-msgstr "打开WebUI-Aria2"
++msgstr "打开 WebUI-Aria2"
++
++msgid "Open AriaNg"
++msgstr "打开 AriaNg"
+ 
+ msgid "The Aria2 service is running."
+ msgstr "Aria2 正在运行"

@@ -182,6 +182,13 @@ my_ipks=(
 
 运行 `gen_myfiles.py`, 自动修改 `myfiles_templates/` 生成 自定义配置 `myfiles_for_image/`
 
+```shell
+cd myfiles_templates/
+gpg -d myfiles_secret.py.asc > myfiles_secret.py
+./gen_myfiles.py
+cd ../
+```
+
 ## 编译
 
 ```shell

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-outdir = './myfiles_for_image'
-templatedir = './myfiles_templates'
+outdir = '../myfiles_for_image'
+templatedir = '.'
 
 all_templates = """
 etc/config/dhcp
@@ -14,6 +14,7 @@ etc/config/uhttpd
 etc/config/wireless
 etc/dnsmasq.conf
 etc/opkg/distfeeds.conf
+etc/shadow
 """
 
 # ('ADD', "str"), ('REPLACE', ('old', 'new'), ('old', 'new')),
@@ -61,6 +62,15 @@ config host
         ('REPLACE', ('http://downloads.openwrt.org/chaos_calmer/15.05.1',
                      'http://shmilee.io/repo-shmilee/openwrt-ipks-15.05.1')),
     ],
+
+    etc_shadow=[
+        ('REPLACE', ('root::0:0:99999:7:::',
+                     'root:$1$sPPrXFMR$8whltV2NanMOQoosnALYg0:' +
+                     '17149:0:99999:7:::')),
+        # `openssl passwd -1 12345678`
+        # -1 MD5-based password algorithm
+    ],
+
 )
 
 # enable ZJU VPN

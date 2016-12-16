@@ -1,0 +1,7 @@
+
+config hd-idle
+	option enabled '1'
+	option disk 'sda'
+	option idle_time_unit 'minutes'
+	option idle_time_interval '10'
+

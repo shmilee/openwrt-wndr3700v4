@@ -154,6 +154,30 @@ other_ipks=(
     )
 ```
 
+添加 USB 存储。
+
+> 关于 [block-mount](https://wiki.openwrt.org/doc/techref/block_mount)
+
+> `block-mount_2016-01-10-96415af` `block info` 可以检测到的[文件系统](http://git.openwrt.org/?p=project/fstools.git;a=tree;f=libblkid-tiny;h=ccdd3a9887552b83cc2e1749bea25356ad78fe0a;hb=96415afecef35766332067f4205ef3b2c7561d21)
+
+```shell
+usb_ipks=(
+    kmod-usb-core kmod-usb2 kmod-usb-ohci
+    kmod-usb-storage
+    kmod-usb-storage-extras
+    mount-utils
+    block-mount
+    kmod-fs-ext4
+    # btrfs 据说分区损坏不易恢复
+    #kmod-fs-btrfs
+    # FAT32 4GB file size limitation
+    #kmod-fs-vfat
+    # `block info` cannot detect reiserfs, ntfs
+    #kmod-fs-reiserfs kmod-fs-ntfs ntfs-3g
+    luci-app-hd-idle luci-i18n-hd-idle-zh-cn
+    )
+```
+
 自己编译的的 Package 放到目录 `ImageBuilder-15.05.1-ar71xx-nand/packages`.
 
 ```shell
@@ -199,6 +223,7 @@ make image \
     ${replace_ipks[@]}\
     ${luci_ipks[@]}\
     ${zjuvpn_ipks[@]}\
+    ${usb_ipks[@]}\
     ${other_ipks[@]}\
     ${my_ipks[@]})" \
   FILES="../myfiles_for_image"

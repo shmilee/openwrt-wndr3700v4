@@ -9,7 +9,7 @@ from myfiles_secret import outdir, templatedir, all_templates, all_myfiles
 print('==> Templates:\n%s' % all_templates)
 print('==> Files TODO:\n')
 for k in sorted(all_myfiles.keys()):
-    print(k.replace('_d_', '.').replace('_', '/'))
+    print(k)
 
 print('\n==> BEGIN\n')
 
@@ -27,8 +27,8 @@ def read_file(infile):
     return data
 
 for k in sorted(all_myfiles.keys()):
-    template = '%s/%s' % (templatedir, k.replace('_d_', '.').replace('_', '/'))
-    outfile = '%s/%s' % (outdir, k.replace('_d_', '.').replace('_', '/'))
+    template = '%s/%s' % (templatedir, k)
+    outfile = '%s/%s' % (outdir, k)
     filedir = os.path.split(outfile)[0]
     if not os.path.exists(filedir):
         os.makedirs(filedir)

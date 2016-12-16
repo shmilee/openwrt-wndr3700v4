@@ -58,8 +58,14 @@ tftp> quit
 * 为 `autossh -D 3696` 生成一对密钥, 放在 `/etc/shmilee/.ssh/`.  
   公钥添加到3690对应的主机. 手动登录一次, 以生成 `/root/.ssh/known_hosts`.
 
+* 恢复 nginx 配置, `nginx-frontend.conf`, `ssl-certs/`.
+
+* USB外接硬盘, 格式化为 `ext4`, 卷标 `RouterUSB`.
+
 ```shell
+mkdir -p /etc/shmilee/.aria2
+mkdir -p /mnt/sda1
 chown shmilee:users -R /etc/shmilee/
+chown shmilee:users -R /mnt/sda1
 ```
 
-* 恢复 nginx 配置, `nginx-frontend.conf`, `ssl-certs/`.

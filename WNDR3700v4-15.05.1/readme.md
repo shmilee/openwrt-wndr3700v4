@@ -126,7 +126,7 @@ luci_ipks=(
     #luci-app-minidlna luci-i18n-minidlna-zh-cn
     #luci-app-privoxy luci-i18n-privoxy-zh-cn
     luci-app-qos luci-i18n-qos-zh-cn
-    #luci-app-samba luci-i18n-samba-zh-cn
+    luci-app-samba luci-i18n-samba-zh-cn
     luci-app-sqm
     luci-app-statistics luci-i18n-statistics-zh-cn
     #luci-app-tinyproxy  luci-i18n-tinyproxy-zh-cn

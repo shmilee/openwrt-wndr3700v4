@@ -59,12 +59,12 @@ config host
     ],
 
     'etc/dnsmasq.conf': [
-        ('ADD', "address=/shmilee.io/xx.yy.zz.aa\n"),
+        ('ADD', "address=/pcbeta.com/218.93.127.136\n"),
     ],
 
     'etc/opkg/distfeeds.conf': [
-        ('REPLACE', ('http://downloads.openwrt.org/chaos_calmer/15.05.1',
-                     'http://shmilee.io/repo-shmilee/openwrt-ipks-15.05.1')),
+        ('REPLACE', ('http://downloads.openwrt.org/',
+                     'http://openwrt.proxy.ustclug.org/')),
     ],
 
     'etc/shadow': [
@@ -116,12 +116,12 @@ all_myfiles['etc/config/wireless'].extend([
 
 all_myfiles['etc/config/network'].extend([
     ('ADDFILE', templatedir + '/wifi-guest/etc_config_network',
-        ('{IPADDR}', '192.168.xx.1')),
+        ('{IPADDR}', '192.168.6.1')),
 ])
 
 all_myfiles['etc/config/dhcp'].extend([
     ('ADDFILE', templatedir + '/wifi-guest/etc_config_dhcp',
-        ('{DHCPOption}', '6,192.168.xx.1'),
+        ('{DHCPOption}', '6,192.168.6.1'),
         ('{LeaseTime}', '6h'),),
 ])
 

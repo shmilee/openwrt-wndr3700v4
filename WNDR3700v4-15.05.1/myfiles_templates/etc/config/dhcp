@@ -34,5 +34,5 @@ config dhcp wan
 	option dhcpv6 'hybrid'
 	option ra 'hybrid'
 	option ndp 'hybrid'
-	option master '1
+	option master '1'
 

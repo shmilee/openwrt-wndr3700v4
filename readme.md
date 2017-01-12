@@ -24,8 +24,8 @@ WNDR3700v4-15.05.1
 ==================
 
 固件: 按 [WNDR3700v4-15.05.1/readme.md](WNDR3700v4-15.05.1/readme.md) 编译,
-当前版本 `openwrt-15.05.1-ar71xx-nand-wndr3700v4-ubi-factory-20161214-with-myfiles.img`.
-MD5(b9c98a2cf85ec6fc3b4dfe3a8101d842)
+当前版本 `openwrt-15.05.1-ar71xx-nand-wndr3700v4-ubi-factory-20170112-with-myfiles.img`.
+MD5(16c9d9c9d6502c6701504474e68f98ca)
 
 Installation via serial console and TFTP
 ========================================
@@ -35,7 +35,7 @@ Reset, 直到电源灯由 **橙色闪烁** 变到 **绿色闪烁**.
 ```shell
 [$] tftp 192.168.1.1
 tftp> mode binary
-tftp> put openwrt-15.05.1-ar71xx-nand-wndr3700v4-ubi-factory-20161214-with-myfiles.img
+tftp> put openwrt-15.05.1-ar71xx-nand-wndr3700v4-ubi-factory-20170112-with-myfiles.img
 tftp> quit
 ```
 
@@ -67,5 +67,6 @@ mkdir -p /etc/shmilee/.aria2
 mkdir -p /mnt/sda1
 chown shmilee:users -R /etc/shmilee/
 chown shmilee:users -R /mnt/sda1
+smbpasswd -a shmilee
 ```
 

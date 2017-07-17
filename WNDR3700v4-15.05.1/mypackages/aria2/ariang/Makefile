@@ -8,14 +8,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ariang
-PKG_VERSION:=2016-12-11
+PKG_VERSION:=0.2.0
 PKG_RELEASE:=1
 PKG_MAINTAINER:=shmilee <shmilee.zju@gmail.com>
 
-_COMMIT:=8d163ada1c8005849e96aa160ff9908453ce6899
-PKG_SOURCE_URL:=https://raw.githubusercontent.com/mayswind/AriaNg/$(_COMMIT)/downloads
-PKG_SOURCE:=latest_daily_build.zip
-PKG_MD5SUM:=88590f6fa35da4c13bdbbb5a30179b11
+PKG_SOURCE_URL:=https://github.com/mayswind/AriaNg/releases/download/$(PKG_VERSION)
+PKG_SOURCE:=aria-ng-$(PKG_VERSION).zip
+PKG_MD5SUM:=4432d4494296232e8a668da09562c0e6
 PKG_LICENSE:=MIT
 
 UNPACK_CMD=unzip -d $(PKG_BUILD_DIR)/ $(DL_DIR)/$(PKG_SOURCE)

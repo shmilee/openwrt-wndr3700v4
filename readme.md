@@ -44,6 +44,8 @@ tftp> quit
 
 * ~~首次登录 http://192.168.1.1:180/cgi-bin/luci 后，设置 root 密码。~~
 
+* 更换 zjuvpn 密码, `'/etc/config/network'`, `config interface 'zjuvpn'`
+
 * 5G启用，必须 **断电重启** 一次。
 
 * 禁用暂时不用的启动项 telnet, shadowsocks, ddns, adbyby, transmission

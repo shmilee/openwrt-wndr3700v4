@@ -227,3 +227,30 @@ make package/luci-app-aria2/compile V=sw
 make package/ariang/compile V=sw
 ```
 
+# 20171129, make ERROR because new perl
+
+https://github.com/openwrt/packages/issues/4657
+
+```
+Unescaped left brace in regex is illegal here in regex; marked by <-- HERE in m/\${ <-- HERE ([^ \t=:+{}]+)}/ at /path/to/openwrt-backup/WNDR3700v4-15.05.1/SDK-15.05.1-ar71xx-nand/staging_dir/host/bin/automake-1.15 line 3938.
+```
+
+```
+cd SDK-15.05.1-ar71xx-nand/
+sed -i '/substitute_ac_subst_variables_worker/ s/\${/\$[{]/' staging_dir/host/bin/automake-1.15
+```
+
+Archlinux 不适合做 HOST OS, 暂时转 docker image, yhnw/openwrt-sdk:15.05.1-ar71xx 。
+
+# 等待编译 miredo
+
+```shell
+# 进入 SDK
+cd SDK-15.05.1-ar71xx-nand/
+# Clone 项目
+git clone openwrt-miredo.git  package/miredo
+# 编译
+make package/miredo/compile V=sw
+```
+生成的软件包在
+

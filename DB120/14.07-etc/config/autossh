@@ -1,5 +1,0 @@
-config autossh
-	option ssh	'-i /etc/shmilee/.ssh/id_rsa -N -T -D 192.168.1.1:3691 -p 3690 shmilee@localhost'
-	option gatetime	'0'
-	option monitorport	'21000'
-	option poll	'60'

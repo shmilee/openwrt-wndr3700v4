@@ -14,7 +14,8 @@ LABEL maintainer="shmilee.zju@gmail.com" \
 ENV TIMEZONE=Asia/Shanghai \
     DEBIAN_MIRROR=http://mirrors.163.com/debian \
     DEBIAN_SECURITY_MIRROR=http://mirrors.163.com/debian-security \
-    PATH=/home/openwrt/sdk/staging_dir/host/bin:$PATH
+    PATH=/home/openwrt/sdk/staging_dir/host/bin:$PATH \
+    LD_LIBRARY_PATH=/home/openwrt/sdk/staging_dir/host/lib:$LD_LIBRARY_PATH
 
 COPY dpkg.cfg.excludes /etc/dpkg/dpkg.cfg.d/01_excludes
 

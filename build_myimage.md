@@ -278,5 +278,5 @@ $ make image \
   FILES="/home/openwrt/myfiles_for_image"
 ```
 
-生成的镜像位置 `ImageBuilder-15.05.1-ar71xx-nand/bin/ar71xx/`,
+生成的镜像位置 `/home/openwrt/ImageBuilder/bin/ar71xx/`,
 文件名 `openwrt-15.05.1-ar71xx-nand-wndr3700v4-ubi-factory.img`.

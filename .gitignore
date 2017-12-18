@@ -2,12 +2,13 @@
 __pycache__
 mirror-tools/openwrt-ipks-*
 
-openwrt-*.img
 OpenWrt-ImageBuilder-*.tar.bz2
 OpenWrt-SDK-*.tar.bz2
 
 myfiles_for_image
 myfiles_secret.py
+
+myimages/openwrt-*.img
 
 mypackages/*.ipk
 mypackages/BaiduExporter*.crx

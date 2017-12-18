@@ -1,27 +1,76 @@
-# 准备 ImageBuilder
+# 编译 WNDR3700v4 固件
 
-* [下载](http://openwrt.proxy.ustclug.org/chaos_calmer/15.05.1/ar71xx/nand/OpenWrt-ImageBuilder-15.05.1-ar71xx-nand.Linux-x86_64.tar.bz2)
+## 准备 Docker image
+
+* 依照 [OpenWrt-build-system-host](./OpenWrt-build-system-host/readme.md) 构建编译环境。
+
+## 准备 ImageBuilder
+
+* 下载 [ImageBuilder](http://openwrt.proxy.ustclug.org/chaos_calmer/15.05.1/ar71xx/nand/OpenWrt-ImageBuilder-15.05.1-ar71xx-nand.Linux-x86_64.tar.bz2)
 * 检查MD5: 74af3f78e2d7d4fdc7d65c1ed21a6c78
-* 解压 -> `ImageBuilder-15.05.1-ar71xx-nand`
-* 修改软件源 `ImageBuilder-15.05.1-ar71xx-nand/repositories.conf`  
-  用 mirror url, 或 mirror-tools 下载到本地的位置 替换官方缓慢的源。  
-  一个例子：
+* 解压 -> `work/ImageBuilder-15.05.1-ar71xx-nand`
+
+## 准备软件源
+
+* 用 mirror-tools 下载官方缓慢的源到本地位置,
+  如 `./mirror-tools/openwrt-ipks-15.05.1/ar71xx/nand`.
+
+* 依照 [build_mypackage](./build_mypackage.md) 编译软件包,
+  生成的 ipk 放到 `./mypackages`, 然后更新 `package_index`:
+
+  ```
+  (cd ./mypackages && \
+    ../work/ImageBuilder-15.05.1-ar71xx-nand/scripts/ipkg-make-index.sh . > Packages && \
+    gzip -9c Packages > Packages.gz \
+  )
+  ```
+
+* 修改软件源 `work/ImageBuilder-15.05.1-ar71xx-nand/repositories.conf`.  
+  假设 `./mirror-tools/openwrt-ipks-15.05.1/ar71xx/nand` 对应 `/mnt`,  
+  `./mypackages` 对应 `/home/openwrt/mypackages` :
 
 ```shell
-src/gz chaos_calmer_base file:../../mirror-tools/openwrt-ipks-15.05.1/ar71xx/nand/packages/base
-src/gz chaos_calmer_luci file:../../mirror-tools/openwrt-ipks-15.05.1/ar71xx/nand/packages/luci
-src/gz chaos_calmer_packages file:../../mirror-tools/openwrt-ipks-15.05.1/ar71xx/nand/packages/packages
-src/gz chaos_calmer_routing file:../../mirror-tools/openwrt-ipks-15.05.1/ar71xx/nand/packages/routing
-src/gz chaos_calmer_management file:../../mirror-tools/openwrt-ipks-15.05.1/ar71xx/nand/packages/management
+src/gz chaos_calmer_base file:///mnt/packages/base
+src/gz chaos_calmer_luci file:///mnt/packages/luci
+src/gz chaos_calmer_packages file:///mnt/packages/packages
+src/gz chaos_calmer_routing file:///mnt/packages/routing
+src/gz chaos_calmer_management file:///mnt/packages/management
+src/gz mypackages file:///home/openwrt/mypackages
 src imagebuilder file:packages
 ```
 
-# 编译固件
+## 准备自定义配置
+
+所有修改过的配置, 按相应路径放入 `./myfiles_templates/`, 这里相当于 `root /`.
+
+**用 `myfiles_secret.py` 保存个人相关信息**, 一个示例 `myfiles_secret-example.py`.
+
+运行 `gen_myfiles.py`, 自动修改 `myfiles_templates/` 生成自定义配置 `myfiles_for_image/`.
+
+```shell
+cd ./myfiles_templates/
+gpg -d myfiles_secret.py.asc > myfiles_secret.py
+./gen_myfiles.py
+cd ../
+```
+
+## 进入 `Docker container`
+
+```
+docker run --rm -i -t -u openwrt \
+    -w /home/openwrt/ImageBuilder \
+    -v $PWD/work/ImageBuilder-15.05.1-ar71xx-nand:/home/openwrt/ImageBuilder \
+    -v $PWD/mirror-tools/openwrt-ipks-15.05.1/ar71xx/nand:/mnt \
+    -v $PWD/mypackages:/home/openwrt/mypackages \
+    -v $PWD/myfiles_for_image:/home/openwrt/myfiles_for_image \
+    shmilee/openwrt-sdk-host:15.05.1 /bin/bash
+```
+
+以下命令默认在 `container` 中运行.
 
 ## 128M flash
 
-修改 `ImageBuilder-15.05.1-ar71xx-nand/target/linux/ar71xx/image/Makefile`
-中以 `wndr4300_mtdlayout` 开头的行, 尽量多的使用 128M nand flash.
+ssh 登录路由查看官方固件的信息:
 [1](https://wiki.openwrt.org/doc/techref/flash.layout)
 
 ```shell
@@ -31,8 +80,6 @@ $ cat /proc/cmdline
 256k(u-boot-env)ro,256k(caldata),512k(pot),2048k(language),512k(config),
 3072k(traffic_meter),2048k(kernel),23552k(ubi),25600k@0x6c0000(firmware),
 256k(caldata_backup),-(reserved) rootfstype=squashfs noinitrd
-
-以下是官方固件的信息:
 
 $ cat /proc/mtd
 dev:    size   erasesize  name
@@ -68,11 +115,10 @@ major minor  #blocks  name
 ## sum(name[0,1,2,3,4,5,6,10]) = 7M
 ## name7 + name8 = name9
 ## name11 (reserved)
+## name9 + name 11 = 123904(121M) -> firmware, 123904 - name7 = 121856 -> ubi
 ```
 
-最大利用: name9 + name 11 = 123904(121M) -> firmware, 123904 - name7 = 121856 -> ubi
-
-保守点:
+ubi firmware 组合:
 
 ```
 ubi=23552 #23M
@@ -90,17 +136,33 @@ firmware=102400 #100M
 ubi=110592 #108M
 firmware=112640 #110M
 
-cd ImageBuilder-15.05.1-ar71xx-nand/target/linux/ar71xx/image/
-cp Makefile Makefile.bk
-sed -i "s/\(^wndr4300_mtdlayout.*\)23552k\(.ubi..\)25600k\(.*$\)/\1${ubi}k\2${firmware}k\3/" Makefile
+ubi=121856 #119M
+firmware=123904 #121M, 最大值
 ```
 
-## Profiles
+修改 `/home/openwrt/ImageBuilder/target/linux/ar71xx/image/Makefile`.
+找到以 `wndr4300_mtdlayout` 开头的行, 尽量多的使用 128M nand flash.
+
+```shell
+$ ubi=110592 #108M
+$ firmware=112640 #110M
+$ cd /home/openwrt/ImageBuilder/target/linux/ar71xx/image
+$ cp Makefile Makefile.bk
+$ sed -i "s/\(^wndr4300_mtdlayout.*\)23552k\(.ubi..\)25600k\(.*$\)/\1${ubi}k\2${firmware}k\3/" Makefile
+$ diff -u0 Makefile.bk Makefile
+--- Makefile.bk	2017-12-18 05:25:16.000000000 +0000
++++ Makefile	2017-12-18 05:25:26.000000000 +0000
+@@ -1010 +1010 @@
+-wndr4300_mtdlayout=mtdparts=ar934x-nfc:256k(u-boot)ro,256k(u-boot-env)ro,256k(caldata),512k(pot),2048k(language),512k(config),3072k(traffic_meter),2048k(kernel),23552k(ubi),25600k@0x6c0000(firmware),256k(caldata_backup),-(reserved)
++wndr4300_mtdlayout=mtdparts=ar934x-nfc:256k(u-boot)ro,256k(u-boot-env)ro,256k(caldata),512k(pot),2048k(language),512k(config),3072k(traffic_meter),2048k(kernel),110592k(ubi),112640k@0x6c0000(firmware),256k(caldata_backup),-(reserved)
+```
+
+## PROFILE
 
 查看支持的 Profiles. NETGEAR WNDR3700v4/WNDR430 共用一个 Profile.
 
 ```shell
-$ cd ImageBuilder-15.05.1-ar71xx-nand/
+$ cd /home/openwrt/ImageBuilder/
 $ make info
 Current Target: "ar71xx (Generic devices with NAND flash)"
 Default Packages: base-files libc libgcc busybox dropbear mtd uci opkg
@@ -112,6 +174,8 @@ WNDR4300:
 	NETGEAR WNDR3700v4/WNDR4300
 	Packages: kmod-usb-core kmod-usb-ohci kmod-usb2 kmod-ledtrig-usbdev
 ```
+
+## PACKAGES
 
 检查默认的 Packages, 删除或添加软件源中的 Packages.
 
@@ -178,46 +242,31 @@ usb_ipks=(
     )
 ```
 
-自己编译的的 Package 放到目录 `ImageBuilder-15.05.1-ar71xx-nand/packages`.
+添加自己编译的 mypackages.
 
 ```shell
-find ../mypackages -name '*.ipk' -exec \
-    cp -v {} packages/ \;
 my_ipks=(
-    adbyby luci-app-adbyby
-    aria2 luci-app-aria2 luci-i18n-aria2-zh-cn
-    ariang
     autossh
     nginx
-    shadowsocks-libev luci-app-shadowsocks
-    vlmcsd luci-app-vlmcsd
+    aria2 luci-app-aria2 luci-i18n-aria2-zh-cn
+    ariang
     #yaaw
+    vlmcsd luci-app-vlmcsd
+    miredo-client miredo-server
+    shadowsocks-libev luci-app-shadowsocks
+    adbyby luci-app-adbyby-plus luci-i18n-adbyby-plus-zh-cn
+    goagent-client
+    frpc frps
+    luci-app-nfs
 )
 ```
 
-## 添加自定义配置
-
-所有修改过的配置, 按相应路径放入 `myfiles_templates/`, 这里相当于 `root /`.
-
-~~从 static-routes 选取一份静态路由,~~
-~~编辑 gateway 后添加到 `3700v4_files/etc/config/network`.~~
-
-**用 `myfiles_secret.py` 保存个人相关信息**, 一个示例 `myfiles_secret-example.py`.
-
-运行 `gen_myfiles.py`, 自动修改 `myfiles_templates/` 生成 自定义配置 `myfiles_for_image/`
-
-```shell
-cd myfiles_templates/
-gpg -d myfiles_secret.py.asc > myfiles_secret.py
-./gen_myfiles.py
-cd ../
-```
 
 ## 编译
 
 ```shell
-cd ImageBuilder-15.05.1-ar71xx-nand/
-make image \
+$ cd /home/openwrt/ImageBuilder/
+$ make image \
   PROFILE=WNDR4300 \
   PACKAGES="$(echo\
     ${replace_ipks[@]}\
@@ -226,7 +275,7 @@ make image \
     ${usb_ipks[@]}\
     ${other_ipks[@]}\
     ${my_ipks[@]})" \
-  FILES="../myfiles_for_image"
+  FILES="/home/openwrt/myfiles_for_image"
 ```
 
 生成的镜像位置 `ImageBuilder-15.05.1-ar71xx-nand/bin/ar71xx/`,

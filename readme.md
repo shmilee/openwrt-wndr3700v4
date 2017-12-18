@@ -23,7 +23,7 @@ MemTotal:         126020 kB
 WNDR3700v4-15.05.1
 ==================
 
-固件: 按 [WNDR3700v4-15.05.1/readme.md](WNDR3700v4-15.05.1/readme.md) 编译,
+固件: 按 [build_myimage.md](./build_myimage.md) 编译,
 当前版本 `openwrt-15.05.1-ar71xx-nand-wndr3700v4-ubi-factory-20170112-with-myfiles.img`.
 MD5(16c9d9c9d6502c6701504474e68f98ca)
 

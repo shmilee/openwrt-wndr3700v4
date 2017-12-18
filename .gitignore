@@ -8,3 +8,8 @@ OpenWrt-SDK-*.tar.bz2
 
 myfiles_for_image
 myfiles_secret.py
+
+mypackages/*.ipk
+mypackages/BaiduExporter*.crx
+
+work/*

@@ -132,11 +132,11 @@ Source: feeds/shmilee/goagent/goagent-client
 Section: net
 Maintainer: shmilee <shmilee.zju@gmail.com>
 Architecture: ar71xx
-Installed-Size: 62462
+Installed-Size: 62787
 Filename: goagent-client_3.2.3.20150617-1_ar71xx.ipk
-Size: 63351
-MD5Sum: e5931d538eb27db44860bf787e52831d
-SHA256sum: a00310963c5bf0640347ef8f9f1645d52fdc98f0ec43da6d1ddac7f34ff87a60
+Size: 63674
+MD5Sum: eed002b33713edfec3b480b17c5c40a0
+SHA256sum: cdda29bbbc7f8c28029603384ce2dcf254ca57a3d43e8f6522bfd25d9aeb2cfc
 Description:  A gae proxy forked from gappproxy/wallproxy
 
 Package: libmbedtls
@@ -219,17 +219,17 @@ SHA256sum: b688cd126ca80cf28a2c5295b130d2e15769302fcb2f8e7823458886f78eadfb
 Description:  LuCI Support for autossh
 
 Package: luci-app-nfs
-Version: 1.0.0-1
+Version: 1.0.0-2
 Depends: libc, nfs-kernel-server
 Source: feeds/shmilee/fs/luci-app-nfs
 Section: luci
 Maintainer: shmilee
 Architecture: all
-Installed-Size: 3376
-Filename: luci-app-nfs_1.0.0-1_all.ipk
-Size: 4136
-MD5Sum: e5b228a2c4665c48d9a2cf141397027f
-SHA256sum: 94f9748408ad1ba56fdea584713deb7f0571631c85a26f76c4da3aa6d2fb9b77
+Installed-Size: 3382
+Filename: luci-app-nfs_1.0.0-2_all.ipk
+Size: 4138
+MD5Sum: 16f450dd7b557edbf7d9de22d50ad1bc
+SHA256sum: b667c875887746a02a58cfc45b95979378a52a069672f5545c9fe64568712255
 Description:  LuCI Support for NFS
 
 Package: luci-app-shadowsocks
@@ -369,17 +369,17 @@ SHA256sum: 2493038607b6caec2c0d73690161c83e4ca1b2ef182c56ccd6816f750b1d0876
 Description:  Translation for luci-app-autossh - 中文 (Chinese)
 
 Package: luci-i18n-nfs-zh-cn
-Version: 1.0.0-1
+Version: 1.0.0-2
 Depends: libc, luci-app-nfs
 Source: feeds/shmilee/fs/luci-app-nfs
 Section: luci
 Maintainer: shmilee
 Architecture: all
-Installed-Size: 672
-Filename: luci-i18n-nfs-zh-cn_1.0.0-1_all.ipk
-Size: 1477
-MD5Sum: 7f59c8cdc2ed952a339c70b93d3931da
-SHA256sum: 7d780c7171302b90d96751059f7176062a82d610927237fb350320bd6424ffec
+Installed-Size: 715
+Filename: luci-i18n-nfs-zh-cn_1.0.0-2_all.ipk
+Size: 1515
+MD5Sum: 0ed30c00f5b25088007095fb4aead40e
+SHA256sum: 274a3c1e155b19ee151fbac9bafda65c15ff75f98f3f4279a47c08265c3db945
 Description:  Translation for luci-app-nfs - 中文 (Chinese)
 
 Package: miredo-client
@@ -512,16 +512,16 @@ Description:  The greenlet package is a spin-off of Stackless, a version of CPyt
 
 Package: python-pyopenssl
 Version: 0.13-1
-Depends: libc, python-light, libopenssl
+Depends: libc, python-light, libopenssl, python-ctypes
 Source: feeds/shmilee/goagent/python-pyopenssl
 Section: lang
 Maintainer: shmilee <shmilee.zju@gmail.com>
 Architecture: ar71xx
-Installed-Size: 86318
+Installed-Size: 86314
 Filename: python-pyopenssl_0.13-1_ar71xx.ipk
-Size: 86650
-MD5Sum: eb486cd31e06b9b0040315508804bafd
-SHA256sum: 0786991147e844243ba8b8493f66706c79de41deeb00889f013b9640f355c9c5
+Size: 86696
+MD5Sum: 4f141fa0381d3f57e3785a7b3c842055
+SHA256sum: 84f1d615b6207dc5f782365ddb19af7cdac820c7aaa835c403f98b8e72516da9
 Description:  Python interface to the OpenSSL library.
 
 Package: shadowsocks-libev

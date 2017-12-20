@@ -1,0 +1,12 @@
+
+config general
+	option external_access '0'
+
+config share
+	option path '/mnt/sda1'
+	option enabled '1'
+	option read_only '1'
+	option insecure '0'
+	option permission '0'
+	option clients '192.168.1.0/24'
+

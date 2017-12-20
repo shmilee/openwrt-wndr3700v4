@@ -135,7 +135,7 @@
    rm -v package/feeds/base/{gmp,linux{,-firmware},cyassl}
    ./scripts/feeds uninstall dnsmasq ipset iptables wget \
        lua luci-base uci luci-lib-nixio luci-lib-ip \
-       libubox libjson-c rpcd ubus iwinfo libmnl
+       libubox libjson-c rpcd ubus iwinfo libmnl nfs-kernel-server
    make package/luci-app-autossh/compile V=sw
    make package/luci-app-aria2/compile V=sw
    make package/luci-app-vlmcsd/compile V=sw

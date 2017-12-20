@@ -215,6 +215,7 @@ other_ipks=(
     shadow-su
     shadow-useradd
     ss
+    nfs-kernel-server-utils # cmd: nfsstat showmount
     )
 ```
 
@@ -246,7 +247,7 @@ usb_ipks=(
 
 ```shell
 my_ipks=(
-    autossh
+    autossh luci-app-autossh luci-i18n-autossh-zh-cn
     nginx
     aria2 luci-app-aria2 luci-i18n-aria2-zh-cn
     ariang
@@ -256,8 +257,8 @@ my_ipks=(
     shadowsocks-libev luci-app-shadowsocks
     adbyby luci-app-adbyby-plus luci-i18n-adbyby-plus-zh-cn
     goagent-client
-    frpc frps
-    luci-app-nfs
+    #frpc frps
+    luci-app-nfs luci-i18n-nfs-zh-cn
 )
 ```
 

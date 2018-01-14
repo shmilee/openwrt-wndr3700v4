@@ -24,7 +24,7 @@ WNDR3700v4-15.05.1
 ==================
 
 固件: 按 [build_myimage.md](./build_myimage.md) 编译,
-当前版本 `openwrt-15.05.1-ar71xx-nand-wndr3700v4-ubi-factory-20171220-with-myfiles.img`.
+当前版本 `openwrt-15.05.1-ar71xx-nand-wndr3700v4-ubi-factory-20180114-with-myfiles.img`.
 
 Installation via serial console and TFTP
 ========================================

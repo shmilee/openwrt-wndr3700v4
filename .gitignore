@@ -5,6 +5,9 @@ mirror-tools/openwrt-ipks-*
 OpenWrt-ImageBuilder-*.tar.bz2
 OpenWrt-SDK-*.tar.bz2
 
+openwrt-imagebuilder-*.tar.xz
+openwrt-sdk-*.tar.xz
+
 myfiles_for_image
 myfiles_secret.py
 

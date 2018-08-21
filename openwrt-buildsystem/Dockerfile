@@ -1,17 +1,14 @@
-# debian:jessie-20171009
-#
-# https://wiki.openwrt.org/doc/howto/buildroot.exigence
-# Ignore packages: xz-utils gettext flex
-# They can be found in `sdk/staging_dir/host/bin`
-#
+# debian:stretch-20180716
+# https://openwrt.org/docs/guide-developer/build-system/install-buildsystem
 
-FROM debian:jessie
+FROM debian:stretch
 
 LABEL maintainer="shmilee.zju@gmail.com" \
-      sdk.version="15.05.1" \
-      description="Debian 8 with OpenWRT SDK dependencies"
+      sdk.version="18.06.1" \
+      description="Debian 9 with OpenWRT build system prerequisites"
 
 ENV TIMEZONE=Asia/Shanghai \
+    DEBIAN_CODENAME=stretch \
     DEBIAN_MIRROR=http://mirrors.163.com/debian \
     DEBIAN_SECURITY_MIRROR=http://mirrors.163.com/debian-security \
     PATH=/home/openwrt/sdk/staging_dir/host/bin:$PATH \
@@ -20,16 +17,13 @@ ENV TIMEZONE=Asia/Shanghai \
 COPY dpkg.cfg.excludes /etc/dpkg/dpkg.cfg.d/01_excludes
 
 RUN echo "$TIMEZONE" > /etc/timezone \
- && echo "deb $DEBIAN_MIRROR jessie main" > /etc/apt/sources.list \
- && echo "deb $DEBIAN_MIRROR jessie-updates main" >> /etc/apt/sources.list \
- && echo "deb $DEBIAN_SECURITY_MIRROR jessie/updates main" >> /etc/apt/sources.list \
+ && echo "deb $DEBIAN_MIRROR $DEBIAN_CODENAME main" > /etc/apt/sources.list \
+ && echo "deb $DEBIAN_MIRROR $DEBIAN_CODENAME-updates main" >> /etc/apt/sources.list \
+ && echo "deb $DEBIAN_SECURITY_MIRROR $DEBIAN_CODENAME/updates main" >> /etc/apt/sources.list \
  && apt-get update \
  && apt-get install -y \
-        git-core subversion \
-        build-essential ccache \
-        libssl-dev libncurses5-dev zlib1g-dev \
-        unzip bzip2 \
-        wget sudo gawk file python \
+        build-essential libncurses5-dev gawk git subversion libssl-dev gettext zlib1g-dev swig unzip time \
+        ccache bzip2 wget sudo file python \
  && apt-get remove -y \
         manpages manpages-dev \
         krb5-locales locales \

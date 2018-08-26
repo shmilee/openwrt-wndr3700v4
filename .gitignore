@@ -1,6 +1,6 @@
 ~
 __pycache__
-mirror-tools/openwrt-ipks-*
+mirror-tools/openwrt-*
 
 OpenWrt-ImageBuilder-*.tar.bz2
 OpenWrt-SDK-*.tar.bz2

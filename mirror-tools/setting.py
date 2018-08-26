@@ -1,37 +1,14 @@
 # -*- coding: utf-8 -*-
+# Copyright (C) 2018 shmilee
 
-from profiles import PROFILES
-
-# set download site, mirror
-#URL = 'http://downloads.openwrt.org'
+# 1. set download site, mirror
+# URL = 'http://downloads.openwrt.org'
 URL = 'http://openwrt.proxy.ustclug.org'
 
-# set prefix for directory to save all the packages
-SAVE_PREFIX = './openwrt-ipks-'
-
-# set available PROFILE, see Profiles.py
-#PROFILE = 'R10031_brcm63'
-#PROFILE = 'R1209_brcm63_generic'
-#PROFILE = 'R1407_brcm63_generic'
-#PROFILE = 'R1407_ar71_nand'
-PROFILE = 'R15051_ar71_nand'
-#PROFILE = 'R15051_ar71_generic'
-#PROFILE = 'R15051_brcm47_mips74k'
-#PROFILE = 'R15051_bcm53_generic'
-#PROFILE = 'R15051_ramips_mt7620'
-#PROFILE = 'Rtrunk_ramips_mt7628'
-
-# set save directory
-SAVEDIR = '%s%s/%s/packages' % (
-    SAVE_PREFIX,
-    PROFILES[PROFILE]['DISTRIB_RELEASE'],
-    PROFILES[PROFILE]['DISTRIB_TARGET']
-)
-
-# set processes number, 2-50
+# 2. set processes number, 2-50
 PSIZE = 20
 
-# arguments that ``requests.request`` takes
+# 3. arguments that ``requests.request`` takes
 REQUESTS_KWARGS = dict(
     stream=True,
     timeout=min(PSIZE * 3, 90),
@@ -39,15 +16,71 @@ REQUESTS_KWARGS = dict(
         'User-Agent': 'Wget/1.17.1 (linux-gnu)'
     },
     proxies={
-        #'http': 'http://127.0.0.1:8087',
-        #'https': 'http://127.0.0.1:8087',
-        #'http': 'socks5://192.168.1.1:3696',
-        #'https': 'socks5://192.168.1.1:3696',
+        # 'http': 'http://127.0.0.1:8087',
+        # 'https': 'http://127.0.0.1:8087',
+        # 'http': 'socks5://192.168.1.1:3696',
+        # 'https': 'socks5://192.168.1.1:3696',
     },
 )
 
-# check signature of `Packages` by `Packages.sig`
-# <15.05, not x86_64, or force to refresh `Packages`
-#USIGN_CMD = None
+# 4. check signature of `Packages`, need `Packages.sig`
+# <15.05, not x86_64
+# USIGN_CMD = None
 # >=15.05 and x86_64, `usign` from ImageBuilder, `keys` from Images
 USIGN_CMD = './db_sign/usign 2>/dev/null -V -P ./db_sign/keys -m'
+
+# 5. Profiles lib
+# target: wndr3700v4
+target_18061_ar71_nand = dict(
+    DISTRIB_RELEASE="18.06.1",
+    DISTRIB_TARGET="ar71xx/nand",
+)
+target_snapshot_ar71_nand = dict(
+    DISTRIB_RELEASE='SNAPSHOT',
+    DISTRIB_TARGET="ar71xx/nand",
+    IPK_GROUPS=('packages', 'kmods/4.9.123-1-8ee2c7970138017a6e1d590f95efbe9a'),
+)
+
+# target: Xiaomi MiWiFi 3G
+target_18061_ramips_mt7621 = dict(
+    DISTRIB_RELEASE="18.06.1",
+    DISTRIB_TARGET="ramips/mt7621",
+)
+target_snapshot_ramips_mt7621 = dict(
+    DISTRIB_RELEASE='SNAPSHOT',
+    DISTRIB_TARGET="ramips/mt7621",
+    IPK_GROUPS=('packages', 'kmods/4.14.66-1-7a4dbe7f80f82ec05db7580bfb4f88f8'),
+)
+
+# package: wndr3700v4 etc
+package_1806_mips_24kc = dict(
+    DISTRIB_RELEASE="18.06",
+    DISTRIB_ARCH="mips_24kc",
+)
+package_snapshot_mips_24kc = dict(
+    DISTRIB_RELEASE='SNAPSHOT',
+    DISTRIB_ARCH="mips_24kc",
+)
+
+# package: Xiaomi MiWiFi 3G etc
+package_1806_mipsel_24kc = dict(
+    DISTRIB_RELEASE="18.06",
+    DISTRIB_ARCH="mipsel_24kc",
+)
+package_snapshot_mipsel_24kc = dict(
+    DISTRIB_RELEASE='SNAPSHOT',
+    DISTRIB_ARCH="mipsel_24kc",
+)
+
+# 6. profile setting
+PROFILE = (
+    target_18061_ar71_nand
+    # target_snapshot_ar71_nand
+    # target_18061_ramips_mt7621
+    # target_snapshot_ramips_mt7621
+    # package_1806_mips_24kc
+    # package_snapshot_mips_24kc
+    # package_1806_mipsel_24kc
+    # package_snapshot_mipsel_24kc
+    # etc
+)

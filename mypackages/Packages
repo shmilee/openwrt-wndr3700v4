@@ -80,10 +80,10 @@ License: Apache-2.0
 Section: luci
 Maintainer: shmilee <shmilee.zju@gmail.com>
 Architecture: all
-Installed-Size: 907
+Installed-Size: 927
 Filename: luci-app-autossh_1.0.0-1_all.ipk
-Size: 1695
-SHA256sum: a11f8dd77309c47f43bac73c607ff53c6d800c50cd2ab12f258ce1dc9402499c
+Size: 1727
+SHA256sum: 313547191ec44bae228a4f6f8329c8d562bae08056f7b8e2df473c0008cdbada
 Description:  LuCI Support for autossh
 
 Package: luci-app-nfs
@@ -204,10 +204,10 @@ License: Apache-2.0
 Section: luci
 Maintainer: shmilee <shmilee.zju@gmail.com>
 Architecture: all
-Installed-Size: 549
+Installed-Size: 571
 Filename: luci-i18n-autossh-zh-cn_1.0.0-1_all.ipk
-Size: 1366
-SHA256sum: 110d2191cf80454f0425f8279419f8f3703cd9f952ed92c80a7019c45113ca39
+Size: 1384
+SHA256sum: 3d5a347ab4d8c55243d48e809ba0d465b25d0f1aa4960182931024611edb75d0
 Description:  Translation for luci-app-autossh - 中文 (Chinese)
 
 Package: luci-i18n-nfs-zh-cn

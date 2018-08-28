@@ -1,191 +1,61 @@
 Package: adbyby
-Version: 2.7-20170823
+Version: 2.7-20180616
 Depends: libc
 Source: feeds/shmilee/adbyby/adbyby
 Section: net
-Architecture: ar71xx
-Installed-Size: 505463
-Filename: adbyby_2.7-20170823_ar71xx.ipk
-Size: 505410
-MD5Sum: 28a730fb8177647da3e97ae25e86f1de
-SHA256sum: cdbaa4a20338631b951b9c5b9be354e78fb9471f6ef643b9bfd5892541ed8564
+Architecture: mips_24kc
+Installed-Size: 689322
+Filename: adbyby_2.7-20180616_mips_24kc.ipk
+Size: 689150
+SHA256sum: 6550a99fafbd68639e9e3ae67bcfd92eb76ebe5aa527026a8ff0a234656c7d74
 Description:  Adbyby is a powerful adblock module to block ad,just like adblock.
 
-Package: aria2
-Version: 1.33.0-1
-Depends: libc, zlib, libstdcpp, libopenssl
-Source: feeds/shmilee/aria2/aria2
-License: GPLv2
-LicenseFiles: COPYING
-Section: net
-Require-User: aria2=6800:aria2=6800
-Maintainer: Imre Kaloz <kaloz@openwrt.org>, Hsing-Wang Liao <kuoruan@gmail.com>
-Architecture: ar71xx
-Installed-Size: 906123
-Filename: aria2_1.33.0-1_ar71xx.ipk
-Size: 904457
-MD5Sum: 74b7d576888078d81fc17d953f152d85
-SHA256sum: e7e71ee922ac604850110d4c28629d73ca694c580fbc7ca09769f6a025023e32
-Description:  aria2 is a lightweight multi-protocol & multi-source command-line download
- utility
-
-Package: ariang
-Version: 0.3.0-1
-Depends: libc
-Source: feeds/shmilee/aria2/ariang
-License: MIT
-Section: net
-Maintainer: shmilee <shmilee.zju@gmail.com>
-Architecture: all
-Installed-Size: 962337
-Filename: ariang_0.3.0-1_all.ipk
-Size: 962652
-MD5Sum: c6616a07ee1dd870748633f3f190fc12
-SHA256sum: 954c46453eb6ccc23fe4c14604107fee43edd367237bcbd6c2c769c026de5b99
-Description:  A Better Frontend for aria2 written in pure html & javascript.
-
-Package: autossh
-Version: 1.4e-1
-Depends: libc
-Source: feeds/shmilee/autossh/autossh
-License: 0BSD
-Section: net
-Maintainer: Christian Beier <cb@shoutrlabs.com>
-Architecture: ar71xx
-Installed-Size: 9192
-Filename: autossh_1.4e-1_ar71xx.ipk
-Size: 9940
-MD5Sum: cfb6f71b64e3c3eabaf2d5c6918e1db8
-SHA256sum: b0fafc2de334f06e1fbcac47be296646933028004ffa0e17ec411c68ff37b1cc
-Description:  Autossh client
-
-Package: ca-bundle
-Version: 20161130+nmu1
-Depends: libc
-Source: feeds/shmilee/goagent/ca-certificates
-Section: base
-Maintainer: Christian Schoenebeck <christian.schoenebeck@gmail.com>
-Architecture: all
-Installed-Size: 148844
-Filename: ca-bundle_20161130+nmu1_all.ipk
-Size: 149715
-MD5Sum: 2f540e5d3e64b8a0f694fa51e2b20573
-SHA256sum: 72700e56b0a52e65098bc7e743fc167073ecc8b968abe66139eae6e01a93bc60
-Description:  System CA certificates as a bundle
-
-Package: ca-certificates
-Version: 20161130+nmu1
-Depends: libc
-Source: feeds/shmilee/goagent/ca-certificates
-Section: base
-Maintainer: Christian Schoenebeck <christian.schoenebeck@gmail.com>
-Architecture: all
-Installed-Size: 168150
-Filename: ca-certificates_20161130+nmu1_all.ipk
-Size: 169027
-MD5Sum: a02829de76b79bd603907fa0403f7bc5
-SHA256sum: f937d2978f709d4c726c648716635904cc5146a63beee8262956e12a53b687ac
-Description:  System CA certificates
-
 Package: frpc
-Version: 0.14.1-1
+Version: 0.21.0-1
 Depends: libc
 Source: feeds/shmilee/tunnel/frp
 License: Apache-2.0
 LicenseFiles: LICENCE
 Section: net
 Maintainer: shmilee <shmilee.zju@gmail.com>
-Architecture: ar71xx
-Installed-Size: 2099427
-Filename: frpc_0.14.1-1_ar71xx.ipk
-Size: 2093640
-MD5Sum: a88ef1a6e9fcd6c47ada71a48f346820
-SHA256sum: ff50297e7e550b907c666c73b28a51f4e6fecac36eb4fd8bc57dcc4831afcd02
+Architecture: mips_24kc
+Installed-Size: 2536136
+Filename: frpc_0.21.0-1_mips_24kc.ipk
+Size: 2529768
+SHA256sum: 9d7452939648ec7858ad4e53ed6f4e7d1f1a7c669bb3c1bf2f141be1be6e4b9a
 Description:  frp is a fast reverse proxy to help you expose a local server behind a NAT
  or firewall to the internet. Now, it supports tcp, udp, http and https
  protocol when requests can be forwarded by domains to backward web services.
  This package contains the frp client.
 
 Package: frps
-Version: 0.14.1-1
+Version: 0.21.0-1
 Depends: libc
 Source: feeds/shmilee/tunnel/frp
 License: Apache-2.0
 LicenseFiles: LICENCE
 Section: net
 Maintainer: shmilee <shmilee.zju@gmail.com>
-Architecture: ar71xx
-Installed-Size: 2488215
-Filename: frps_0.14.1-1_ar71xx.ipk
-Size: 2482105
-MD5Sum: 243e8ee0e1e3a3500de267aa8f3e25ea
-SHA256sum: bae9fdfe8631dda49818eb601d24bc5302d3a386e2187aead8df10962a02e655
+Architecture: mips_24kc
+Installed-Size: 2967730
+Filename: frps_0.21.0-1_mips_24kc.ipk
+Size: 2960586
+SHA256sum: 12d9629d34c57084d38c5d6f2f9d895617a70b406575101007351d0f1cf02605
 Description:  frp is a fast reverse proxy to help you expose a local server behind a NAT
  or firewall to the internet. Now, it supports tcp, udp, http and https
  protocol when requests can be forwarded by domains to backward web services.
  This package contains the frp server.
 
-Package: goagent-client
-Version: 3.2.3.20150617-1
-Depends: libc, python-pyopenssl, python-gevent, python-dnslib, ca-bundle
-Source: feeds/shmilee/goagent/goagent-client
-Section: net
-Maintainer: shmilee <shmilee.zju@gmail.com>
-Architecture: ar71xx
-Installed-Size: 62787
-Filename: goagent-client_3.2.3.20150617-1_ar71xx.ipk
-Size: 63674
-MD5Sum: eed002b33713edfec3b480b17c5c40a0
-SHA256sum: cdda29bbbc7f8c28029603384ce2dcf254ca57a3d43e8f6522bfd25d9aeb2cfc
-Description:  A gae proxy forked from gappproxy/wallproxy
-
-Package: libmbedtls
-Version: 2.6.0-2
-Depends: libc
-Source: feeds/shmilee/shadowsocks/mbedtls
-License: GPL-2.0+
-Section: libs
-Architecture: ar71xx
-Installed-Size: 157874
-Filename: libmbedtls_2.6.0-2_ar71xx.ipk
-Size: 158414
-MD5Sum: d07538360b7a33e24d98d816121a2a6f
-SHA256sum: 0be526ece67732cb0c424657da1fd546709233030b02d400c9be9013ba0ff0a7
-Description:  The aim of the mbedtls project is to provide a quality, open-source
- cryptographic library written in C and targeted at embedded systems.
- This package contains the mbedtls library.
-
-Package: libsodium
-Version: 1.0.12-1
-Depends: libc, libpthread
-Source: feeds/shmilee/shadowsocks/libsodium
-License: ISC
-Section: libs
-Maintainer: Damiano Renfer <damiano.renfer@gmail.com>
-Architecture: ar71xx
-Installed-Size: 116781
-Filename: libsodium_1.0.12-1_ar71xx.ipk
-Size: 117882
-MD5Sum: 5b6852b28d2ef12a650d64aca4c2663a
-SHA256sum: ebb7ba7b422bdb2edf1f3430e8157c5d8d8576ca58349b55eb50f289798e8569
-Description:  NaCl (pronounced "salt") is a new easy-to-use high-speed software library for network communication, encryption, decryption, signatures, etc.
- NaCl's goal is to provide all of the core operations needed to build higher-level cryptographic tools.
- Sodium is a portable, cross-compilable, installable, packageable fork of NaCl (based on the latest released upstream version nacl-20110221), with a compatible API.
- The design choices, particularly in regard to the Curve25519 Diffie-Hellman function, emphasize security (whereas NIST curves emphasize "performance" at the cost of security), and "magic constants" in NaCl/Sodium have clear rationales.
- The same cannot be said of NIST curves, where the specific origins of certain constants are not described by the standards.
- And despite the emphasis on higher security, primitives are faster across-the-board than most implementations of the NIST standards.
-
 Package: luci-app-adbyby-plus
-Version: 2.0-25
+Version: 2.0-29
 Depends: libc, adbyby, wget, ipset, coreutils, coreutils-nohup, dnsmasq-full
 Source: feeds/shmilee/adbyby/luci-app-adbyby-plus
 Section: luci
 Architecture: all
-Installed-Size: 15429
-Filename: luci-app-adbyby-plus_2.0-25_all.ipk
-Size: 16195
-MD5Sum: 8a4996f1a0bdec799a6bb42b878cff38
-SHA256sum: 4c178db1c5865e3c413cad1c0cef8e52a6b1161ec85d5311e63d3ce9084d38ca
+Installed-Size: 15812
+Filename: luci-app-adbyby-plus_2.0-29_all.ipk
+Size: 16553
+SHA256sum: 11ccd2a9f4f7f9d28323aecf0b9ca83ed1ae4cd5aa4079bf623733682eced9e0
 Description:  LuCI support for Adbyby
 
 Package: luci-app-aria2
@@ -196,11 +66,10 @@ License: Apache-2.0
 Section: luci
 Maintainer: Hsing-Wang Liao <kuoruan@gmail.com>
 Architecture: all
-Installed-Size: 4302
+Installed-Size: 4294
 Filename: luci-app-aria2_1.0.1-2_all.ipk
-Size: 5093
-MD5Sum: 313014512dc84987e3059d72ca62a9bd
-SHA256sum: 458994673ef70808d1c11690937dee61caaf7569f9aa4fd0c83fe52b8859383b
+Size: 5061
+SHA256sum: c98d5e8b001354c3fbaf0b3a9f6aedfe9fd10cc9f64bc3ac173ac8a52f8bb825
 Description:  LuCI Support for Aria2
 
 Package: luci-app-autossh
@@ -211,11 +80,10 @@ License: Apache-2.0
 Section: luci
 Maintainer: shmilee <shmilee.zju@gmail.com>
 Architecture: all
-Installed-Size: 928
+Installed-Size: 907
 Filename: luci-app-autossh_1.0.0-1_all.ipk
-Size: 1749
-MD5Sum: 531c8bafb980d07994244fe7f1f1a4f2
-SHA256sum: b688cd126ca80cf28a2c5295b130d2e15769302fcb2f8e7823458886f78eadfb
+Size: 1695
+SHA256sum: a11f8dd77309c47f43bac73c607ff53c6d800c50cd2ab12f258ce1dc9402499c
 Description:  LuCI Support for autossh
 
 Package: luci-app-nfs
@@ -225,44 +93,11 @@ Source: feeds/shmilee/fs/luci-app-nfs
 Section: luci
 Maintainer: shmilee
 Architecture: all
-Installed-Size: 3382
+Installed-Size: 3349
 Filename: luci-app-nfs_1.0.0-2_all.ipk
-Size: 4138
-MD5Sum: 16f450dd7b557edbf7d9de22d50ad1bc
-SHA256sum: b667c875887746a02a58cfc45b95979378a52a069672f5545c9fe64568712255
+Size: 4084
+SHA256sum: cf767bd4a30a0e6828ee1d5f4a0a6871b966d3b7ff8ecc99cf83b3816ed5ac51
 Description:  LuCI Support for NFS
-
-Package: luci-app-shadowsocks
-Version: 1.8.2-1
-Depends: libc, iptables, ipset
-Source: feeds/shmilee/shadowsocks/luci-app-shadowsocks
-License: GPLv3
-LicenseFiles: LICENSE
-Section: luci
-Maintainer: Jian Chang <aa65535@live.com>
-Architecture: all
-Installed-Size: 10613
-Filename: luci-app-shadowsocks_1.8.2-1_all.ipk
-Size: 11530
-MD5Sum: 2724328bbd806951d2c22be3d2f8eb7d
-SHA256sum: 893cc75b8df29613f2963694f91226fa044a0cae566afe8dbb1336568c957ef5
-Description:  LuCI Support for shadowsocks-libev.
-
-Package: luci-app-shadowsocks-without-ipset
-Version: 1.8.2-1
-Depends: libc, iptables
-Source: feeds/shmilee/shadowsocks/luci-app-shadowsocks
-License: GPLv3
-LicenseFiles: LICENSE
-Section: luci
-Maintainer: Jian Chang <aa65535@live.com>
-Architecture: all
-Installed-Size: 10394
-Filename: luci-app-shadowsocks-without-ipset_1.8.2-1_all.ipk
-Size: 11349
-MD5Sum: acda5106d64ce641cdb28ae33a332a86
-SHA256sum: d8c6927d85f89c079b5e75de6dcb00e262a1ea4bb3a45fb68a0fc34e5c68f2ca
-Description:  LuCI Support for shadowsocks-libev.
 
 Package: luci-app-vlmcsd
 Version: 1.0.1-1
@@ -273,24 +108,22 @@ LicenseFiles: LICENSE
 Section: luci
 Maintainer: fuyumi
 Architecture: all
-Installed-Size: 1624
+Installed-Size: 1625
 Filename: luci-app-vlmcsd_1.0.1-1_all.ipk
-Size: 2496
-MD5Sum: d4260f99fd033a9f24d58c390efb4e0d
-SHA256sum: 47f178728818b5ae021ef39c8b337fec8b21781bffca2bdc4cc945520b371eab
+Size: 2478
+SHA256sum: 4583b87a7da13ed21c069adcf1ad5f651b161de7b8b9b573dd370fc1d4e1144d
 Description:  This package contains LuCI configuration pages for openwrt-vlmcsd.
 
 Package: luci-i18n-adbyby-plus-zh-cn
-Version: 2.0-25
+Version: 2.0-29
 Depends: libc, luci-app-adbyby-plus
 Source: feeds/shmilee/adbyby/luci-app-adbyby-plus
 Section: luci
 Architecture: all
-Installed-Size: 2017
-Filename: luci-i18n-adbyby-plus-zh-cn_2.0-25_all.ipk
-Size: 2834
-MD5Sum: 75fa690ede9cea8ac4be726cae649cd4
-SHA256sum: 98590afe6a5b964af825982a1de90561750b596de6c81dc86668bfa1c32b9f18
+Installed-Size: 2006
+Filename: luci-i18n-adbyby-plus-zh-cn_2.0-29_all.ipk
+Size: 2800
+SHA256sum: 8c852baec820558a10cab1d35f2b16f3723cd1e494a71ba3af4b4b0a4194af76
 Description:  Translation for luci-app-adbyby-plus - 中文 (Chinese)
 
 Package: luci-i18n-aria2-pt-br
@@ -301,12 +134,25 @@ License: Apache-2.0
 Section: luci
 Maintainer: Hsing-Wang Liao <kuoruan@gmail.com>
 Architecture: all
-Installed-Size: 2342
+Installed-Size: 2336
 Filename: luci-i18n-aria2-pt-br_1.0.1-2_all.ipk
-Size: 3212
-MD5Sum: 68d4e010d5fbb5818efb41c7c71264fd
-SHA256sum: 37b4a121b51f44e86b26ab6df340905c7860cabd9433b3752638de01f0d37c3d
+Size: 3178
+SHA256sum: 5cb82650b0dbb05f5cf12aae74fe58941cf7cd7756bc8e1fa45d153196090e25
 Description:  Translation for luci-app-aria2 - Português do Brasil (Brazialian Portuguese)
+
+Package: luci-i18n-aria2-ru
+Version: 1.0.1-2
+Depends: libc, luci-app-aria2
+Source: feeds/shmilee/aria2/luci-app-aria2
+License: Apache-2.0
+Section: luci
+Maintainer: Hsing-Wang Liao <kuoruan@gmail.com>
+Architecture: all
+Installed-Size: 2648
+Filename: luci-i18n-aria2-ru_1.0.1-2_all.ipk
+Size: 3464
+SHA256sum: 19f4d65872db035720ae02d96d1b80e19252514b2290b5b4d40ef1ef84a65990
+Description:  Translation for luci-app-aria2 - Русский (Russian)
 
 Package: luci-i18n-aria2-sv
 Version: 1.0.1-2
@@ -316,11 +162,10 @@ License: Apache-2.0
 Section: luci
 Maintainer: Hsing-Wang Liao <kuoruan@gmail.com>
 Architecture: all
-Installed-Size: 1670
+Installed-Size: 1664
 Filename: luci-i18n-aria2-sv_1.0.1-2_all.ipk
-Size: 2517
-MD5Sum: db98022d8fed6d3d67477b053793f247
-SHA256sum: e80afdcee14e52081a60bb645ddaf6b67fa5b85e3ce319a1346052fc03f8d28f
+Size: 2481
+SHA256sum: 3a78cbf92646b74fc3c7175b4cb43a75953810e1c7e083f0f2787f1d2d125abf
 Description:  Translation for luci-app-aria2 - Svenska (Swedish)
 
 Package: luci-i18n-aria2-zh-cn
@@ -331,11 +176,10 @@ License: Apache-2.0
 Section: luci
 Maintainer: Hsing-Wang Liao <kuoruan@gmail.com>
 Architecture: all
-Installed-Size: 2127
+Installed-Size: 2123
 Filename: luci-i18n-aria2-zh-cn_1.0.1-2_all.ipk
-Size: 2987
-MD5Sum: 9d11282255d378ba30384a9ebeb9633f
-SHA256sum: b812f344d6a1d967da30f8a267c30cca7e7ce0cb2b7e3d91e90111d8ac512912
+Size: 2958
+SHA256sum: d7b0f76ee8c19853413bbe4ea0f3f1c8aa63b36c5e38c943855a071f9041d145
 Description:  Translation for luci-app-aria2 - 中文 (Chinese)
 
 Package: luci-i18n-aria2-zh-tw
@@ -346,11 +190,10 @@ License: Apache-2.0
 Section: luci
 Maintainer: Hsing-Wang Liao <kuoruan@gmail.com>
 Architecture: all
-Installed-Size: 2145
+Installed-Size: 2136
 Filename: luci-i18n-aria2-zh-tw_1.0.1-2_all.ipk
-Size: 3018
-MD5Sum: a9fc29a05eff557ae81cb60a09cf4ec3
-SHA256sum: 2e01625cd55c8795f7886626bfe37d3266676d8afb76016b320bfd39dadbbd83
+Size: 2981
+SHA256sum: cef9b47e08db5e1728a5df66abf62e4d8f3ff2862054795cc42b27dcb2225741
 Description:  Translation for luci-app-aria2 - 臺灣華語 (Taiwanese)
 
 Package: luci-i18n-autossh-zh-cn
@@ -361,11 +204,10 @@ License: Apache-2.0
 Section: luci
 Maintainer: shmilee <shmilee.zju@gmail.com>
 Architecture: all
-Installed-Size: 558
+Installed-Size: 549
 Filename: luci-i18n-autossh-zh-cn_1.0.0-1_all.ipk
-Size: 1397
-MD5Sum: cfd9f7344383dcbfa4a1e8bd34df2861
-SHA256sum: 2493038607b6caec2c0d73690161c83e4ca1b2ef182c56ccd6816f750b1d0876
+Size: 1366
+SHA256sum: 110d2191cf80454f0425f8279419f8f3703cd9f952ed92c80a7019c45113ca39
 Description:  Translation for luci-app-autossh - 中文 (Chinese)
 
 Package: luci-i18n-nfs-zh-cn
@@ -375,60 +217,11 @@ Source: feeds/shmilee/fs/luci-app-nfs
 Section: luci
 Maintainer: shmilee
 Architecture: all
-Installed-Size: 715
+Installed-Size: 709
 Filename: luci-i18n-nfs-zh-cn_1.0.0-2_all.ipk
-Size: 1515
-MD5Sum: 0ed30c00f5b25088007095fb4aead40e
-SHA256sum: 274a3c1e155b19ee151fbac9bafda65c15ff75f98f3f4279a47c08265c3db945
+Size: 1483
+SHA256sum: 5b051557fdf747b640d171cb891ede82e23b0404acc482406c6f7b818badf564
 Description:  Translation for luci-app-nfs - 中文 (Chinese)
-
-Package: miredo-client
-Version: 1.2.6-1
-Depends: libc, miredo-common
-Source: feeds/shmilee/tunnel/miredo
-License: GPL-2.0
-LicenseFiles: COPYING
-Section: ipv6
-Maintainer: shmilee <shmilee.zju@gmail.com>
-Architecture: ar71xx
-Installed-Size: 17315
-Filename: miredo-client_1.2.6-1_ar71xx.ipk
-Size: 18123
-MD5Sum: 62d3871cd5d1ee85536ac6c81f778024
-SHA256sum: 9ea4205a350cc3ead585a3cdbbe037dc47e5b36d76dfb4e5e55f0d265d72c169
-Description:  Teredo (IPv6 tunneling over UDP through NAT) client and relay daemon
-
-Package: miredo-common
-Version: 1.2.6-1
-Depends: libc, ip, libpthread, librt, kmod-ipv6, kmod-tun
-Source: feeds/shmilee/tunnel/miredo
-License: GPL-2.0
-LicenseFiles: COPYING
-Section: ipv6
-Maintainer: shmilee <shmilee.zju@gmail.com>
-Architecture: ar71xx
-Installed-Size: 33748
-Filename: miredo-common_1.2.6-1_ar71xx.ipk
-Size: 34619
-MD5Sum: 29019f866d399859a4c32aea0519f2b7
-SHA256sum: 08cf9345f684dfa71983e56983f7de39b23afdc0641669807d707fee33f4df8c
-Description:  Teredo (IPv6 tunneling over UDP through NAT) shared libraries
-
-Package: miredo-server
-Version: 1.2.6-1
-Depends: libc, miredo-common
-Source: feeds/shmilee/tunnel/miredo
-License: GPL-2.0
-LicenseFiles: COPYING
-Section: ipv6
-Maintainer: shmilee <shmilee.zju@gmail.com>
-Architecture: ar71xx
-Installed-Size: 14441
-Filename: miredo-server_1.2.6-1_ar71xx.ipk
-Size: 15224
-MD5Sum: a0a78c1c3d030285465099cd2927071f
-SHA256sum: 0e2396147204b788aa97a36568d6377947fbf88b61d712b82e737281fc84aab9
-Description:  Teredo (IPv6 tunneling over UDP through NAT) server daemon
 
 Package: nginx
 Version: 1.12.2-1
@@ -437,124 +230,13 @@ Source: feeds/shmilee/web/nginx
 License: 2-clause BSD-like license
 Section: net
 Maintainer: Thomas Heil <heil@terminal-consulting.de>
-Architecture: ar71xx
-Installed-Size: 250588
-Filename: nginx_1.12.2-1_ar71xx.ipk
-Size: 248423
-MD5Sum: d6c3c0208c90945af656c1186b1dfa7e
-SHA256sum: b5654f25f5541778c65edfd8b0f996aa0c2cbdab2769131db4532f5af3334b6a
+Architecture: mips_24kc
+Installed-Size: 251322
+Filename: nginx_1.12.2-1_mips_24kc.ipk
+Size: 248985
+SHA256sum: 85cb0806d036723c6c43f5e57173fcabc82089246cc1b69a1031cfe54d55f559
 Description:  nginx is an HTTP and reverse proxy server, as well as a mail proxy server,
  written by Igor Sysoev.
-
-Package: python-dnslib
-Version: 0.9.7-1
-Depends: libc, python-light, python-codecs, python-openssl, python-logging
-Source: feeds/shmilee/goagent/python-dnslib
-License: BSD
-LicenseFiles: LICENSE
-Section: lang
-Architecture: ar71xx
-Installed-Size: 39461
-Filename: python-dnslib_0.9.7-1_ar71xx.ipk
-Size: 40387
-MD5Sum: 5f59e5b8a4b0fe0cb4601914a5a18729
-SHA256sum: 048e3f5ea3b244a1c1faba0dc4849f33bb762013834461f1fa9b11d0abe4c5a5
-Description:  A library to encode/decode DNS wire-format packets supporting both
- Python 2.7 and Python 3.2+.
-
-Package: python-gevent
-Version: 1.0.2-1
-Depends: libc, python-greenlet, libevent2, librt
-Source: feeds/shmilee/goagent/python-gevent
-Section: language-python
-Architecture: ar71xx
-Installed-Size: 241507
-Filename: python-gevent_1.0.2-1_ar71xx.ipk
-Size: 241142
-MD5Sum: ca5aecc8569611c994d83e8b47447f8f
-SHA256sum: 54a7ebd84ca0125e37665e063458e2c31429e60d3dafe77822d4722034a491a7
-Description:  gevent is a coroutine-based Python networking library.
-
-Package: python-greenlet
-Version: 0.4.12-1
-Depends: libc, python-light
-Source: feeds/shmilee/goagent/python-greenlet
-License: MIT
-LicenseFiles: LICENSE
-Section: lang
-Maintainer: shmilee <shmilee.zju@gmail.com>
-Architecture: ar71xx
-Installed-Size: 10688
-Filename: python-greenlet_0.4.12-1_ar71xx.ipk
-Size: 11975
-MD5Sum: 50ba3214b530c6a99a288bfa65aff4ff
-SHA256sum: 0d8e5447c86c0fe3acd196bfe92c36cc9a48543240bf6add8378491cbeaeeaad
-Description:  The greenlet package is a spin-off of Stackless, a version of CPython
- that supports micro-threads called "tasklets". Tasklets run
- pseudo-concurrently (typically in a single or a few OS-level threads)
- and are synchronized with data exchanges on "channels".
- 
- A "greenlet", on the other hand, is a still more primitive notion of
- micro-thread with no implicit scheduling; coroutines, in other words.
- This is useful when you want to control exactly when your code runs.
- You can build custom scheduled micro-threads on top of greenlet; however,
- it seems that greenlets are useful on their own as a way to make advanced
- control flow structures. For example, we can recreate generators;
- the difference with Python's own generators is that our generators can
- call nested functions and the nested functions can yield values too.
- Additionally, you don't need a "yield" keyword. See the example in
- tests/test_generator.py.
- 
- Greenlets are provided as a C extension module for the regular
- unmodified interpreter.
- 
- Greenlets are lightweight coroutines for in-process concurrent programming.
-
-Package: python-pyopenssl
-Version: 0.13-1
-Depends: libc, python-light, libopenssl, python-ctypes
-Source: feeds/shmilee/goagent/python-pyopenssl
-Section: lang
-Maintainer: shmilee <shmilee.zju@gmail.com>
-Architecture: ar71xx
-Installed-Size: 86314
-Filename: python-pyopenssl_0.13-1_ar71xx.ipk
-Size: 86696
-MD5Sum: 4f141fa0381d3f57e3785a7b3c842055
-SHA256sum: 84f1d615b6207dc5f782365ddb19af7cdac820c7aaa835c403f98b8e72516da9
-Description:  Python interface to the OpenSSL library.
-
-Package: shadowsocks-libev
-Version: 3.1.1-1
-Depends: libc, zlib, libev, libcares, libpcre, libpthread, libsodium, libmbedtls
-Source: feeds/shmilee/shadowsocks/shadowsocks-libev
-License: GPLv3
-LicenseFiles: LICENSE
-Section: net
-Maintainer: Jian Chang <aa65535@live.com>
-Architecture: ar71xx
-Installed-Size: 146538
-Filename: shadowsocks-libev_3.1.1-1_ar71xx.ipk
-Size: 145892
-MD5Sum: 5724ea7416d8fa19704b1a7539aa4d47
-SHA256sum: 3ab1323becf2100febf07fc97da10153086eafddbf038616c7805edf23572141
-Description:  Shadowsocks-libev is a lightweight secured socks5 proxy for embedded devices and low end boxes.
-
-Package: shadowsocks-libev-server
-Version: 3.1.1-1
-Depends: libc, zlib, libev, libcares, libpcre, libpthread, libsodium, libmbedtls
-Source: feeds/shmilee/shadowsocks/shadowsocks-libev
-License: GPLv3
-LicenseFiles: LICENSE
-Section: net
-Maintainer: Jian Chang <aa65535@live.com>
-Architecture: ar71xx
-Installed-Size: 56169
-Filename: shadowsocks-libev-server_3.1.1-1_ar71xx.ipk
-Size: 56615
-MD5Sum: ae7e1e9c7f413755536d0d24e5d6323f
-SHA256sum: 0e67af03ea653e83e4243ac378a6473c65326828ec784529d654ffa2d98e915d
-Description:  Shadowsocks-libev is a lightweight secured socks5 proxy for embedded devices and low end boxes.
 
 Package: vlmcsd
 Version: svn1111-1
@@ -564,26 +246,10 @@ License: MIT
 LicenseFiles: LICENSE
 Section: net
 Maintainer: fuyumi <280604399@qq.com>
-Architecture: ar71xx
-Installed-Size: 50356
-Filename: vlmcsd_svn1111-1_ar71xx.ipk
-Size: 50640
-MD5Sum: d91235f0a6af7eac2846a16b57173e6b
-SHA256sum: 72f9270765eae4835084e4fe87e9917590b4994aa9fbc4dae2680ed24492c767
+Architecture: mips_24kc
+Installed-Size: 49131
+Filename: vlmcsd_svn1111-1_mips_24kc.ipk
+Size: 49746
+SHA256sum: 6322b6bd8e88686b0a37a0cceebc5ac41432577dde260729b193ede8880fdec5
 Description:  vlmcsd is a KMS Emulator in C.
-
-Package: yaaw
-Version: 2017-04-11-1
-Depends: libc
-Source: feeds/shmilee/aria2/yaaw
-License: LGPL-3.0
-Section: net
-Maintainer: Hsing-Wang Liao <kuoruan@gmail.com>
-Architecture: all
-Installed-Size: 126070
-Filename: yaaw_2017-04-11-1_all.ipk
-Size: 126982
-MD5Sum: bb24568be84d53bc1549d1528d1f3d64
-SHA256sum: d4fd06de909aa7b700ca133a45de82a02b89829273d473233709a446f5248c61
-Description:  Yet Another Aria2 Web Frontend in pure HTML/CSS/Javascirpt.
 

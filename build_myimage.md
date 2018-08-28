@@ -2,39 +2,32 @@
 
 ## 准备 Docker image
 
-* 依照 [OpenWrt-build-system-host](./OpenWrt-build-system-host/readme.md) 构建编译环境。
+* 依照 [OpenWrt-buildsystem](./openwrt-buildsystem/readme.md) 构建编译环境。
 
 ## 准备 ImageBuilder
 
-* 下载 [ImageBuilder](http://openwrt.proxy.ustclug.org/chaos_calmer/15.05.1/ar71xx/nand/OpenWrt-ImageBuilder-15.05.1-ar71xx-nand.Linux-x86_64.tar.bz2)
-* 检查MD5: 74af3f78e2d7d4fdc7d65c1ed21a6c78
-* 解压 -> `work/ImageBuilder-15.05.1-ar71xx-nand`
+* 下载 [ImageBuilder](http://openwrt.proxy.ustclug.org/releases/18.06.1/targets/ar71xx/nand/openwrt-imagebuilder-18.06.1-ar71xx-nand.Linux-x86_64.tar.xz)
+* 检查MD5, 解压 -> `work/imagebuilder-18.06.1-ar71xx-nand`
 
 ## 准备软件源
 
 * 用 mirror-tools 下载官方缓慢的源到本地位置,
-  如 `./mirror-tools/openwrt-ipks-15.05.1/ar71xx/nand`.
+  如 `./mirror-tools/{openwrt-18.06.1,openwrt-packages-18.06}`.
 
 * 依照 [build_mypackage](./build_mypackage.md) 编译软件包,
-  生成的 ipk 放到 `./mypackages`, 然后更新 `package_index`:
+  生成的 ipk, `package_index` 放到 `./mypackages`
 
-  ```
-  (cd ./mypackages && \
-    ../work/ImageBuilder-15.05.1-ar71xx-nand/scripts/ipkg-make-index.sh . > Packages && \
-    gzip -9c Packages > Packages.gz \
-  )
-  ```
-
-* 修改软件源 `work/ImageBuilder-15.05.1-ar71xx-nand/repositories.conf`.  
-  假设 `./mirror-tools/openwrt-ipks-15.05.1/ar71xx/nand` 对应 `/mnt`,  
+* 修改软件源 `work/imagebuilder-18.06.1-ar71xx-nand/repositories.conf`.  
+  假设 `./mirror-tools` 对应 `/mnt`,  
   `./mypackages` 对应 `/home/openwrt/mypackages` :
 
 ```shell
-src/gz chaos_calmer_base file:///mnt/packages/base
-src/gz chaos_calmer_luci file:///mnt/packages/luci
-src/gz chaos_calmer_packages file:///mnt/packages/packages
-src/gz chaos_calmer_routing file:///mnt/packages/routing
-src/gz chaos_calmer_management file:///mnt/packages/management
+src/gz openwrt_core file:///mnt/openwrt-18.06.1/targets/ar71xx/nand/packages
+src/gz openwrt_base file:///mnt/openwrt-packages-18.06/mips_24kc/base
+src/gz openwrt_luci file:///mnt/openwrt-packages-18.06/mips_24kc/luci
+src/gz openwrt_packages file:///mnt/openwrt-packages-18.06/mips_24kc/packages
+src/gz openwrt_routing file:///mnt/openwrt-packages-18.06/mips_24kc/routing
+src/gz openwrt_telephony file:///mnt/openwrt-packages-18.06/mips_24kc/telephony
 src/gz mypackages file:///home/openwrt/mypackages
 src imagebuilder file:packages
 ```
@@ -58,12 +51,12 @@ cd ../
 
 ```
 docker run --rm -i -t -u openwrt \
-    -w /home/openwrt/ImageBuilder \
-    -v $PWD/work/ImageBuilder-15.05.1-ar71xx-nand:/home/openwrt/ImageBuilder \
-    -v $PWD/mirror-tools/openwrt-ipks-15.05.1/ar71xx/nand:/mnt \
+    -w /home/openwrt/imagebuilder \
+    -v $PWD/work/imagebuilder-18.06.1-ar71xx-nand:/home/openwrt/imagebuilder \
+    -v $PWD/mirror-tools:/mnt \
     -v $PWD/mypackages:/home/openwrt/mypackages \
     -v $PWD/myfiles_for_image:/home/openwrt/myfiles_for_image \
-    shmilee/openwrt-sdk-host:15.05.1 /bin/bash
+    shmilee/openwrt-buildsystem:18.06.1 /bin/bash
 ```
 
 以下命令默认在 `container` 中运行.
@@ -71,7 +64,7 @@ docker run --rm -i -t -u openwrt \
 ## 128M flash
 
 ssh 登录路由查看官方固件的信息:
-[1](https://wiki.openwrt.org/doc/techref/flash.layout)
+[1](https://openwrt.org/docs/techref/flash.layout)
 
 ```shell
 ## firmware = kernel + ubi, kernel is 2048k
@@ -140,39 +133,39 @@ ubi=121856 #119M
 firmware=123904 #121M, 最大值
 ```
 
-修改 `/home/openwrt/ImageBuilder/target/linux/ar71xx/image/Makefile`.
+修改 `/home/openwrt/imagebuilder/target/linux/ar71xx/image/legacy.mk`.
 找到以 `wndr4300_mtdlayout` 开头的行, 尽量多的使用 128M nand flash.
 
 ```shell
 $ ubi=110592 #108M
 $ firmware=112640 #110M
-$ cd /home/openwrt/ImageBuilder/target/linux/ar71xx/image
-$ cp Makefile Makefile.bk
-$ sed -i "s/\(^wndr4300_mtdlayout.*\)23552k\(.ubi..\)25600k\(.*$\)/\1${ubi}k\2${firmware}k\3/" Makefile
-$ diff -u0 Makefile.bk Makefile
---- Makefile.bk	2017-12-18 05:25:16.000000000 +0000
-+++ Makefile	2017-12-18 05:25:26.000000000 +0000
-@@ -1010 +1010 @@
+$ cd /home/openwrt/imagebuilder/target/linux/ar71xx/image
+$ cp legacy.mk legacy.mk.bk
+$ sed -i "s/\(^wndr4300_mtdlayout.*\)23552k\(.ubi..\)25600k\(.*$\)/\1${ubi}k\2${firmware}k\3/" legacy.mk
+$ diff -u0 legacy.mk.bk legacy.mk
+--- legacy.mk.bk	2018-08-28 12:04:14.000000000 +0000
++++ legacy.mk	2018-08-28 12:04:21.000000000 +0000
+@@ -273 +273 @@
 -wndr4300_mtdlayout=mtdparts=ar934x-nfc:256k(u-boot)ro,256k(u-boot-env)ro,256k(caldata),512k(pot),2048k(language),512k(config),3072k(traffic_meter),2048k(kernel),23552k(ubi),25600k@0x6c0000(firmware),256k(caldata_backup),-(reserved)
 +wndr4300_mtdlayout=mtdparts=ar934x-nfc:256k(u-boot)ro,256k(u-boot-env)ro,256k(caldata),512k(pot),2048k(language),512k(config),3072k(traffic_meter),2048k(kernel),110592k(ubi),112640k@0x6c0000(firmware),256k(caldata_backup),-(reserved)
 ```
 
 ## PROFILE
 
-查看支持的 Profiles. NETGEAR WNDR3700v4/WNDR430 共用一个 Profile.
+查看 Profile `NETGEAR WNDR3700v4`.
 
 ```shell
-$ cd /home/openwrt/ImageBuilder/
+$ cd /home/openwrt/imagebuilder/
 $ make info
 Current Target: "ar71xx (Generic devices with NAND flash)"
 Default Packages: base-files libc libgcc busybox dropbear mtd uci opkg
-netifd fstools kmod-gpio-button-hotplug swconfig kmod-ath9k wpad-mini
-uboot-envtools dnsmasq iptables ip6tables ppp ppp-mod-pppoe
-kmod-nf-nathelper firewall odhcpd odhcp6c
+netifd fstools uclient-fetch logd kmod-gpio-button-hotplug swconfig
+kmod-ath9k wpad-mini uboot-envtools dnsmasq iptables ip6tables
+ppp ppp-mod-pppoe firewall odhcpd-ipv6only odhcp6c
 
-WNDR4300:
-	NETGEAR WNDR3700v4/WNDR4300
-	Packages: kmod-usb-core kmod-usb-ohci kmod-usb2 kmod-ledtrig-usbdev
+WNDR3700V4:
+    NETGEAR WNDR3700v4
+    Packages: kmod-usb-core kmod-usb2 kmod-usb-ledtrig-usbport
 ```
 
 ## PACKAGES
@@ -206,24 +199,29 @@ zjuvpn_ipks=(
     xl2tpd
     )
 other_ipks=(
+    aria2
+    ariang
+    autossh
     ca-certificates # for aria2 verify https
     htop
     iftop
     ip
-    openssh-client
-    #sshfs
+    nfs-kernel-server-utils # cmd: nfsstat showmount
+    #openssh-client # conflict: dropbear, /usr/bin/ssh -> /sbin/dropbear
+    shadowsocks-libev-ss-{server,redir,tunnel,rules,local} luci-app-shadowsocks-libev
     shadow-su
     shadow-useradd
     ss
-    nfs-kernel-server-utils # cmd: nfsstat showmount
+    #sshfs
+    #yaaw
     )
 ```
 
 添加 USB 存储。
 
-> 关于 [block-mount](https://wiki.openwrt.org/doc/techref/block_mount)
+> 关于 [block-mount](https://openwrt.org/docs/techref/block_mount)
 
-> `block-mount_2016-01-10-96415af` `block info` 可以检测到的[文件系统](http://git.openwrt.org/?p=project/fstools.git;a=tree;f=libblkid-tiny;h=ccdd3a9887552b83cc2e1749bea25356ad78fe0a;hb=96415afecef35766332067f4205ef3b2c7561d21)
+> `block-mount_2018-04-16-e2436836-1` `block info` 可以检测到的[文件系统](https://git.openwrt.org/?p=project/fstools.git;a=tree;f=libblkid-tiny;h=7d5e866db06868f42568fb0dbdc8431f2ca91976;hb=e24368361db166cf369a19cea773bd54f9d854b1)
 
 ```shell
 usb_ipks=(
@@ -247,17 +245,12 @@ usb_ipks=(
 
 ```shell
 my_ipks=(
-    autossh luci-app-autossh luci-i18n-autossh-zh-cn
-    nginx
-    aria2 luci-app-aria2 luci-i18n-aria2-zh-cn
-    ariang
-    #yaaw
-    vlmcsd luci-app-vlmcsd
-    miredo-client miredo-server
-    shadowsocks-libev luci-app-shadowsocks
     adbyby luci-app-adbyby-plus luci-i18n-adbyby-plus-zh-cn
-    goagent-client
     #frpc frps
+    vlmcsd luci-app-vlmcsd
+    nginx
+    luci-app-aria2 luci-i18n-aria2-zh-cn
+    luci-app-autossh luci-i18n-autossh-zh-cn
     luci-app-nfs luci-i18n-nfs-zh-cn
 )
 ```
@@ -266,18 +259,18 @@ my_ipks=(
 ## 编译
 
 ```shell
-$ cd /home/openwrt/ImageBuilder/
+$ cd /home/openwrt/imagebuilder/
 $ make image \
-  PROFILE=WNDR4300 \
+  PROFILE=WNDR3700V4 \
   PACKAGES="$(echo\
     ${replace_ipks[@]}\
     ${luci_ipks[@]}\
     ${zjuvpn_ipks[@]}\
-    ${usb_ipks[@]}\
     ${other_ipks[@]}\
+    ${usb_ipks[@]}\
     ${my_ipks[@]})" \
   FILES="/home/openwrt/myfiles_for_image"
 ```
 
-生成的镜像位置 `/home/openwrt/ImageBuilder/bin/ar71xx/`,
-文件名 `openwrt-15.05.1-ar71xx-nand-wndr3700v4-ubi-factory.img`.
+生成的镜像位置 `/home/openwrt/imagebuilder/bin/targets/ar71xx/nand/`,
+文件名 `openwrt-18.06.1-ar71xx-nand-wndr3700v4-ubi-factory.img`.

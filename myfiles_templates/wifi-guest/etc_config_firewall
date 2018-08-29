@@ -1,29 +1,29 @@
 
 config zone
-	option name 'guest'
-	option network 'guest'
-	option input 'ACCEPT'
-	option forward 'REJECT'
-	option output 'ACCEPT'
+	option name guest
+	list   network 'guest'
+	option input ACCEPT
+	option forward REJECT
+	option output ACCEPT
 	option mtu_fix	1
 
 config forwarding
-	option src 'guest'
-	option dest 'wan'
+	option src guest
+	option dest wan
 
 config rule                             
-	option name 'SSHGuest' 
-	option src 'guest'    
+	option name SSHGuest
+	option src guest
 	option dest_ip '192.168.1.1'
-	option dest_port '22' 
-	option proto 'tcp'     
-	option target 'REJECT'
+	option dest_port 22
+	option proto tcp
+	option target REJECT
 
 config rule                   
-	option name 'LuCIGuest'
-	option src 'guest'    
+	option name LuCIGuest
+	option src guest
 	option dest_ip '192.168.1.1'
-	option dest_port '180'        
-	option proto 'tcpudp'
-	option target 'REJECT'
+	option dest_port 180
+	option proto tcpudp
+	option target REJECT
 

@@ -93,8 +93,8 @@ config interface 'zjuvpn'
 ])
 
 all_myfiles['etc/config/firewall'].extend([
-    ('REPLACE', ("option network		'wan wan6'",
-                 "option network		'wan wan6 zjuvpn'")),
+    ('REPLACE', ("\tlist   network\t\t'wan'\n\tlist   network\t\t'wan6'",
+                 "\tlist   network\t\t'wan'\n\tlist   network\t\t'wan6'\n\tlist   network\t\t'zjuvpn'")),
 ])
 
 # enable 5G WiFi

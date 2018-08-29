@@ -1,2 +1,3 @@
-16c9d9c9d6502c6701504474e68f98ca  openwrt-15.05.1-ar71xx-nand-wndr3700v4-ubi-factory-20170112-with-myfiles.img
-1fee7e6ac20db1a134698de756dd20d4  openwrt-15.05.1-ar71xx-nand-wndr3700v4-ubi-factory-20180114-with-myfiles.img
+7d2927833cc93e5c676853dc128e6fa6437bdc091773c25eb43ee2360e607182  openwrt-15.05.1-ar71xx-nand-wndr3700v4-ubi-factory-20170112-with-myfiles.img
+60a707d21804a2957e05b825de56d3d139d75d5ddc161127c17f1c6bf75c4d23  openwrt-15.05.1-ar71xx-nand-wndr3700v4-ubi-factory-20180114-with-myfiles.img
+1d622c54ce9d5611b1e66e51cfbe0a29cb8ec32dde7998dcec45bf1853258ea2  openwrt-18.06.1-ar71xx-nand-wndr3700v4-ubi-factory-20180829-with-myfiles.img

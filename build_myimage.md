@@ -178,42 +178,39 @@ replace_ipks=(
     dnsmasq-full
 )
 luci_ipks=(
-    luci luci-i18n-base-zh-cn luci-i18n-firewall-zh-cn
-    luci-app-ddns luci-i18n-ddns-zh-cn
-    #luci-app-minidlna luci-i18n-minidlna-zh-cn
-    #luci-app-privoxy luci-i18n-privoxy-zh-cn
-    luci-app-qos luci-i18n-qos-zh-cn
-    luci-app-samba luci-i18n-samba-zh-cn
-    luci-app-sqm
-    luci-app-statistics luci-i18n-statistics-zh-cn
-    #luci-app-tinyproxy  luci-i18n-tinyproxy-zh-cn
-    luci-app-transmission luci-i18n-transmission-zh-cn
-    #luci-app-upnp luci-i18n-upnp-zh-cn
-    luci-app-watchcat luci-i18n-watchcat-zh-cn
-    luci-app-wol luci-i18n-wol-zh-cn
-    )
+    luci
+    luci-i18n-base-zh-cn
+    luci-i18n-firewall-zh-cn
+)
 zjuvpn_ipks=(
     kmod-l2tp
     kmod-pppol2tp
     ppp-mod-pppol2tp
     xl2tpd
-    )
+)
 other_ipks=(
-    aria2
-    ariang
-    autossh
-    ca-certificates # for aria2 verify https
-    htop
-    iftop
-    ip
-    nfs-kernel-server-utils # cmd: nfsstat showmount
-    #openssh-client # conflict: dropbear, /usr/bin/ssh -> /sbin/dropbear
-    shadowsocks-libev-ss-{server,redir,tunnel,rules,local} luci-app-shadowsocks-libev
-    shadow-su
-    shadow-useradd
-    ss
-    #sshfs
+    htop iftop ip shadow-su shadow-useradd ss
+    luci-app-ddns luci-i18n-ddns-zh-cn
+    luci-app-qos luci-i18n-qos-zh-cn
+    luci-app-samba luci-i18n-samba-zh-cn
+    luci-app-sqm
+    luci-app-statistics luci-i18n-statistics-zh-cn
+    luci-app-watchcat luci-i18n-watchcat-zh-cn
+    luci-app-wol luci-i18n-wol-zh-cn
+    #luci-app-privoxy luci-i18n-privoxy-zh-cn
+    #luci-app-tinyproxy  luci-i18n-tinyproxy-zh-cn
+    #luci-app-minidlna luci-i18n-minidlna-zh-cn
+    #luci-app-upnp luci-i18n-upnp-zh-cn
+    aria2 ariang
     #yaaw
+    ca-certificates # for aria2 verify https
+    transmission-daemon-mbedtls transmission-web
+    luci-app-transmission luci-i18n-transmission-zh-cn
+    autossh
+    #sshfs
+    #openssh-client # conflict: dropbear, /usr/bin/ssh -> /sbin/dropbear
+    nfs-kernel-server-utils # cmd: nfsstat showmount
+    shadowsocks-libev-ss-{server,redir,tunnel,rules,local} luci-app-shadowsocks-libev
     )
 ```
 

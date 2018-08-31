@@ -12,3 +12,27 @@ config timeserver ntp
 	list server	3.openwrt.pool.ntp.org
 	option enabled 1
 	option enable_server 0
+
+config led
+	option name 'USB'
+	option sysfs 'netgear:green:usb'
+	option trigger 'usbport'
+	list port 'usb1-port1'
+
+config led
+	option name 'WAN'
+	option sysfs 'netgear:green:wan'
+	option trigger 'netdev'
+	option dev 'eth0.2'
+	option mode 'rx'
+
+config led
+	option name 'WLAN2G'
+	option sysfs 'netgear:green:wlan2g'
+	option trigger 'phy0tpt'
+
+config led
+	option name 'WLAN5G'
+	option sysfs 'netgear:blue:wlan5g'
+	option trigger 'phy1tpt'
+

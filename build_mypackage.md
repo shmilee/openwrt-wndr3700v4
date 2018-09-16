@@ -37,6 +37,13 @@
    make package/adbyby/compile V=sw
    ```
 
+2. `radvd`, `radvd_2.17-1_mips_24kc.ipk`, `radvdump_2.17-1_mips_24kc.ipk`
+
+   ```shell
+   ./scripts/feeds install -p shmilee radvd
+   make package/radvd/compile V=sw
+   ```
+
 2. `frp`, `frpc_0.21.0-1_mips_24kc.ipk`, `frps_0.21.0-1_mips_24kc.ipk`
 
    ```shell

@@ -238,6 +238,40 @@ SHA256sum: 85cb0806d036723c6c43f5e57173fcabc82089246cc1b69a1031cfe54d55f559
 Description:  nginx is an HTTP and reverse proxy server, as well as a mail proxy server,
  written by Igor Sysoev.
 
+Package: radvd
+Version: 2.17-1
+Depends: libc, libdaemon
+Source: feeds/shmilee/ipv6/radvd
+License: GPL-2.0
+Section: net
+Maintainer: QshenX <q@xd8.cn>
+Architecture: mips_24kc
+Installed-Size: 37086
+Filename: radvd_2.17-1_mips_24kc.ipk
+Size: 37944
+SHA256sum: 8e11018e857ab28cdcd85dc3329c17f494efe8c16b80cf385dd39557822a6d50
+Description:  radvd is the router advertisement daemon for IPv6. It listens to router
+ solicitations and sends router advertisements as described in "Neighbor
+ Discovery for IP Version 6 (IPv6)" (RFC 4861).  With these advertisements hosts
+ can automatically configure their addresses and some other parameters. They also
+ can choose a default router based on these advertisements.
+
+Package: radvdump
+Version: 2.17-1
+Depends: libc, libdaemon
+Source: feeds/shmilee/ipv6/radvd
+License: GPL-2.0
+Section: net
+Maintainer: QshenX <q@xd8.cn>
+Architecture: mips_24kc
+Installed-Size: 6801
+Filename: radvdump_2.17-1_mips_24kc.ipk
+Size: 7637
+SHA256sum: 96070443584cfcfc1fd074b732844bd5e1e2ba0ca20a549d20532bb1809b39a0
+Description:  radvdump prints out the contents of incoming router advertisements sent by radvd
+ or some other software implementing (parts of) "Neighbor Discovery for IP
+ Version 6 (IPv6)" (RFC 4861).
+
 Package: vlmcsd
 Version: svn1111-1
 Depends: libc, libpthread

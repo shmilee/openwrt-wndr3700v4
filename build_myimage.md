@@ -189,7 +189,7 @@ zjuvpn_ipks=(
     xl2tpd
 )
 other_ipks=(
-    htop iftop ip shadow-su shadow-useradd ss
+    htop iftop ip kmod-sit shadow-su shadow-useradd ss
     luci-app-ddns luci-i18n-ddns-zh-cn
     luci-app-qos luci-i18n-qos-zh-cn
     luci-app-samba luci-i18n-samba-zh-cn
@@ -211,7 +211,12 @@ other_ipks=(
     #openssh-client # conflict: dropbear, /usr/bin/ssh -> /sbin/dropbear
     nfs-kernel-server-utils # cmd: nfsstat showmount
     shadowsocks-libev-ss-{server,redir,tunnel,rules,local} luci-app-shadowsocks-libev
-    )
+)
+conflict_ipks=(
+    # /usr/bin/scp /usr/bin/ssh provided by dropbear(link) and openssh-client(binary)
+    # binary overwrite link, put dropbear before openssh-client
+    dropbear openssh-client
+)
 ```
 
 添加 USB 存储。
@@ -235,7 +240,7 @@ usb_ipks=(
     # `block info` cannot detect reiserfs, ntfs
     #kmod-fs-reiserfs kmod-fs-ntfs ntfs-3g
     luci-app-hd-idle luci-i18n-hd-idle-zh-cn
-    )
+)
 ```
 
 添加自己编译的 mypackages.
@@ -243,6 +248,7 @@ usb_ipks=(
 ```shell
 my_ipks=(
     adbyby luci-app-adbyby-plus luci-i18n-adbyby-plus-zh-cn
+    radvd
     #frpc frps
     vlmcsd luci-app-vlmcsd
     nginx
@@ -264,6 +270,7 @@ $ make image \
     ${luci_ipks[@]}\
     ${zjuvpn_ipks[@]}\
     ${other_ipks[@]}\
+    ${conflict_ipks[@]}\
     ${usb_ipks[@]}\
     ${my_ipks[@]})" \
   FILES="/home/openwrt/myfiles_for_image"

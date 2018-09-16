@@ -24,7 +24,7 @@ WNDR3700v4-18.06.1
 ==================
 
 固件: 按 [build_myimage.md](./build_myimage.md) 编译,
-当前版本 `openwrt-18.06.1-ar71xx-nand-wndr3700v4-ubi-factory-20180829-with-myfiles.img`.
+当前版本 `openwrt-18.06.1-ar71xx-nand-wndr3700v4-ubi-factory-20180916-with-myfiles.img`.
 
 Installation via serial console and TFTP
 ========================================
@@ -34,7 +34,7 @@ Reset, 直到电源灯由 **橙色闪烁** 变到 **绿色闪烁**.
 ```shell
 [$] tftp 192.168.1.1
 tftp> mode binary
-tftp> put openwrt-18.06.1-ar71xx-nand-wndr3700v4-ubi-factory-20180829-with-myfiles.img
+tftp> put openwrt-18.06.1-ar71xx-nand-wndr3700v4-ubi-factory-20180916-with-myfiles.img
 tftp> quit
 ```
 

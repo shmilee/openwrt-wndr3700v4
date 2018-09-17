@@ -45,9 +45,29 @@ tftp> quit
 
 * 更换 zjuvpn 密码, `'/etc/config/network'`, `config interface 'zjuvpn'`
 
+* FIX: 连接 zjuvpn 后, LAN 无法访问外网, 原因是 `adbyby` 添加的防火墙
+
+  `/etc/config/firewall`
+  ```
+  #config include 'adbyby'
+  #       option type 'script'
+  #       option path '/usr/share/adbyby/firewall.include'
+  #       option reload '1' 
+  ```
+
+* FIX: LAN 无法获取校园 ipv6 地址
+
+  `/etc/config/dhcp`
+  ```
+  config dhcp 'lan'  
+        ......
+        option dhcpv6 'hybrid'
+        option ra 'hybrid'
+  ```
+
 * 5G启用，必须 **断电重启** 一次。
 
-* 禁用暂时不用的启动项 shadowsocks, ddns, adbyby, transmission
+* 禁用暂时不用的启动项 shadowsocks, ddns, transmission
 
 * ~~添加 user shmilee~~
 

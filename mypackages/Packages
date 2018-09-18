@@ -231,10 +231,10 @@ License: 2-clause BSD-like license
 Section: net
 Maintainer: Thomas Heil <heil@terminal-consulting.de>
 Architecture: mips_24kc
-Installed-Size: 251322
+Installed-Size: 258323
 Filename: nginx_1.12.2-1_mips_24kc.ipk
-Size: 248985
-SHA256sum: 85cb0806d036723c6c43f5e57173fcabc82089246cc1b69a1031cfe54d55f559
+Size: 256995
+SHA256sum: 2a8c4f3def7a46952416e9f57401fc5e574a32cfa5adfb693ca43d6787d0c2ea
 Description:  nginx is an HTTP and reverse proxy server, as well as a mail proxy server,
  written by Igor Sysoev.
 

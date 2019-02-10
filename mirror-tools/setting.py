@@ -35,6 +35,10 @@ target_18061_ar71_nand = dict(
     DISTRIB_RELEASE="18.06.1",
     DISTRIB_TARGET="ar71xx/nand",
 )
+target_18062_ar71_nand = dict(
+    DISTRIB_RELEASE="18.06.2",
+    DISTRIB_TARGET="ar71xx/nand",
+)
 target_snapshot_ar71_nand = dict(
     DISTRIB_RELEASE='SNAPSHOT',
     DISTRIB_TARGET="ar71xx/nand",
@@ -74,7 +78,8 @@ package_snapshot_mipsel_24kc = dict(
 
 # 6. profile setting
 PROFILE = (
-    target_18061_ar71_nand
+    # target_18061_ar71_nand
+    target_18062_ar71_nand
     # target_snapshot_ar71_nand
     # target_18061_ramips_mt7621
     # target_snapshot_ramips_mt7621

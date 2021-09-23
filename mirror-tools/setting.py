@@ -3,10 +3,10 @@
 
 # 1. set download site, mirror
 # URL = 'http://downloads.openwrt.org'
-URL = 'http://openwrt.proxy.ustclug.org'
+URL = 'https://openwrt.proxy.ustclug.org'
 
 # 2. set processes number, 2-50
-PSIZE = 20
+PSIZE = 10
 
 # 3. arguments that ``requests.request`` takes
 REQUESTS_KWARGS = dict(
@@ -31,44 +31,32 @@ USIGN_CMD = './db_sign/usign 2>/dev/null -V -P ./db_sign/keys -m'
 
 # 5. Profiles lib
 # target: wndr3700v4
-target_18061_ar71_nand = dict(
-    DISTRIB_RELEASE="18.06.1",
+target_19078_ar71_nand = dict(
+    DISTRIB_RELEASE="19.07.8",
     DISTRIB_TARGET="ar71xx/nand",
-)
-target_18062_ar71_nand = dict(
-    DISTRIB_RELEASE="18.06.2",
-    DISTRIB_TARGET="ar71xx/nand",
-)
-target_snapshot_ar71_nand = dict(
-    DISTRIB_RELEASE='SNAPSHOT',
-    DISTRIB_TARGET="ar71xx/nand",
-    IPK_GROUPS=('packages', 'kmods/4.9.123-1-8ee2c7970138017a6e1d590f95efbe9a'),
+    IPK_GROUPS=('packages', 'kmods/4.14.241-1-3487e40b92bc4840fe01ec6a7fc6943b'),
 )
 
 # target: Xiaomi MiWiFi 3G
-target_18061_ramips_mt7621 = dict(
-    DISTRIB_RELEASE="18.06.1",
+target_19078_ramips_mt7621 = dict(
+    DISTRIB_RELEASE="19.07.8",
     DISTRIB_TARGET="ramips/mt7621",
 )
 target_snapshot_ramips_mt7621 = dict(
     DISTRIB_RELEASE='SNAPSHOT',
     DISTRIB_TARGET="ramips/mt7621",
-    IPK_GROUPS=('packages', 'kmods/4.14.66-1-7a4dbe7f80f82ec05db7580bfb4f88f8'),
+    IPK_GROUPS=('packages', 'kmods/5.4.145-1-d6d5de3c167390941111dd2f1af5df2c'),
 )
 
 # package: wndr3700v4 etc
-package_1806_mips_24kc = dict(
-    DISTRIB_RELEASE="18.06",
-    DISTRIB_ARCH="mips_24kc",
-)
-package_snapshot_mips_24kc = dict(
-    DISTRIB_RELEASE='SNAPSHOT',
+package_1907_mips_24kc = dict(
+    DISTRIB_RELEASE="19.07",
     DISTRIB_ARCH="mips_24kc",
 )
 
 # package: Xiaomi MiWiFi 3G etc
-package_1806_mipsel_24kc = dict(
-    DISTRIB_RELEASE="18.06",
+package_1907_mipsel_24kc = dict(
+    DISTRIB_RELEASE="19.07",
     DISTRIB_ARCH="mipsel_24kc",
 )
 package_snapshot_mipsel_24kc = dict(
@@ -78,14 +66,11 @@ package_snapshot_mipsel_24kc = dict(
 
 # 6. profile setting
 PROFILE = (
-    # target_18061_ar71_nand
-    target_18062_ar71_nand
-    # target_snapshot_ar71_nand
-    # target_18061_ramips_mt7621
+    #target_19078_ar71_nand
+    # target_19078_ramips_mt7621
     # target_snapshot_ramips_mt7621
-    # package_1806_mips_24kc
-    # package_snapshot_mips_24kc
-    # package_1806_mipsel_24kc
+     package_1907_mips_24kc
+    # package_1907_mipsel_24kc
     # package_snapshot_mipsel_24kc
     # etc
 )

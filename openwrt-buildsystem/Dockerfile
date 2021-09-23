@@ -26,6 +26,7 @@ RUN echo "$TIMEZONE" > /etc/timezone \
         libncursesw5-dev libssl-dev python python2.7-dev python3 unzip wget \
         python3-distutils python3-setuptools python3-dev rsync subversion \
         swig time xsltproc zlib1g-dev \
+        bzip2 sudo \
  && apt-get remove -y \
         manpages manpages-dev \
         krb5-locales locales \

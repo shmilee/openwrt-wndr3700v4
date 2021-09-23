@@ -1,240 +1,163 @@
 Package: adbyby
-Version: 2.7-20180616
+Version: 2.7-20200315
 Depends: libc
 Source: feeds/shmilee/adbyby/adbyby
+SourceName: adbyby
 Section: net
 Architecture: mips_24kc
-Installed-Size: 689322
-Filename: adbyby_2.7-20180616_mips_24kc.ipk
-Size: 689150
-SHA256sum: 6550a99fafbd68639e9e3ae67bcfd92eb76ebe5aa527026a8ff0a234656c7d74
+Installed-Size: 401953
+Filename: adbyby_2.7-20200315_mips_24kc.ipk
+Size: 402674
+SHA256sum: 6d3cf02b1aea9cd04107888a99acd1275b845aba591a767dcf50277b8ee40cbf
 Description:  Adbyby is a powerful adblock module to block ad,just like adblock.
 
 Package: frpc
-Version: 0.21.0-1
+Version: 0.37.1-1
 Depends: libc
 Source: feeds/shmilee/tunnel/frp
+SourceName: frpc
 License: Apache-2.0
 LicenseFiles: LICENCE
 Section: net
 Maintainer: shmilee <shmilee.zju@gmail.com>
 Architecture: mips_24kc
-Installed-Size: 2536136
-Filename: frpc_0.21.0-1_mips_24kc.ipk
-Size: 2529768
-SHA256sum: 9d7452939648ec7858ad4e53ed6f4e7d1f1a7c669bb3c1bf2f141be1be6e4b9a
-Description:  frp is a fast reverse proxy to help you expose a local server behind a NAT
- or firewall to the internet. Now, it supports tcp, udp, http and https
- protocol when requests can be forwarded by domains to backward web services.
- This package contains the frp client.
+Installed-Size: 3589592
+Filename: frpc_0.37.1-1_mips_24kc.ipk
+Size: 3583238
+SHA256sum: 6e0d5eba775bcf4e713fca7fd5115cebf0d5629202ddb006c20ef77e80db4ff7
+Description:  frp is a fast reverse proxy to help you expose a local server behind
+ a NAT or firewall to the internet.
 
 Package: frps
-Version: 0.21.0-1
+Version: 0.37.1-1
 Depends: libc
 Source: feeds/shmilee/tunnel/frp
+SourceName: frps
 License: Apache-2.0
 LicenseFiles: LICENCE
 Section: net
 Maintainer: shmilee <shmilee.zju@gmail.com>
 Architecture: mips_24kc
-Installed-Size: 2967730
-Filename: frps_0.21.0-1_mips_24kc.ipk
-Size: 2960586
-SHA256sum: 12d9629d34c57084d38c5d6f2f9d895617a70b406575101007351d0f1cf02605
-Description:  frp is a fast reverse proxy to help you expose a local server behind a NAT
- or firewall to the internet. Now, it supports tcp, udp, http and https
- protocol when requests can be forwarded by domains to backward web services.
- This package contains the frp server.
+Installed-Size: 4492340
+Filename: frps_0.37.1-1_mips_24kc.ipk
+Size: 4484772
+SHA256sum: 7a50a8d346c35cd466bbcaa2b257032aa3c4258946ee9f78a8935df6877de313
+Description:  frp is a fast reverse proxy to help you expose a local server behind
+ a NAT or firewall to the internet.
 
 Package: luci-app-adbyby-plus
-Version: 2.0-29
-Depends: libc, adbyby, wget, ipset, coreutils, coreutils-nohup, dnsmasq-full
+Version: 2.0-75
+Depends: libc, adbyby, uclient-fetch, ipset, dnsmasq-full
 Source: feeds/shmilee/adbyby/luci-app-adbyby-plus
+SourceName: luci-app-adbyby-plus
 Section: luci
 Architecture: all
-Installed-Size: 15812
-Filename: luci-app-adbyby-plus_2.0-29_all.ipk
-Size: 16553
-SHA256sum: 11ccd2a9f4f7f9d28323aecf0b9ca83ed1ae4cd5aa4079bf623733682eced9e0
+Installed-Size: 9701
+Filename: luci-app-adbyby-plus_2.0-75_all.ipk
+Size: 10536
+SHA256sum: 46d439ee184ec0cec38ef12c38e8bcf31bf8ee7fc8f18c02fd420d0efc559802
 Description:  LuCI support for Adbyby
-
-Package: luci-app-aria2
-Version: 1.0.1-2
-Depends: libc, aria2
-Source: feeds/shmilee/aria2/luci-app-aria2
-License: Apache-2.0
-Section: luci
-Maintainer: Hsing-Wang Liao <kuoruan@gmail.com>
-Architecture: all
-Installed-Size: 4294
-Filename: luci-app-aria2_1.0.1-2_all.ipk
-Size: 5061
-SHA256sum: c98d5e8b001354c3fbaf0b3a9f6aedfe9fd10cc9f64bc3ac173ac8a52f8bb825
-Description:  LuCI Support for Aria2
 
 Package: luci-app-autossh
 Version: 1.0.0-1
 Depends: libc, autossh
 Source: feeds/shmilee/autossh/luci-app-autossh
+SourceName: luci-app-autossh
 License: Apache-2.0
 Section: luci
 Maintainer: shmilee <shmilee.zju@gmail.com>
 Architecture: all
-Installed-Size: 927
+Installed-Size: 926
 Filename: luci-app-autossh_1.0.0-1_all.ipk
-Size: 1727
-SHA256sum: 313547191ec44bae228a4f6f8329c8d562bae08056f7b8e2df473c0008cdbada
+Size: 1779
+SHA256sum: be1a269dfe0c5f6c79bc148bb2ad4c6f19a82c4e87baf3054f4071022c4c3991
 Description:  LuCI Support for autossh
 
 Package: luci-app-nfs
 Version: 1.0.0-2
 Depends: libc, nfs-kernel-server
 Source: feeds/shmilee/fs/luci-app-nfs
+SourceName: luci-app-nfs
 Section: luci
 Maintainer: shmilee
 Architecture: all
-Installed-Size: 3349
+Installed-Size: 3348
 Filename: luci-app-nfs_1.0.0-2_all.ipk
-Size: 4084
-SHA256sum: cf767bd4a30a0e6828ee1d5f4a0a6871b966d3b7ff8ecc99cf83b3816ed5ac51
+Size: 4141
+SHA256sum: 8368bfff4dc3cef7b5f61ab537792acf718efcdd50b39eea3180641f7810c640
 Description:  LuCI Support for NFS
 
 Package: luci-app-vlmcsd
 Version: 1.0.1-1
 Depends: libc, vlmcsd
 Source: feeds/shmilee/vlmcsd/luci-app-vlmcsd
+SourceName: luci-app-vlmcsd
 License: MIT
 LicenseFiles: LICENSE
 Section: luci
 Maintainer: fuyumi
 Architecture: all
-Installed-Size: 1625
+Installed-Size: 1627
 Filename: luci-app-vlmcsd_1.0.1-1_all.ipk
-Size: 2478
-SHA256sum: 4583b87a7da13ed21c069adcf1ad5f651b161de7b8b9b573dd370fc1d4e1144d
+Size: 2488
+SHA256sum: 6ca91a55ae5c6207b28dbcd05ea98d169f9ee0cba4876086df1deefe14a110c7
 Description:  This package contains LuCI configuration pages for openwrt-vlmcsd.
 
 Package: luci-i18n-adbyby-plus-zh-cn
-Version: 2.0-29
+Version: 2.0-75
 Depends: libc, luci-app-adbyby-plus
 Source: feeds/shmilee/adbyby/luci-app-adbyby-plus
+SourceName: luci-i18n-adbyby-plus-zh-cn
 Section: luci
 Architecture: all
-Installed-Size: 2006
-Filename: luci-i18n-adbyby-plus-zh-cn_2.0-29_all.ipk
-Size: 2800
-SHA256sum: 8c852baec820558a10cab1d35f2b16f3723cd1e494a71ba3af4b4b0a4194af76
-Description:  Translation for luci-app-adbyby-plus - 中文 (Chinese)
-
-Package: luci-i18n-aria2-pt-br
-Version: 1.0.1-2
-Depends: libc, luci-app-aria2
-Source: feeds/shmilee/aria2/luci-app-aria2
-License: Apache-2.0
-Section: luci
-Maintainer: Hsing-Wang Liao <kuoruan@gmail.com>
-Architecture: all
-Installed-Size: 2336
-Filename: luci-i18n-aria2-pt-br_1.0.1-2_all.ipk
-Size: 3178
-SHA256sum: 5cb82650b0dbb05f5cf12aae74fe58941cf7cd7756bc8e1fa45d153196090e25
-Description:  Translation for luci-app-aria2 - Português do Brasil (Brazialian Portuguese)
-
-Package: luci-i18n-aria2-ru
-Version: 1.0.1-2
-Depends: libc, luci-app-aria2
-Source: feeds/shmilee/aria2/luci-app-aria2
-License: Apache-2.0
-Section: luci
-Maintainer: Hsing-Wang Liao <kuoruan@gmail.com>
-Architecture: all
-Installed-Size: 2648
-Filename: luci-i18n-aria2-ru_1.0.1-2_all.ipk
-Size: 3464
-SHA256sum: 19f4d65872db035720ae02d96d1b80e19252514b2290b5b4d40ef1ef84a65990
-Description:  Translation for luci-app-aria2 - Русский (Russian)
-
-Package: luci-i18n-aria2-sv
-Version: 1.0.1-2
-Depends: libc, luci-app-aria2
-Source: feeds/shmilee/aria2/luci-app-aria2
-License: Apache-2.0
-Section: luci
-Maintainer: Hsing-Wang Liao <kuoruan@gmail.com>
-Architecture: all
-Installed-Size: 1664
-Filename: luci-i18n-aria2-sv_1.0.1-2_all.ipk
-Size: 2481
-SHA256sum: 3a78cbf92646b74fc3c7175b4cb43a75953810e1c7e083f0f2787f1d2d125abf
-Description:  Translation for luci-app-aria2 - Svenska (Swedish)
-
-Package: luci-i18n-aria2-zh-cn
-Version: 1.0.1-2
-Depends: libc, luci-app-aria2
-Source: feeds/shmilee/aria2/luci-app-aria2
-License: Apache-2.0
-Section: luci
-Maintainer: Hsing-Wang Liao <kuoruan@gmail.com>
-Architecture: all
-Installed-Size: 2123
-Filename: luci-i18n-aria2-zh-cn_1.0.1-2_all.ipk
-Size: 2958
-SHA256sum: d7b0f76ee8c19853413bbe4ea0f3f1c8aa63b36c5e38c943855a071f9041d145
-Description:  Translation for luci-app-aria2 - 中文 (Chinese)
-
-Package: luci-i18n-aria2-zh-tw
-Version: 1.0.1-2
-Depends: libc, luci-app-aria2
-Source: feeds/shmilee/aria2/luci-app-aria2
-License: Apache-2.0
-Section: luci
-Maintainer: Hsing-Wang Liao <kuoruan@gmail.com>
-Architecture: all
-Installed-Size: 2136
-Filename: luci-i18n-aria2-zh-tw_1.0.1-2_all.ipk
-Size: 2981
-SHA256sum: cef9b47e08db5e1728a5df66abf62e4d8f3ff2862054795cc42b27dcb2225741
-Description:  Translation for luci-app-aria2 - 臺灣華語 (Taiwanese)
+Installed-Size: 2269
+Filename: luci-i18n-adbyby-plus-zh-cn_2.0-75_all.ipk
+Size: 3037
+SHA256sum: e8b4273bd2cfcef4a3bfd42232477924ee783eec636b159467cecebc53ccee37
+Description:  Translation for luci-app-adbyby-plus - 
 
 Package: luci-i18n-autossh-zh-cn
 Version: 1.0.0-1
 Depends: libc, luci-app-autossh
 Source: feeds/shmilee/autossh/luci-app-autossh
+SourceName: luci-i18n-autossh-zh-cn
 License: Apache-2.0
 Section: luci
 Maintainer: shmilee <shmilee.zju@gmail.com>
 Architecture: all
-Installed-Size: 571
+Installed-Size: 521
 Filename: luci-i18n-autossh-zh-cn_1.0.0-1_all.ipk
-Size: 1384
-SHA256sum: 3d5a347ab4d8c55243d48e809ba0d465b25d0f1aa4960182931024611edb75d0
-Description:  Translation for luci-app-autossh - 中文 (Chinese)
+Size: 1323
+SHA256sum: 5ed7a6ef2a59ce4ec165405d7fa28da43db4805dd98da6ba31ba7ea804e21520
+Description:  Translation for luci-app-autossh - 
 
 Package: luci-i18n-nfs-zh-cn
 Version: 1.0.0-2
 Depends: libc, luci-app-nfs
 Source: feeds/shmilee/fs/luci-app-nfs
+SourceName: luci-i18n-nfs-zh-cn
 Section: luci
 Maintainer: shmilee
 Architecture: all
-Installed-Size: 709
+Installed-Size: 655
 Filename: luci-i18n-nfs-zh-cn_1.0.0-2_all.ipk
-Size: 1483
-SHA256sum: 5b051557fdf747b640d171cb891ede82e23b0404acc482406c6f7b818badf564
-Description:  Translation for luci-app-nfs - 中文 (Chinese)
+Size: 1419
+SHA256sum: 65da398b9ea2b2b317ffbb2e6cca24295e438c804d16269f3a3b2feb82432d6d
+Description:  Translation for luci-app-nfs - 
 
 Package: nginx
 Version: 1.12.2-1
-Depends: libc, libpcre, libopenssl, zlib, libpthread
+Depends: libc, libpcre, libopenssl1.1, zlib, libpthread
 Source: feeds/shmilee/web/nginx
+SourceName: nginx
 License: 2-clause BSD-like license
 Section: net
 Maintainer: Thomas Heil <heil@terminal-consulting.de>
 Architecture: mips_24kc
-Installed-Size: 258323
+Installed-Size: 258196
 Filename: nginx_1.12.2-1_mips_24kc.ipk
-Size: 256995
-SHA256sum: 2a8c4f3def7a46952416e9f57401fc5e574a32cfa5adfb693ca43d6787d0c2ea
+Size: 256764
+SHA256sum: 0a569dfec06fb71f0c00a4d4af30708bb4a6e43bb73029639be53277685bdcb2
 Description:  nginx is an HTTP and reverse proxy server, as well as a mail proxy server,
  written by Igor Sysoev.
 
@@ -242,14 +165,15 @@ Package: radvd
 Version: 2.17-1
 Depends: libc, libdaemon
 Source: feeds/shmilee/ipv6/radvd
+SourceName: radvd
 License: GPL-2.0
 Section: net
 Maintainer: QshenX <q@xd8.cn>
 Architecture: mips_24kc
-Installed-Size: 37086
+Installed-Size: 36868
 Filename: radvd_2.17-1_mips_24kc.ipk
-Size: 37944
-SHA256sum: 8e11018e857ab28cdcd85dc3329c17f494efe8c16b80cf385dd39557822a6d50
+Size: 37715
+SHA256sum: 6138504fe9d179a99bcef660fd441da189466a2401e7348c3015e83788a48ff3
 Description:  radvd is the router advertisement daemon for IPv6. It listens to router
  solicitations and sends router advertisements as described in "Neighbor
  Discovery for IP Version 6 (IPv6)" (RFC 4861).  With these advertisements hosts
@@ -260,30 +184,32 @@ Package: radvdump
 Version: 2.17-1
 Depends: libc, libdaemon
 Source: feeds/shmilee/ipv6/radvd
+SourceName: radvdump
 License: GPL-2.0
 Section: net
 Maintainer: QshenX <q@xd8.cn>
 Architecture: mips_24kc
-Installed-Size: 6801
+Installed-Size: 6690
 Filename: radvdump_2.17-1_mips_24kc.ipk
-Size: 7637
-SHA256sum: 96070443584cfcfc1fd074b732844bd5e1e2ba0ca20a549d20532bb1809b39a0
+Size: 7527
+SHA256sum: 42a4fd95c4b5d380a361b4dbecefc868159843344c1b98aa8820fe018b0b0dd2
 Description:  radvdump prints out the contents of incoming router advertisements sent by radvd
  or some other software implementing (parts of) "Neighbor Discovery for IP
  Version 6 (IPv6)" (RFC 4861).
 
 Package: vlmcsd
-Version: svn1111-1
+Version: svn1112-1
 Depends: libc, libpthread
 Source: feeds/shmilee/vlmcsd/vlmcsd
+SourceName: vlmcsd
 License: MIT
 LicenseFiles: LICENSE
 Section: net
 Maintainer: fuyumi <280604399@qq.com>
 Architecture: mips_24kc
-Installed-Size: 49131
-Filename: vlmcsd_svn1111-1_mips_24kc.ipk
-Size: 49746
-SHA256sum: 6322b6bd8e88686b0a37a0cceebc5ac41432577dde260729b193ede8880fdec5
+Installed-Size: 49961
+Filename: vlmcsd_svn1112-1_mips_24kc.ipk
+Size: 50569
+SHA256sum: d81e0e88dd8a2e39070f3f20d76da78428e55844df29fb051f1f672f24c50d06
 Description:  vlmcsd is a KMS Emulator in C.
 

@@ -6,28 +6,28 @@
 
 ## 准备 ImageBuilder
 
-* 下载 [ImageBuilder](http://openwrt.proxy.ustclug.org/releases/18.06.1/targets/ar71xx/nand/openwrt-imagebuilder-18.06.1-ar71xx-nand.Linux-x86_64.tar.xz)
-* 检查MD5, 解压 -> `work/imagebuilder-18.06.1-ar71xx-nand`
+* 下载 [ImageBuilder](https://mirrors.ustc.edu.cn/openwrt/releases/19.07.8/targets/ar71xx/nand/openwrt-imagebuilder-19.07.8-ar71xx-nand.Linux-x86_64.tar.xz)
+* 检查MD5, 解压 -> `work/imagebuilder-xx.xx.x-ar71xx-nand`
 
 ## 准备软件源
 
 * 用 mirror-tools 下载官方缓慢的源到本地位置,
-  如 `./mirror-tools/{openwrt-18.06.1,openwrt-packages-18.06}`.
+  如 `./mirror-tools/{openwrt-19.07.8,openwrt-packages-19.07}`.
 
 * 依照 [build_mypackage](./build_mypackage.md) 编译软件包,
   生成的 ipk, `package_index` 放到 `./mypackages`
 
-* 修改软件源 `work/imagebuilder-18.06.1-ar71xx-nand/repositories.conf`.  
+* 修改软件源 `work/imagebuilder-xx.xx.x-ar71xx-nand/repositories.conf`.  
   假设 `./mirror-tools` 对应 `/mnt`,  
   `./mypackages` 对应 `/home/openwrt/mypackages` :
 
 ```shell
-src/gz openwrt_core file:///mnt/openwrt-18.06.1/targets/ar71xx/nand/packages
-src/gz openwrt_base file:///mnt/openwrt-packages-18.06/mips_24kc/base
-src/gz openwrt_luci file:///mnt/openwrt-packages-18.06/mips_24kc/luci
-src/gz openwrt_packages file:///mnt/openwrt-packages-18.06/mips_24kc/packages
-src/gz openwrt_routing file:///mnt/openwrt-packages-18.06/mips_24kc/routing
-src/gz openwrt_telephony file:///mnt/openwrt-packages-18.06/mips_24kc/telephony
+src/gz openwrt_core file:///mnt/openwrt-19.07.8/targets/ar71xx/nand/packages
+src/gz openwrt_base file:///mnt/openwrt-packages-19.07/mips_24kc/base
+src/gz openwrt_luci file:///mnt/openwrt-packages-19.07/mips_24kc/luci
+src/gz openwrt_packages file:///mnt/openwrt-packages-19.07/mips_24kc/packages
+src/gz openwrt_routing file:///mnt/openwrt-packages-19.07/mips_24kc/routing
+src/gz openwrt_telephony file:///mnt/openwrt-packages-19.07/mips_24kc/telephony
 src/gz mypackages file:///home/openwrt/mypackages
 src imagebuilder file:packages
 ```
@@ -52,11 +52,11 @@ cd ../
 ```
 docker run --rm -i -t -u openwrt \
     -w /home/openwrt/imagebuilder \
-    -v $PWD/work/imagebuilder-18.06.1-ar71xx-nand:/home/openwrt/imagebuilder \
+    -v $PWD/work/imagebuilder-19.07.8-ar71xx-nand:/home/openwrt/imagebuilder \
     -v $PWD/mirror-tools:/mnt \
     -v $PWD/mypackages:/home/openwrt/mypackages \
     -v $PWD/myfiles_for_image:/home/openwrt/myfiles_for_image \
-    shmilee/openwrt-buildsystem:18.06.1 /bin/bash
+    shmilee/openwrt-buildsystem:19.07.8 /bin/bash
 ```
 
 以下命令默认在 `container` 中运行.
@@ -202,6 +202,7 @@ other_ipks=(
     #luci-app-minidlna luci-i18n-minidlna-zh-cn
     #luci-app-upnp luci-i18n-upnp-zh-cn
     aria2 ariang
+    luci-app-aria2 luci-i18n-aria2-zh-cn
     #yaaw
     ca-certificates # for aria2 verify https
     transmission-daemon-mbedtls transmission-web
@@ -252,7 +253,6 @@ my_ipks=(
     #frpc frps
     vlmcsd luci-app-vlmcsd
     nginx
-    luci-app-aria2 luci-i18n-aria2-zh-cn
     luci-app-autossh luci-i18n-autossh-zh-cn
     luci-app-nfs luci-i18n-nfs-zh-cn
 )
@@ -277,4 +277,4 @@ $ make image \
 ```
 
 生成的镜像位置 `/home/openwrt/imagebuilder/bin/targets/ar71xx/nand/`,
-文件名 `openwrt-18.06.1-ar71xx-nand-wndr3700v4-ubi-factory.img`.
+文件名 `openwrt-xx.xx.x-ar71xx-nand-wndr3700v4-ubi-factory.img`.

@@ -9,7 +9,8 @@ openwrt-imagebuilder-*.tar.xz
 openwrt-sdk-*.tar.xz
 
 myfiles_for_image
-myfiles_secret.py
+myfiles-secret*.py
+!myfiles-secret-example.py
 
 myimages/openwrt-*.img
 

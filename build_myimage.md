@@ -34,16 +34,16 @@ src imagebuilder file:packages
 
 ## 准备自定义配置
 
-所有修改过的配置, 按相应路径放入 `./myfiles_templates/`, 这里相当于 `root /`.
+所有修改过的配置, 标记替换敏感信息放入 `./custom-files-templates/` 作为模板.
 
-**用 `myfiles_secret.py` 保存个人相关信息**, 一个示例 `myfiles_secret-example.py`.
+**用 `myfiles-secret.py` 保存个人敏感信息**, 一个示例 `myfiles-secret-example.py`.
 
-运行 `gen_myfiles.py`, 自动修改 `myfiles_templates/` 生成自定义配置 `myfiles_for_image/`.
+运行 `gen_myfiles.py`, 依照模板生成自定义配置 `myfiles_for_image/`.
 
 ```shell
-cd ./myfiles_templates/
-gpg -d myfiles_secret.py.asc > myfiles_secret.py
-./gen_myfiles.py
+cd ./custom-files-templates/
+gpg -d myfiles-secret.py.asc > myfiles-secret.py
+./gen_myfiles.py myfiles-secret.py
 cd ../
 ```
 

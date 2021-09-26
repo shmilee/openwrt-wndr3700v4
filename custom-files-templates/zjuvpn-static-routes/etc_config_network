@@ -1,0 +1,6 @@
+config interface 'zjuvpn'
+	option proto 'l2tp'
+	option server '10.5.1.9'
+	option username '{USER}'
+	option password '{PASSWD}'
+	option mtu '1428'

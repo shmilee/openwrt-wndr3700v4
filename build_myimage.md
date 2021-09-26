@@ -42,6 +42,7 @@ src imagebuilder file:packages
 
 ```shell
 cd ./custom-files-templates/
+# gpg -e -r username -a myfiles-secret.py
 gpg -d myfiles-secret.py.asc > myfiles-secret.py
 ./gen_myfiles.py myfiles-secret.py
 cd ../

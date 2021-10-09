@@ -10,7 +10,7 @@ config wifi-device  radio1
 	# REMOVE THIS LINE TO ENABLE WIFI:
 	option disabled 1
 
-config wifi-iface
+config wifi-iface   wifinet1
 	option device   radio1
 	option network  lan
 	option mode     ap

@@ -1,4 +1,4 @@
-config wifi-iface
+config wifi-iface wifiguest0
 	option device 'radio0'
 	option mode 'ap'
 	option ssid '{SSID}'

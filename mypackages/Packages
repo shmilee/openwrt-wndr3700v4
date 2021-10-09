@@ -81,10 +81,10 @@ SourceName: luci-app-nfs
 Section: luci
 Maintainer: shmilee
 Architecture: all
-Installed-Size: 3348
+Installed-Size: 3329
 Filename: luci-app-nfs_1.0.0-2_all.ipk
-Size: 4141
-SHA256sum: 8368bfff4dc3cef7b5f61ab537792acf718efcdd50b39eea3180641f7810c640
+Size: 4121
+SHA256sum: 06429da8cfe8857848e53b2187e21f066cfa4c2dc9d0b18aac3a363823c668ad
 Description:  LuCI Support for NFS
 
 Package: luci-app-vlmcsd

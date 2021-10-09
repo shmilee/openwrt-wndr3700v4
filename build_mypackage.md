@@ -16,7 +16,7 @@
 
 * 进入 `Docker container`
   ```
-  docker run --rm -i -t -u openwrt \
+  docker run --rm -i -t --network=host -u openwrt \
     -v $PWD/work/sdk-19.07.8-ar71xx-nand:/home/openwrt/sdk \
     shmilee/openwrt-buildsystem:19.07.8 /bin/bash
   ```

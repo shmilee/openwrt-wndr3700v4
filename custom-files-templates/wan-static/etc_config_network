@@ -1,7 +1,5 @@
 config interface 'wan'
 	option ifname 'eth0.2'
-	option _orig_ifname 'eth0.2'
-	option _orig_bridge 'false'
 	option proto 'static'
 	option ipaddr '{IPADDR}'
 	option netmask '{NETMASK}'

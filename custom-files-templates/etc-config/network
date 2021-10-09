@@ -14,6 +14,10 @@ config interface 'lan'
 	option netmask '255.255.255.0'
 	option ip6assign '64'
 
+config interface 'wan'
+	option ifname 'eth0.2'
+	option proto 'dhcp'
+
 config interface 'wan6'
 	option ifname 'eth0.2'
 	option proto 'dhcpv6'

@@ -29,7 +29,9 @@ config host
     'etc/config/luci': [('etc-config/luci',)],
 
     'etc/config/network': [
-        ('etc-config/network', ('192.168.1.1', private),),
+        ('etc-config/network',
+            ('192.168.1.1', private),
+            ("\nconfig interface 'wan'\n\toption ifname 'eth0.2'\n\toption proto 'dhcp'\n", ""),),
         ('wan-static/etc_config_network',
             ('{IPADDR}', 'xxx.yyy.aa.bb'),
             ('{NETMASK}', '255.255.255.0'),

@@ -31,46 +31,32 @@ USIGN_CMD = './db_sign/usign 2>/dev/null -V -P ./db_sign/keys -m'
 
 # 5. Profiles lib
 # target: wndr3700v4
-target_19078_ar71_nand = dict(
-    DISTRIB_RELEASE="19.07.8",
-    DISTRIB_TARGET="ar71xx/nand",
-    IPK_GROUPS=('packages', 'kmods/4.14.241-1-3487e40b92bc4840fe01ec6a7fc6943b'),
+target_21020_ath79_nand = dict(
+    DISTRIB_RELEASE="21.02.0",
+    DISTRIB_TARGET="ath79/nand",
+    IPK_GROUPS=('packages', 'kmods/5.4.143-1-148441b705c0edeb9d20cb5ed52cf971'),
 )
-
-# target: Xiaomi MiWiFi 3G
-target_19078_ramips_mt7621 = dict(
-    DISTRIB_RELEASE="19.07.8",
-    DISTRIB_TARGET="ramips/mt7621",
-)
-target_snapshot_ramips_mt7621 = dict(
+target_snapshot_ath79_nand = dict(
     DISTRIB_RELEASE='SNAPSHOT',
-    DISTRIB_TARGET="ramips/mt7621",
-    IPK_GROUPS=('packages', 'kmods/5.4.145-1-d6d5de3c167390941111dd2f1af5df2c'),
+    DISTRIB_TARGET="ath79/nand",
+    IPK_GROUPS=('packages', 'kmods/5.4.152-1-81e0cf03d12565b340efd93ce802a72f'),
 )
 
 # package: wndr3700v4 etc
-package_1907_mips_24kc = dict(
-    DISTRIB_RELEASE="19.07",
+package_2102_mips_24kc = dict(
+    DISTRIB_RELEASE="21.02",
     DISTRIB_ARCH="mips_24kc",
 )
-
-# package: Xiaomi MiWiFi 3G etc
-package_1907_mipsel_24kc = dict(
-    DISTRIB_RELEASE="19.07",
-    DISTRIB_ARCH="mipsel_24kc",
-)
-package_snapshot_mipsel_24kc = dict(
+package_snapshot_mips_24kc = dict(
     DISTRIB_RELEASE='SNAPSHOT',
-    DISTRIB_ARCH="mipsel_24kc",
+    DISTRIB_ARCH="mips_24kc",
 )
 
 # 6. profile setting
 PROFILE = (
-    #target_19078_ar71_nand
-    # target_19078_ramips_mt7621
-    # target_snapshot_ramips_mt7621
-     package_1907_mips_24kc
-    # package_1907_mipsel_24kc
-    # package_snapshot_mipsel_24kc
+    target_21020_ath79_nand
+    # target_snapshot_ath79_nand
+    # package_2102_mips_24kc
+    # package_snapshot_mips_24kc
     # etc
 )

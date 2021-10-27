@@ -4,7 +4,7 @@
 FROM debian:buster
 
 LABEL maintainer="shmilee.zju@gmail.com" \
-      sdk.version="19.07.8" \
+      sdk.version="19.07.x 21.02.x" \
       description="Debian 10 with OpenWRT build system prerequisites"
 
 ENV TIMEZONE=Asia/Shanghai \

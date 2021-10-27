@@ -2,7 +2,7 @@ Build Docker image
 ==================
 
 ```
-docker build --force-rm --no-cache --rm -t shmilee/openwrt-buildsystem:19.07.8 .
+docker build --force-rm --no-cache --rm -t shmilee/openwrt-buildsystem:21.02.x .
 ```
 
 Use Docker image
@@ -13,7 +13,7 @@ Use Docker image
 
 __User=openwrt, UID=1000, Group=users, GID=100__
 
-* Download SDK, for [example](https://mirrors.ustc.edu.cn/openwrt/releases/19.07.8/targets/ar71xx/nand/openwrt-sdk-19.07.8-ar71xx-nand_gcc-7.5.0_musl.Linux-x86_64.tar.xz)
+* Download SDK, for [example](https://openwrt.proxy.ustclug.org/releases/21.02.0/targets/ath79/nand/openwrt-sdk-21.02.0-ath79-nand_gcc-8.4.0_musl.Linux-x86_64.tar.xz)
 * decompress -> `openwrt-sdk`
 
 ```
@@ -21,7 +21,7 @@ chown -R 1000:100 openwrt-sdk/
 
 docker run --rm -i -t -u openwrt \
     -v $PWD/openwrt-sdk:/home/openwrt/sdk \
-    shmilee/openwrt-buildsystem:19.07.8 /bin/bash
+    shmilee/openwrt-buildsystem:21.02.x /bin/bash
 
 # maybe needed, add PATH in container
 #export PATH=/home/openwrt/sdk/staging_dir/toolchain-<platform>-<gcc_ver>-<libc_ver>/bin:$PATH

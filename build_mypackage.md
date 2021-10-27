@@ -4,21 +4,21 @@
 
 * 依照 [OpenWrt-buildsystem](./openwrt-buildsystem/readme.md) 构建编译环境。
 
-* 下载 [SDK](https://mirrors.ustc.edu.cn/openwrt/releases/19.07.8/targets/ar71xx/nand/openwrt-sdk-19.07.8-ar71xx-nand_gcc-7.5.0_musl.Linux-x86_64.tar.xz) -> 解压到 `work/sdk-xx.xx.x-ar71xx-nand`
+* 下载 [SDK](https://openwrt.proxy.ustclug.org/releases/21.02.0/targets/ath79/nand/openwrt-sdk-21.02.0-ath79-nand_gcc-8.4.0_musl.Linux-x86_64.tar.xz) -> 解压到 `work/sdk-xx.xx.x-ath79-nand`
 
-* 编辑 `work/sdk-xx.xx.x-ar71xx-nand/feeds.conf.default`
+* 编辑 `work/sdk-xx.xx.x-ath79-nand/feeds.conf.default`
   ```
-  src-git base https://git.openwrt.org/openwrt/openwrt.git;v19.07.8
-  src-git packages https://git.openwrt.org/feed/packages.git^c6ae1c6a0fced32c171e228e3425a9b655585011
-  src-git luci https://git.openwrt.org/project/luci.git^7b931da4779c68f5aef5908286c2ae5283d2dece
+  src-git base https://git.openwrt.org/openwrt/openwrt.git;v21.02.0
+  src-git packages https://git.openwrt.org/feed/packages.git^65057dcbb5de371503c9159de3d45824bec482e0
+  src-git luci https://git.openwrt.org/project/luci.git^3b3c2e5f9f82372df8ff01ac65668be47690dcd5
   src-git shmilee https://github.com/shmilee/openwrt-shmilee-feeds.git
   ```
 
 * 进入 `Docker container`
   ```
   docker run --rm -i -t --network=host -u openwrt \
-    -v $PWD/work/sdk-19.07.8-ar71xx-nand:/home/openwrt/sdk \
-    shmilee/openwrt-buildsystem:19.07.8 /bin/bash
+    -v $PWD/work/sdk-21.02.0-ath79-nand:/home/openwrt/sdk \
+    shmilee/openwrt-buildsystem:21.02.x /bin/bash
   ```
 
 * 在 container 内更新 `feeds`
@@ -28,7 +28,7 @@
 
 ## 在 container 内编译软件
 
-生成的软件包所在目录 `work/sdk-xx.xx.x-ar71xx-nand/bin/packages/mips_24kc/shmilee/`
+生成的软件包所在目录 `work/sdk-xx.xx.x-ath79-nand/bin/packages/mips_24kc/shmilee/`
 
 1. `adbyby`, `adbyby_2.7-20200315_mips_24kc.ipk`
 
@@ -58,7 +58,9 @@
    make package/vlmcsd/compile V=sw
    ```
 
-5. `nginx`, `nginx_1.12.2-1_mips_24kc.ipk`
+5. `nginx`, `nginx-all-module_1.19.6-1_mips_24kc.ipk`,
+   `nginx-mod-luci-ssl_1.19.6-1_all.ipk`, `nginx-mod-luci_1.19.6-1_mips_24kc.ipk`,
+   `nginx-ssl_1.19.6-1_mips_24kc.ipk`, `nginx_1.19.6-1_all.ipk`
 
    ```shell
    ./scripts/feeds install -p shmilee nginx
@@ -68,13 +70,13 @@
 6. `luci-*`
 
    ```
-   luci-app-adbyby-plus_2.0-75_all.ipk
-   luci-app-autossh_1.0.0-1_all.ipk
-   luci-app-nfs_1.0.0-2_all.ipk
+   luci-app-adbyby-plus_2.0_all.ipk
+   luci-app-autossh_1.0.0_all.ipk
+   luci-app-nfs_1.0.0_all.ipk
    luci-app-vlmcsd_1.0.1-1_all.ipk
-   luci-i18n-adbyby-plus-zh-cn_2.0-75_all.ipk
-   luci-i18n-autossh-zh-cn_1.0.0-1_all.ipk
-   luci-i18n-nfs-zh-cn_1.0.0-2_all.ipk
+   luci-i18n-adbyby-plus-zh-cn_git-21.299.59620-0a11db1_all.ipk
+   luci-i18n-autossh-zh-cn_git-21.299.59620-0a11db1_all.ipk
+   luci-i18n-nfs-zh-cn_git-21.299.59620-0a11db1_all.ipk
    ```
 
    ```shell

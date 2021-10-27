@@ -4,11 +4,12 @@ Depends: libc
 Source: feeds/shmilee/adbyby/adbyby
 SourceName: adbyby
 Section: net
+SourceDateEpoch: 1635266020
 Architecture: mips_24kc
-Installed-Size: 401953
+Installed-Size: 401952
 Filename: adbyby_2.7-20200315_mips_24kc.ipk
-Size: 402674
-SHA256sum: 6d3cf02b1aea9cd04107888a99acd1275b845aba591a767dcf50277b8ee40cbf
+Size: 402717
+SHA256sum: 7dac8caf23138ee23e94b17d9dd8584a7770551e2cea73dfa7caff1eb69cc37d
 Description:  Adbyby is a powerful adblock module to block ad,just like adblock.
 
 Package: frpc
@@ -19,12 +20,13 @@ SourceName: frpc
 License: Apache-2.0
 LicenseFiles: LICENCE
 Section: net
+SourceDateEpoch: 1635266020
 Maintainer: shmilee <shmilee.zju@gmail.com>
 Architecture: mips_24kc
-Installed-Size: 3589592
+Installed-Size: 3589606
 Filename: frpc_0.37.1-1_mips_24kc.ipk
-Size: 3583238
-SHA256sum: 6e0d5eba775bcf4e713fca7fd5115cebf0d5629202ddb006c20ef77e80db4ff7
+Size: 3583357
+SHA256sum: 425cb3fa9037a893df35a409bbd9e05800e38312149c9d8c22e69ffffd00307b
 Description:  frp is a fast reverse proxy to help you expose a local server behind
  a NAT or firewall to the internet.
 
@@ -36,55 +38,60 @@ SourceName: frps
 License: Apache-2.0
 LicenseFiles: LICENCE
 Section: net
+SourceDateEpoch: 1635266020
 Maintainer: shmilee <shmilee.zju@gmail.com>
 Architecture: mips_24kc
-Installed-Size: 4492340
+Installed-Size: 4492353
 Filename: frps_0.37.1-1_mips_24kc.ipk
-Size: 4484772
-SHA256sum: 7a50a8d346c35cd466bbcaa2b257032aa3c4258946ee9f78a8935df6877de313
+Size: 4484859
+SHA256sum: 999ddbbedae5e696aec99037e6f349049539b2322d110ab92760cfa4d4430401
 Description:  frp is a fast reverse proxy to help you expose a local server behind
  a NAT or firewall to the internet.
 
 Package: luci-app-adbyby-plus
-Version: 2.0-75
+Version: 2.0
 Depends: libc, adbyby, uclient-fetch, ipset, dnsmasq-full
 Source: feeds/shmilee/adbyby/luci-app-adbyby-plus
 SourceName: luci-app-adbyby-plus
 Section: luci
+SourceDateEpoch: 1635266020
+Maintainer: OpenWrt LuCI community
 Architecture: all
-Installed-Size: 9701
-Filename: luci-app-adbyby-plus_2.0-75_all.ipk
-Size: 10536
-SHA256sum: 46d439ee184ec0cec38ef12c38e8bcf31bf8ee7fc8f18c02fd420d0efc559802
+Installed-Size: 9703
+Filename: luci-app-adbyby-plus_2.0_all.ipk
+Size: 10576
+SHA256sum: 27cd0c0476fd6e815418ec7e0a649fda067a296e83c34765bfa72698121e37d1
 Description:  LuCI support for Adbyby
 
 Package: luci-app-autossh
-Version: 1.0.0-1
+Version: 1.0.0
 Depends: libc, autossh
 Source: feeds/shmilee/autossh/luci-app-autossh
 SourceName: luci-app-autossh
 License: Apache-2.0
 Section: luci
-Maintainer: shmilee <shmilee.zju@gmail.com>
+SourceDateEpoch: 1635266020
+Maintainer: OpenWrt LuCI community
 Architecture: all
-Installed-Size: 926
-Filename: luci-app-autossh_1.0.0-1_all.ipk
-Size: 1779
-SHA256sum: be1a269dfe0c5f6c79bc148bb2ad4c6f19a82c4e87baf3054f4071022c4c3991
+Installed-Size: 928
+Filename: luci-app-autossh_1.0.0_all.ipk
+Size: 1799
+SHA256sum: d5d65d1429b52085645dc3de1a69f6757fe3d3f8db923b37248ce934310516b2
 Description:  LuCI Support for autossh
 
 Package: luci-app-nfs
-Version: 1.0.0-2
+Version: 1.0.0
 Depends: libc, nfs-kernel-server
 Source: feeds/shmilee/fs/luci-app-nfs
 SourceName: luci-app-nfs
 Section: luci
-Maintainer: shmilee
+SourceDateEpoch: 1635266020
+Maintainer: OpenWrt LuCI community
 Architecture: all
-Installed-Size: 3329
-Filename: luci-app-nfs_1.0.0-2_all.ipk
-Size: 4121
-SHA256sum: 06429da8cfe8857848e53b2187e21f066cfa4c2dc9d0b18aac3a363823c668ad
+Installed-Size: 3332
+Filename: luci-app-nfs_1.0.0_all.ipk
+Size: 4158
+SHA256sum: 5a5a29346a12ed6facf9f5c38a7baaed0434de04abb24592e500e520339e7124
 Description:  LuCI Support for NFS
 
 Package: luci-app-vlmcsd
@@ -95,71 +102,146 @@ SourceName: luci-app-vlmcsd
 License: MIT
 LicenseFiles: LICENSE
 Section: luci
+SourceDateEpoch: 1635266020
 Maintainer: fuyumi
 Architecture: all
-Installed-Size: 1627
+Installed-Size: 1630
 Filename: luci-app-vlmcsd_1.0.1-1_all.ipk
-Size: 2488
-SHA256sum: 6ca91a55ae5c6207b28dbcd05ea98d169f9ee0cba4876086df1deefe14a110c7
+Size: 2502
+SHA256sum: b1b66e951742953ff8ebcde87d8246b889e822190e27491b987c14cc8f62a791
 Description:  This package contains LuCI configuration pages for openwrt-vlmcsd.
 
 Package: luci-i18n-adbyby-plus-zh-cn
-Version: 2.0-75
+Version: git-21.299.59620-0a11db1
 Depends: libc, luci-app-adbyby-plus
 Source: feeds/shmilee/adbyby/luci-app-adbyby-plus
 SourceName: luci-i18n-adbyby-plus-zh-cn
 Section: luci
+SourceDateEpoch: 1635266020
 Architecture: all
 Installed-Size: 2269
-Filename: luci-i18n-adbyby-plus-zh-cn_2.0-75_all.ipk
-Size: 3037
-SHA256sum: e8b4273bd2cfcef4a3bfd42232477924ee783eec636b159467cecebc53ccee37
+Filename: luci-i18n-adbyby-plus-zh-cn_git-21.299.59620-0a11db1_all.ipk
+Size: 3074
+SHA256sum: a5eff0aeb364f8aef5b64201ecf00c1837bfc1fa789d18971486f18f7c565059
 Description:  Translation for luci-app-adbyby-plus - 
 
 Package: luci-i18n-autossh-zh-cn
-Version: 1.0.0-1
+Version: git-21.299.59620-0a11db1
 Depends: libc, luci-app-autossh
 Source: feeds/shmilee/autossh/luci-app-autossh
 SourceName: luci-i18n-autossh-zh-cn
 License: Apache-2.0
 Section: luci
+SourceDateEpoch: 1635266020
 Maintainer: shmilee <shmilee.zju@gmail.com>
 Architecture: all
-Installed-Size: 521
-Filename: luci-i18n-autossh-zh-cn_1.0.0-1_all.ipk
-Size: 1323
-SHA256sum: 5ed7a6ef2a59ce4ec165405d7fa28da43db4805dd98da6ba31ba7ea804e21520
+Installed-Size: 522
+Filename: luci-i18n-autossh-zh-cn_git-21.299.59620-0a11db1_all.ipk
+Size: 1353
+SHA256sum: 9eb1009e539679af5a55e03d13feb845c61d4cdf461a1cc4054a2758c90288a6
 Description:  Translation for luci-app-autossh - 
 
 Package: luci-i18n-nfs-zh-cn
-Version: 1.0.0-2
+Version: git-21.299.59620-0a11db1
 Depends: libc, luci-app-nfs
 Source: feeds/shmilee/fs/luci-app-nfs
 SourceName: luci-i18n-nfs-zh-cn
 Section: luci
+SourceDateEpoch: 1635266020
 Maintainer: shmilee
 Architecture: all
-Installed-Size: 655
-Filename: luci-i18n-nfs-zh-cn_1.0.0-2_all.ipk
-Size: 1419
-SHA256sum: 65da398b9ea2b2b317ffbb2e6cca24295e438c804d16269f3a3b2feb82432d6d
+Installed-Size: 657
+Filename: luci-i18n-nfs-zh-cn_git-21.299.59620-0a11db1_all.ipk
+Size: 1454
+SHA256sum: f124fbee9feef9f6782e886047840eac89296108a6a240f92f7e5954a0644b90
 Description:  Translation for luci-app-nfs - 
 
+Package: nginx-all-module
+Version: 1.19.6-1
+Depends: nginx-ssl-util (>=1.5-1) (<2), libc, libopenssl1.1, libpthread, libpcre, nginx-ssl-util, zlib, liblua5.1.5, libxml2, libubus20210630, libblobmsg-json20210516, libjson-c5
+Provides: nginx-ssl
+Source: feeds/shmilee/web/nginx
+SourceName: nginx-all-module
+License: 2-clause BSD-like license
+Section: net
+SourceDateEpoch: 1635313379
+CPE-ID: cpe:/a:nginx:nginx
+Maintainer: Thomas Heil <heil@terminal-consulting.de> Ansuel Smith <ansuelsmth@gmail.com>
+Architecture: mips_24kc
+Installed-Size: 896193
+Filename: nginx-all-module_1.19.6-1_mips_24kc.ipk
+Size: 867268
+SHA256sum: 0e4e9d9c0c71a89faf520215c002819528ea666381f9a03d499d7a2c5b612fb1
+Description:  nginx is an HTTP and reverse proxy server, as well as a mail proxy server, written by Igor Sysoev. This variant is compiled with ALL module selected.
+
+Package: nginx-mod-luci-ssl
+Version: 1.19.6-1
+Depends: libc, nginx-mod-luci
+Source: feeds/shmilee/web/nginx
+SourceName: nginx-mod-luci-ssl
+License: 2-clause BSD-like license
+Section: opt
+SourceDateEpoch: 1635313379
+CPE-ID: cpe:/a:nginx:nginx
+Maintainer: Thomas Heil <heil@terminal-consulting.de> Ansuel Smith <ansuelsmth@gmail.com>
+Architecture: all
+Installed-Size: 129
+Filename: nginx-mod-luci-ssl_1.19.6-1_all.ipk
+Size: 926
+SHA256sum: ad86dea83100b6d331c2934334b03105071e714bed635135d8cb47c67ff0ed2e
+Description:  Dummy package for transition when upgrading.
+
+Package: nginx-mod-luci
+Version: 1.19.6-1
+Depends: libc, uwsgi, uwsgi-luci-support, nginx
+Source: feeds/shmilee/web/nginx
+SourceName: nginx-mod-luci
+License: 2-clause BSD-like license
+Section: net
+SourceDateEpoch: 1635313379
+CPE-ID: cpe:/a:nginx:nginx
+Maintainer: Thomas Heil <heil@terminal-consulting.de> Ansuel Smith <ansuelsmth@gmail.com>
+Architecture: mips_24kc
+Installed-Size: 712
+Filename: nginx-mod-luci_1.19.6-1_mips_24kc.ipk
+Size: 1561
+SHA256sum: 05a4c0ac77ca10af98cd57921f11f96a390834e14a29e4e93f3f28413730ded9
+Description:  Support file for LuCI in nginx. Include custom nginx configuration, autostart script for uwsgi.
+
+Package: nginx-ssl
+Version: 1.19.6-1
+Depends: nginx-ssl-util (>=1.5-1) (<2), libc, libopenssl1.1, libpthread, libpcre, nginx-ssl-util, zlib, libubus20210630, libblobmsg-json20210516, libjson-c5
+Conflicts: nginx-all-module
+Source: feeds/shmilee/web/nginx
+SourceName: nginx-ssl
+License: 2-clause BSD-like license
+Section: net
+SourceDateEpoch: 1635313379
+CPE-ID: cpe:/a:nginx:nginx
+Maintainer: Thomas Heil <heil@terminal-consulting.de> Ansuel Smith <ansuelsmth@gmail.com>
+Architecture: mips_24kc
+Installed-Size: 294805
+Filename: nginx-ssl_1.19.6-1_mips_24kc.ipk
+Size: 292856
+SHA256sum: c558646f07f416fcbac42e059ede7368bf1a30530b06ba8587dd055720025230
+Description:  nginx is an HTTP and reverse proxy server, as well as a mail proxy server, written by Igor Sysoev. This variant is compiled with SSL support enabled. To enable additional module select them in the nginx default configuration menu.
+
 Package: nginx
-Version: 1.12.2-1
-Depends: libc, libpcre, libopenssl1.1, zlib, libpthread
+Version: 1.19.6-1
+Depends: libc, nginx-ssl
 Source: feeds/shmilee/web/nginx
 SourceName: nginx
 License: 2-clause BSD-like license
-Section: net
-Maintainer: Thomas Heil <heil@terminal-consulting.de>
-Architecture: mips_24kc
-Installed-Size: 258196
-Filename: nginx_1.12.2-1_mips_24kc.ipk
-Size: 256764
-SHA256sum: 0a569dfec06fb71f0c00a4d4af30708bb4a6e43bb73029639be53277685bdcb2
-Description:  nginx is an HTTP and reverse proxy server, as well as a mail proxy server,
- written by Igor Sysoev.
+Section: opt
+SourceDateEpoch: 1635313379
+CPE-ID: cpe:/a:nginx:nginx
+Maintainer: Thomas Heil <heil@terminal-consulting.de> Ansuel Smith <ansuelsmth@gmail.com>
+Architecture: all
+Installed-Size: 224
+Filename: nginx_1.19.6-1_all.ipk
+Size: 1050
+SHA256sum: 0de2a073de8186831c91eae61285a7a507cbc263cda4a80abe27696ebb3df943
+Description:  nginx is an HTTP and reverse proxy server, as well as a mail proxy server, written by Igor Sysoev.
 
 Package: radvd
 Version: 2.17-1
@@ -168,12 +250,13 @@ Source: feeds/shmilee/ipv6/radvd
 SourceName: radvd
 License: GPL-2.0
 Section: net
+SourceDateEpoch: 1635266020
 Maintainer: QshenX <q@xd8.cn>
 Architecture: mips_24kc
-Installed-Size: 36868
+Installed-Size: 35234
 Filename: radvd_2.17-1_mips_24kc.ipk
-Size: 37715
-SHA256sum: 6138504fe9d179a99bcef660fd441da189466a2401e7348c3015e83788a48ff3
+Size: 36060
+SHA256sum: fd5cf3a8ce488729b86e199602747ff0461cb0af28b42461efbbb53e8a172a02
 Description:  radvd is the router advertisement daemon for IPv6. It listens to router
  solicitations and sends router advertisements as described in "Neighbor
  Discovery for IP Version 6 (IPv6)" (RFC 4861).  With these advertisements hosts
@@ -187,12 +270,13 @@ Source: feeds/shmilee/ipv6/radvd
 SourceName: radvdump
 License: GPL-2.0
 Section: net
+SourceDateEpoch: 1635266020
 Maintainer: QshenX <q@xd8.cn>
 Architecture: mips_24kc
-Installed-Size: 6690
+Installed-Size: 6679
 Filename: radvdump_2.17-1_mips_24kc.ipk
-Size: 7527
-SHA256sum: 42a4fd95c4b5d380a361b4dbecefc868159843344c1b98aa8820fe018b0b0dd2
+Size: 7543
+SHA256sum: 13da9bcd263c2373a2fa2e4e983b5700cf90004159474cfe7c6b2348f392ee87
 Description:  radvdump prints out the contents of incoming router advertisements sent by radvd
  or some other software implementing (parts of) "Neighbor Discovery for IP
  Version 6 (IPv6)" (RFC 4861).
@@ -205,11 +289,12 @@ SourceName: vlmcsd
 License: MIT
 LicenseFiles: LICENSE
 Section: net
+SourceDateEpoch: 1635266020
 Maintainer: fuyumi <280604399@qq.com>
 Architecture: mips_24kc
-Installed-Size: 49961
+Installed-Size: 49909
 Filename: vlmcsd_svn1112-1_mips_24kc.ipk
-Size: 50569
-SHA256sum: d81e0e88dd8a2e39070f3f20d76da78428e55844df29fb051f1f672f24c50d06
+Size: 50479
+SHA256sum: 84b6a225a1f0e427d4cfb0e6132509864d8c5209d146fda6f1f8f5c0d6818568
 Description:  vlmcsd is a KMS Emulator in C.
 

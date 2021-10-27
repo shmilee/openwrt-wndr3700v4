@@ -6,28 +6,28 @@
 
 ## 准备 ImageBuilder
 
-* 下载 [ImageBuilder](https://mirrors.ustc.edu.cn/openwrt/releases/19.07.8/targets/ar71xx/nand/openwrt-imagebuilder-19.07.8-ar71xx-nand.Linux-x86_64.tar.xz)
-* 检查MD5, 解压 -> `work/imagebuilder-xx.xx.x-ar71xx-nand`
+* 下载 [ImageBuilder](https://openwrt.proxy.ustclug.org/releases/21.02.0/targets/ath79/nand/openwrt-imagebuilder-21.02.0-ath79-nand.Linux-x86_64.tar.xz)
+* 检查MD5, 解压 -> `work/imagebuilder-xx.xx.x-ath79-nand`
 
 ## 准备软件源
 
 * 用 mirror-tools 下载官方缓慢的源到本地位置,
-  如 `./mirror-tools/{openwrt-19.07.8,openwrt-packages-19.07}`.
+  如 `./mirror-tools/{openwrt-21.02.0,openwrt-packages-21.02}`.
 
 * 依照 [build_mypackage](./build_mypackage.md) 编译软件包,
   生成的 ipk, `package_index` 放到 `./mypackages`
 
-* 修改软件源 `work/imagebuilder-xx.xx.x-ar71xx-nand/repositories.conf`.  
+* 修改软件源 `work/imagebuilder-xx.xx.x-ath79-nand/repositories.conf`.  
   假设 `./mirror-tools` 对应 `/mnt`,  
   `./mypackages` 对应 `/home/openwrt/mypackages` :
 
 ```shell
-src/gz openwrt_core file:///mnt/openwrt-19.07.8/targets/ar71xx/nand/packages
-src/gz openwrt_base file:///mnt/openwrt-packages-19.07/mips_24kc/base
-src/gz openwrt_luci file:///mnt/openwrt-packages-19.07/mips_24kc/luci
-src/gz openwrt_packages file:///mnt/openwrt-packages-19.07/mips_24kc/packages
-src/gz openwrt_routing file:///mnt/openwrt-packages-19.07/mips_24kc/routing
-src/gz openwrt_telephony file:///mnt/openwrt-packages-19.07/mips_24kc/telephony
+src/gz openwrt_core file:///mnt/openwrt-21.02.0/targets/ath79/nand/packages
+src/gz openwrt_base file:///mnt/openwrt-packages-21.02/mips_24kc/base
+src/gz openwrt_luci file:///mnt/openwrt-packages-21.02/mips_24kc/luci
+src/gz openwrt_packages file:///mnt/openwrt-packages-21.02/mips_24kc/packages
+src/gz openwrt_routing file:///mnt/openwrt-packages-21.02/mips_24kc/routing
+src/gz openwrt_telephony file:///mnt/openwrt-packages-21.02/mips_24kc/telephony
 src/gz mypackages file:///home/openwrt/mypackages
 src imagebuilder file:packages
 ```
@@ -53,16 +53,16 @@ cd ../
 ```
 docker run --rm -i -t -u openwrt \
     -w /home/openwrt/imagebuilder \
-    -v $PWD/work/imagebuilder-19.07.8-ar71xx-nand:/home/openwrt/imagebuilder \
+    -v $PWD/work/imagebuilder-21.02.0-ath79-nand:/home/openwrt/imagebuilder \
     -v $PWD/mirror-tools:/mnt \
     -v $PWD/mypackages:/home/openwrt/mypackages \
     -v $PWD/myfiles_for_image:/home/openwrt/myfiles_for_image \
-    shmilee/openwrt-buildsystem:19.07.8 /bin/bash
+    shmilee/openwrt-buildsystem:21.02.x /bin/bash
 ```
 
 以下命令默认在 `container` 中运行.
 
-## 128M flash
+## 128M flash TODO `target/linux/ath79/dts/ar9344_netgear_wndr.dtsi`
 
 ssh 登录路由查看官方固件的信息:
 [1](https://openwrt.org/docs/techref/flash.layout)
@@ -134,13 +134,13 @@ ubi=121856 #119M
 firmware=123904 #121M, 最大值
 ```
 
-修改 `/home/openwrt/imagebuilder/target/linux/ar71xx/image/legacy.mk`.
+修改 `/home/openwrt/imagebuilder/target/linux/ath79/image/legacy.mk`.
 找到以 `wndr4300_mtdlayout` 开头的行, 尽量多的使用 128M nand flash.
 
 ```shell
 $ ubi=110592 #108M
 $ firmware=112640 #110M
-$ cd /home/openwrt/imagebuilder/target/linux/ar71xx/image
+$ cd /home/openwrt/imagebuilder/target/linux/ar71/image
 $ cp legacy.mk legacy.mk.bk
 $ sed -i "s/\(^wndr4300_mtdlayout.*\)23552k\(.ubi..\)25600k\(.*$\)/\1${ubi}k\2${firmware}k\3/" legacy.mk
 $ diff -u0 legacy.mk.bk legacy.mk
@@ -158,15 +158,15 @@ $ diff -u0 legacy.mk.bk legacy.mk
 ```shell
 $ cd /home/openwrt/imagebuilder/
 $ make info
-Current Target: "ar71xx (Generic devices with NAND flash)"
-Default Packages: base-files libc libgcc busybox dropbear mtd uci opkg
-netifd fstools uclient-fetch logd kmod-gpio-button-hotplug swconfig
-kmod-ath9k wpad-mini uboot-envtools dnsmasq iptables ip6tables
-ppp ppp-mod-pppoe firewall odhcpd-ipv6only odhcp6c
+Current Target: "ath79/nand"
+Current Revision: "r16279-5cc0535800"
+Default Packages: base-files ca-bundle dropbear fstools libc libgcc libustream-wolfssl logd mtd netifd opkg uci uclient-fetch urandom-seed urngd busybox procd kmod-gpio-button-hotplug swconfig kmod-ath9k uboot-envtools wpad-basic-wolfssl dnsmasq firewall ip6tables iptables kmod-ipt-offload odhcp6c odhcpd-ipv6only ppp ppp-mod-pppoe
 
-WNDR3700V4:
-    NETGEAR WNDR3700v4
-    Packages: kmod-usb-core kmod-usb2 kmod-usb-ledtrig-usbport
+netgear_wndr3700-v4:
+    NETGEAR WNDR3700 v4
+    Packages: kmod-usb2 kmod-usb-ledtrig-usbport
+    hasImageMetadata: 1
+    SupportedDevices: netgear,wndr3700-v4
 ```
 
 ## PACKAGES

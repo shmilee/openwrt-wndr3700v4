@@ -23,6 +23,11 @@ MemTotal:         126020 kB
 WNDR3700v4 Image
 ==================
 
+NOTE:
+   1. note for [trouble upgrade from 19.07 to 21.02](https://forum.openwrt.org/t/trouble-upgrading-netgear-wndr-4300v1-from-19-07-to-21-02/106823), **recommend flashing factory images**!
+   2. 当前版本 [v20211009](https://github.com/shmilee/openwrt-wndr3700v4/releases/tag/v20211009), 采用的是 openwrt-19.07.8。
+   3. master 分支 TODO: openwrt-21.02 check `openwrt/target/linux/ath79/dts/ar9344_netgear_wndr.dtsi`, 128M
+
 固件: 按 [build_myimage.md](./build_myimage.md) 编译,
 版本命名 `openwrt-xx.xx.x-ar71xx-nand-wndr3700v4-ubi-factory-2yyymmdd-with-myfiles.img`.
 

@@ -5,11 +5,13 @@
 import os
 import time
 import re
-import requests
 import gzip
 import hashlib
+import requests
 from multiprocessing import Pool
 from contextlib import closing
+from urllib.request import Request, urlopen
+
 import setting
 
 
@@ -143,6 +145,16 @@ def get_profile(p):
     return profile
 
 
+def get_content_length(response):
+    if 'Content-Length' in response.headers:
+        return int(response.headers['content-length'])
+    # fallback
+    headers = setting.REQUESTS_KWARGS['headers']
+    timeout = setting.REQUESTS_KWARGS['timeout']
+    rqst = Request(response.request.url, headers=headers, method='HEAD')
+    resp = urlopen(rqst, timeout=timeout)
+    return int(resp.headers['Content-Length'])
+
 class Grabber(object):
     '''Openwrt Packages Grabber'''
 
@@ -173,7 +185,7 @@ class Grabber(object):
         try:
             with closing(requests.get(url, **setting.REQUESTS_KWARGS)) as rp:
                 chunk_size = 1024
-                content_size = int(rp.headers['content-length'])
+                content_size = get_content_length(rp)
                 progress = ProgressBar(title, total=content_size, unit="KB",
                                        chunk_size=chunk_size,
                                        run_status="正在下载",
@@ -222,7 +234,7 @@ class Grabber(object):
         for i, db in enumerate(self.db_files, 1):
             url = '%s/%s' % (remote, db)
             out = os.path.join(local, db)
-            order = r'(%' + str(len(str(len(self.db_files)))) + r's/%s'
+            order = r'%' + str(len(str(len(self.db_files)))) + r's/%s'
             order = order % (i, len(self.db_files))
             result = self._download(url, out, order, db, None, None)
             if result:

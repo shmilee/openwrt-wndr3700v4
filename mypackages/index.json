@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "architecture": "mips_24kc",
+  "packages": {
+    "luci-app-autossh": "1.0.0-r1",
+    "luci-app-nfs": "1.0.0-r2",
+    "luci-app-vlmcsd": "1.0.1-r1",
+    "luci-i18n-autossh-zh-cn": "25.237.15863~a0ddb80",
+    "luci-i18n-nfs-zh-cn": "25.237.15863~a0ddb80",
+    "luci-i18n-vlmcsd-zh-cn": "25.237.15863~a0ddb80",
+    "vlmcsd": "2020.09.16~ae16d038-r2"
+  }
+}

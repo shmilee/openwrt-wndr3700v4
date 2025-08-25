@@ -1,9 +1,13 @@
 Package: luci-app-autossh
 Version: 1.0.0-r1
 Depends: libc, luci-base, autossh, luci-lua-runtime
+Source: feeds/shmilee/luci-app-autossh
+SourceName: luci-app-autossh
 License: Apache-2.0
 Section: luci
+SourceDateEpoch: 1756095863
 URL: https://github.com/openwrt/luci
+Maintainer: OpenWrt LuCI community
 Architecture: all
 Installed-Size: 10240
 Filename: luci-app-autossh_1.0.0-r1_all.ipk
@@ -14,9 +18,13 @@ Description:  Provides Luci for autossh
 Package: luci-app-nfs
 Version: 1.0.0-r2
 Depends: libc, luci-base, nfs-kernel-server, luci-lua-runtime
+Source: feeds/shmilee/luci-app-nfs
+SourceName: luci-app-nfs
 License: Apache-2.0
 Section: luci
+SourceDateEpoch: 1756095863
 URL: https://github.com/openwrt/luci
+Maintainer: OpenWrt LuCI community
 Architecture: all
 Installed-Size: 30720
 Filename: luci-app-nfs_1.0.0-r2_all.ipk
@@ -27,9 +35,13 @@ Description:  LuCI Support for NFS
 Package: luci-app-vlmcsd
 Version: 1.0.1-r1
 Depends: libc, luci-base, vlmcsd, luci-lua-runtime
+Source: feeds/shmilee/luci-app-vlmcsd
+SourceName: luci-app-vlmcsd
 License: MIT
 Section: luci
+SourceDateEpoch: 1756095863
 URL: https://github.com/openwrt/luci
+Maintainer: OpenWrt LuCI community
 Architecture: all
 Installed-Size: 20480
 Filename: luci-app-vlmcsd_1.0.1-r1_all.ipk
@@ -40,8 +52,12 @@ Description:  LuCI Support for vlmcsd
 Package: luci-i18n-autossh-zh-cn
 Version: 25.237.15863~a0ddb80
 Depends: libc, luci-app-autossh
+Source: feeds/shmilee/luci-app-autossh
+SourceName: luci-app-autossh
 License: Apache-2.0
 Section: luci
+SourceDateEpoch: 1756095863
+Maintainer: shmilee <shmilee.zju@gmail.com>
 Architecture: all
 Installed-Size: 10240
 Filename: luci-i18n-autossh-zh-cn_25.237.15863~a0ddb80_all.ipk
@@ -52,8 +68,12 @@ Description:  Translation for luci-app-autossh - 简体中文 (Chinese Simplifie
 Package: luci-i18n-nfs-zh-cn
 Version: 25.237.15863~a0ddb80
 Depends: libc, luci-app-nfs
+Source: feeds/shmilee/luci-app-nfs
+SourceName: luci-app-nfs
 License: Apache-2.0
 Section: luci
+SourceDateEpoch: 1756095863
+Maintainer: shmilee <shmilee.zju@gmail.com>
 Architecture: all
 Installed-Size: 10240
 Filename: luci-i18n-nfs-zh-cn_25.237.15863~a0ddb80_all.ipk
@@ -64,8 +84,12 @@ Description:  Translation for luci-app-nfs - 简体中文 (Chinese Simplified)
 Package: luci-i18n-vlmcsd-zh-cn
 Version: 25.237.15863~a0ddb80
 Depends: libc, luci-app-vlmcsd
+Source: feeds/shmilee/luci-app-vlmcsd
+SourceName: luci-app-vlmcsd
 License: MIT
 Section: luci
+SourceDateEpoch: 1756095863
+Maintainer: shmilee <shmilee.zju@gmail.com>
 Architecture: all
 Installed-Size: 10240
 Filename: luci-i18n-vlmcsd-zh-cn_25.237.15863~a0ddb80_all.ipk
@@ -76,9 +100,14 @@ Description:  Translation for luci-app-vlmcsd - 简体中文 (Chinese Simplified
 Package: vlmcsd
 Version: 2020.09.16~ae16d038-r2
 Depends: libc, libpthread
+Source: feeds/shmilee/vlmcsd
+SourceName: vlmcsd
 License: MIT
+LicenseFiles: LICENSE
 Section: net
+SourceDateEpoch: 1756095863
 URL: http://forums.mydigitallife.info/threads/50234
+Maintainer: fuyumi <280604399@qq.com>
 Architecture: mips_24kc
 Installed-Size: 102400
 Filename: vlmcsd_2020.09.16~ae16d038-r2_mips_24kc.ipk

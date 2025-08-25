@@ -2,11 +2,11 @@
 __pycache__
 mirror-tools/openwrt-*
 
-OpenWrt-ImageBuilder-*.tar.bz2
-OpenWrt-SDK-*.tar.bz2
+OpenWrt-ImageBuilder-*.tar.*
+OpenWrt-SDK-*.tar.*
 
-openwrt-imagebuilder-*.tar.xz
-openwrt-sdk-*.tar.xz
+openwrt-imagebuilder-*.tar.*
+openwrt-sdk-*.tar.*
 
 myfiles_for_image
 myfiles-secret*.py

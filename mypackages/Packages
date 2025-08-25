@@ -1,40 +1,40 @@
 Package: luci-app-autossh
 Version: 1.0.0-r1
-Depends: libc, luci-base, autossh, luci-lua-runtime
+Depends: libc, luci-base, luci-compat, autossh, luci-lua-runtime
 License: Apache-2.0
 Section: luci
 URL: https://github.com/openwrt/luci
 Architecture: all
 Installed-Size: 10240
 Filename: luci-app-autossh_1.0.0-r1_all.ipk
-Size: 1812
-SHA256sum: 43cb63fbd46b1c6a2044f0073c324f367fb80f6aa1445d46d00d812c847b02a1
+Size: 1815
+SHA256sum: 147bde0be3b51dd9f61cc798f4370584f8097a6dc0af63b8f95ff87eb1bd99cc
 Description:  Provides Luci for autossh
 
 Package: luci-app-nfs
 Version: 1.0.0-r2
-Depends: libc, luci-base, nfs-kernel-server, luci-lua-runtime
+Depends: libc, luci-base, luci-compat, nfs-kernel-server, luci-lua-runtime
 License: Apache-2.0
 Section: luci
 URL: https://github.com/openwrt/luci
 Architecture: all
 Installed-Size: 30720
 Filename: luci-app-nfs_1.0.0-r2_all.ipk
-Size: 4189
-SHA256sum: ffeb2d5ed79e5f9ba080031cc8d9a4b62e844186039853eb1c68ed10df5e3500
+Size: 4192
+SHA256sum: 785dcef4949a40f60d7a341c9942f0437af03a3768b2f5e9d44039c361b3d816
 Description:  LuCI Support for NFS
 
 Package: luci-app-vlmcsd
 Version: 1.0.1-r1
-Depends: libc, luci-base, vlmcsd, luci-lua-runtime
+Depends: libc, luci-base, luci-compat, vlmcsd, luci-lua-runtime
 License: MIT
 Section: luci
 URL: https://github.com/openwrt/luci
 Architecture: all
 Installed-Size: 20480
 Filename: luci-app-vlmcsd_1.0.1-r1_all.ipk
-Size: 2177
-SHA256sum: 43f050b879a61d5a764865aecf257c0605141c09de55187ea03c522b9efef1db
+Size: 2180
+SHA256sum: 068ddac52b0f499975c8ec82860b645954d318972136465420353c9a30277ebb
 Description:  LuCI Support for vlmcsd
 
 Package: luci-i18n-autossh-zh-cn
@@ -45,8 +45,8 @@ Section: luci
 Architecture: all
 Installed-Size: 10240
 Filename: luci-i18n-autossh-zh-cn_25.237.15863~a0ddb80_all.ipk
-Size: 1352
-SHA256sum: 145879c816b7757e773e81631420fc8fb5afff4268b58c3ae90161feb3215d81
+Size: 1348
+SHA256sum: 0a2f76512d329af94a48b2f169050056afb83a562911662ab5a857b5b59c14ed
 Description:  Translation for luci-app-autossh - 简体中文 (Chinese Simplified)
 
 Package: luci-i18n-nfs-zh-cn
@@ -58,7 +58,7 @@ Architecture: all
 Installed-Size: 10240
 Filename: luci-i18n-nfs-zh-cn_25.237.15863~a0ddb80_all.ipk
 Size: 1481
-SHA256sum: 4d289abd919e1279f00ebe888e6e09ba67e47ad97ac4aa9436e44eb07375c0d5
+SHA256sum: a91ef071c46d5c012ac8defeacd7e9557945000497361c2e7c66e96d424795d4
 Description:  Translation for luci-app-nfs - 简体中文 (Chinese Simplified)
 
 Package: luci-i18n-vlmcsd-zh-cn
@@ -69,8 +69,8 @@ Section: luci
 Architecture: all
 Installed-Size: 10240
 Filename: luci-i18n-vlmcsd-zh-cn_25.237.15863~a0ddb80_all.ipk
-Size: 1373
-SHA256sum: 412f5a16c8ec94a1111e30c8174175421efcac525829887be9a216f6f49bbc67
+Size: 1375
+SHA256sum: c05d46c29916291497ebc0417ae62b4f02135fd13563febd6d2f7ab5bdde1488
 Description:  Translation for luci-app-vlmcsd - 简体中文 (Chinese Simplified)
 
 Package: vlmcsd

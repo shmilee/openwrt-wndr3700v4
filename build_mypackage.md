@@ -119,3 +119,19 @@ gzip -9nc Packages > Packages.gz
 ARCH_PACKAGES="mips_24kc"
 $Scripts/make-index-json.py -f opkg -a "${ARCH_PACKAGES}" Packages > index.json
 ```
+
+3. about **Packages.sig**
+
+To fix issue:
+
+```
+Signing package index...
+Cannot open file '/home/openwrt/sdk/key-build' for reading
+```
+
+**Next**, sign file `Packages` in **imagebuilder** with Local build key: `key-build`.
+
+```
+usign -S -m Packages -s /path/to/key-build
+```
+

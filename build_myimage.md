@@ -6,28 +6,37 @@
 
 ## 准备 ImageBuilder
 
-* 下载 [ImageBuilder](https://openwrt.proxy.ustclug.org/releases/21.02.0/targets/ath79/nand/openwrt-imagebuilder-21.02.0-ath79-nand.Linux-x86_64.tar.xz)
+* 下载 [ImageBuilder](https://openwrt.proxy.ustclug.org/releases/24.10.2/targets/ath79/nand/openwrt-imagebuilder-24.10.2-ath79-nand.Linux-x86_64.tar.zst)
 * 检查MD5, 解压 -> `work/imagebuilder-xx.xx.x-ath79-nand`
 
 ## 准备软件源
 
 * 用 mirror-tools 下载官方缓慢的源到本地位置,
-  如 `./mirror-tools/{openwrt-21.02.0,openwrt-packages-21.02}`.
+  如 `./mirror-tools/{openwrt-24.10.2,openwrt-packages-24.10}`.
 
 * 依照 [build_mypackage](./build_mypackage.md) 编译软件包,
   生成的 ipk, `package_index` 放到 `./mypackages`
+
+* 签名 `./mypackages/Packages`
+  ```
+  DISTRIB_RELEASE="24.10.2"
+  USIGN=./work/imagebuilder-$DISTRIB_RELEASE-ath79-nand/staging_dir/host/bin/usign
+  BUILD_KEY=./work/imagebuilder-$DISTRIB_RELEASE-ath79-nand/key-build
+  "$USIGN" -S -m ./mypackages/Packages -s "$BUILD_KEY"
+  ```
 
 * 修改软件源 `work/imagebuilder-xx.xx.x-ath79-nand/repositories.conf`.  
   假设 `./mirror-tools` 对应 `/mnt`,  
   `./mypackages` 对应 `/home/openwrt/mypackages` :
 
 ```shell
-src/gz openwrt_core file:///mnt/openwrt-21.02.0/targets/ath79/nand/packages
-src/gz openwrt_base file:///mnt/openwrt-packages-21.02/mips_24kc/base
-src/gz openwrt_luci file:///mnt/openwrt-packages-21.02/mips_24kc/luci
-src/gz openwrt_packages file:///mnt/openwrt-packages-21.02/mips_24kc/packages
-src/gz openwrt_routing file:///mnt/openwrt-packages-21.02/mips_24kc/routing
-src/gz openwrt_telephony file:///mnt/openwrt-packages-21.02/mips_24kc/telephony
+src/gz openwrt_core file:///mnt/openwrt-24.10.2/targets/ath79/nand/packages
+src/gz openwrt_base file:///mnt/openwrt-packages-24.10/mips_24kc/base
+src/gz openwrt_kmods file:///mnt/openwrt-24.10.2/targets/ath79/nand/kmods/6.6.93-1-ba16238a7a163b7e7c5402245d60bef1
+src/gz openwrt_luci file:///mnt/openwrt-packages-24.10/mips_24kc/luci
+src/gz openwrt_packages file:///mnt/openwrt-packages-24.10/mips_24kc/packages
+src/gz openwrt_routing file:///mnt/openwrt-packages-24.10/mips_24kc/routing
+src/gz openwrt_telephony file:///mnt/openwrt-packages-24.10/mips_24kc/telephony
 src/gz mypackages file:///home/openwrt/mypackages
 src imagebuilder file:packages
 ```
@@ -53,11 +62,11 @@ cd ../
 ```
 docker run --rm -i -t -u openwrt \
     -w /home/openwrt/imagebuilder \
-    -v $PWD/work/imagebuilder-21.02.0-ath79-nand:/home/openwrt/imagebuilder \
+    -v $PWD/work/imagebuilder-24.10.2-ath79-nand:/home/openwrt/imagebuilder \
     -v $PWD/mirror-tools:/mnt \
     -v $PWD/mypackages:/home/openwrt/mypackages \
     -v $PWD/myfiles_for_image:/home/openwrt/myfiles_for_image \
-    shmilee/openwrt-buildsystem:21.02.x /bin/bash
+    shmilee/openwrt-buildsystem:24.10.x /bin/bash
 ```
 
 以下命令默认在 `container` 中运行.
@@ -159,8 +168,9 @@ $ diff -u0 legacy.mk.bk legacy.mk
 $ cd /home/openwrt/imagebuilder/
 $ make info
 Current Target: "ath79/nand"
-Current Revision: "r16279-5cc0535800"
-Default Packages: base-files ca-bundle dropbear fstools libc libgcc libustream-wolfssl logd mtd netifd opkg uci uclient-fetch urandom-seed urngd busybox procd kmod-gpio-button-hotplug swconfig kmod-ath9k uboot-envtools wpad-basic-wolfssl dnsmasq firewall ip6tables iptables kmod-ipt-offload odhcp6c odhcpd-ipv6only ppp ppp-mod-pppoe
+Current Architecture: "mips"
+Current Revision: "r28739-d9340319c6"
+Default Packages: base-files ca-bundle dropbear fstools libc libgcc libustream-mbedtls logd mtd netifd uci uclient-fetch urandom-seed urngd kmod-gpio-button-hotplug swconfig kmod-ath9k uboot-envtools wpad-basic-mbedtls procd-ujail dnsmasq firewall4 nftables kmod-nft-offload odhcp6c odhcpd-ipv6only ppp ppp-mod-pppoe opkg
 
 netgear_wndr3700-v4:
     NETGEAR WNDR3700 v4
@@ -183,7 +193,7 @@ luci_ipks=(
     luci-i18n-base-zh-cn
     luci-i18n-firewall-zh-cn
 )
-zjuvpn_ipks=(
+vpn_ipks=(
     kmod-l2tp
     kmod-pppol2tp
     ppp-mod-pppol2tp
@@ -193,7 +203,7 @@ other_ipks=(
     htop iftop ip kmod-sit shadow-su shadow-useradd ss
     luci-app-ddns luci-i18n-ddns-zh-cn
     luci-app-qos luci-i18n-qos-zh-cn
-    luci-app-samba luci-i18n-samba-zh-cn
+    #luci-app-samba4 luci-i18n-samba4-zh-cn
     luci-app-sqm
     luci-app-statistics luci-i18n-statistics-zh-cn
     luci-app-watchcat luci-i18n-watchcat-zh-cn
@@ -204,20 +214,19 @@ other_ipks=(
     #luci-app-upnp luci-i18n-upnp-zh-cn
     aria2 ariang
     luci-app-aria2 luci-i18n-aria2-zh-cn
-    #yaaw
     ca-certificates # for aria2 verify https
-    transmission-daemon-mbedtls transmission-web
+    transmission-daemon transmission-web
     luci-app-transmission luci-i18n-transmission-zh-cn
-    autossh
-    #sshfs
-    #openssh-client # conflict: dropbear, /usr/bin/ssh -> /sbin/dropbear
+    autossh openssh-client sshfs
     nfs-kernel-server-utils # cmd: nfsstat showmount
-    shadowsocks-libev-ss-{server,redir,tunnel,rules,local} luci-app-shadowsocks-libev
+    nginx-ssl
 )
-conflict_ipks=(
-    # /usr/bin/scp /usr/bin/ssh provided by dropbear(link) and openssh-client(binary)
-    # binary overwrite link, put dropbear before openssh-client
-    dropbear openssh-client
+big_ipks=(
+    #adguardhome adblock luci-app-adblock
+    #frpc luci-app-frpc luci-i18n-frpc-zh-cn
+    #frps luci-app-frps luci-i18n-frps-zh-cn
+    #tailscale
+    #v2ray-core
 )
 ```
 
@@ -225,7 +234,7 @@ conflict_ipks=(
 
 > 关于 [block-mount](https://openwrt.org/docs/techref/block_mount)
 
-> `block-mount_2018-04-16-e2436836-1` `block info` 可以检测到的[文件系统](https://git.openwrt.org/?p=project/fstools.git;a=tree;f=libblkid-tiny;h=7d5e866db06868f42568fb0dbdc8431f2ca91976;hb=e24368361db166cf369a19cea773bd54f9d854b1)
+> `block-mount_2024.07.14~408c2cc4-r1` `block info` 可以检测到的[文件系统](https://git.openwrt.org/?p=project/fstools.git;a=tree;f=libblkid-tiny;h=e904c5305eb1c4f46a0ef5600e8b9c74b976a2df;hb=408c2cc48e6694446c89da7f8121b399063e1067)
 
 ```shell
 usb_ipks=(
@@ -249,11 +258,7 @@ usb_ipks=(
 
 ```shell
 my_ipks=(
-    adbyby luci-app-adbyby-plus luci-i18n-adbyby-plus-zh-cn
-    radvd
-    #frpc frps
-    vlmcsd luci-app-vlmcsd
-    nginx
+    vlmcsd luci-app-vlmcsd luci-i18n-vlmcsd-zh-cn
     luci-app-autossh luci-i18n-autossh-zh-cn
     luci-app-nfs luci-i18n-nfs-zh-cn
 )
@@ -265,17 +270,18 @@ my_ipks=(
 ```shell
 $ cd /home/openwrt/imagebuilder/
 $ make image \
-  PROFILE=WNDR3700V4 \
+  PROFILE=netgear_wndr3700-v4 \
   PACKAGES="$(echo\
     ${replace_ipks[@]}\
     ${luci_ipks[@]}\
-    ${zjuvpn_ipks[@]}\
+    ${vpn_ipks[@]}\
     ${other_ipks[@]}\
-    ${conflict_ipks[@]}\
+    ${big_ipks[@]}\
     ${usb_ipks[@]}\
     ${my_ipks[@]})" \
   FILES="/home/openwrt/myfiles_for_image"
 ```
 
-生成的镜像位置 `/home/openwrt/imagebuilder/bin/targets/ar71xx/nand/`,
-文件名 `openwrt-xx.xx.x-ar71xx-nand-wndr3700v4-ubi-factory.img`.
+生成的镜像位置 `/home/openwrt/imagebuilder/bin/targets/ath79/nand/`,
+文件名 `openwrt-xx.xx.x-ath79-nand-netgear_wndr3700-v4-squashfs-factory.img`.
+

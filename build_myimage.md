@@ -57,6 +57,75 @@ gpg -d myfiles-secret.py.asc > myfiles-secret.py
 cd ../
 ```
 
+## 关于 128M flash layout
+
+1. openwrt [flash layout 的介绍文档](https://openwrt.org/docs/techref/flash.layout)
+
+2. 刷使用默认分区布局的固件，ssh 登录路由，查看固件信息。
+  mtd size 十六进制，单位 B。partitions blocks 十进制，单位 KB。
+
+```
+root@OpenWrt:~# cat /proc/mtd
+dev:    size   erasesize  name
+mtd0: 00040000 00020000 "u-boot"
+mtd1: 00040000 00020000 "u-boot-env"
+mtd2: 00040000 00020000 "caldata"
+mtd3: 00080000 00020000 "pot"
+mtd4: 00200000 00020000 "language"
+mtd5: 00080000 00020000 "config"
+mtd6: 00300000 00020000 "traffic_meter"
+mtd7: 01900000 00020000 "firmware"
+mtd8: 00400000 00020000 "kernel"
+mtd9: 01500000 00020000 "ubiconcat0"
+mtd10: 00040000 00020000 "caldata_backup"
+mtd11: 06000000 00020000 "ubiconcat1"
+mtd12: 07500000 00020000 "ubi"
+
+root@OpenWrt:~# cat /proc/partitions
+major minor  #blocks  name
+
+  31        0        256 mtdblock0
+  31        1        256 mtdblock1
+  31        2        256 mtdblock2
+  31        3        512 mtdblock3
+  31        4       2048 mtdblock4
+  31        5        512 mtdblock5
+  31        6       3072 mtdblock6
+  31        7      25600 mtdblock7
+  31        8       4096 mtdblock8
+  31        9      21504 mtdblock9
+  31       10        256 mtdblock10
+  31       11      98304 mtdblock11
+  31       12     119808 mtdblock12
+ 254        0      14012 ubiblock0_0
+
+root@OpenWrt:~# ls /dev/ubi*
+/dev/ubi0         /dev/ubi0_0       /dev/ubi0_1       /dev/ubi_ctrl     /dev/ubiblock0_0
+
+root@OpenWrt:~# df -h
+Filesystem                Size      Used Available Use% Mounted on
+/dev/root                13.8M     13.8M         0 100% /rom
+tmpfs                    58.7M    864.0K     57.9M   1% /tmp
+/dev/ubi0_1              87.6M     72.0K     83.0M   0% /overlay
+overlayfs:/overlay       87.6M     72.0K     83.0M   0% /
+tmpfs                   512.0K         0    512.0K   0% /dev
+```
+
+因此 24.10.x 已充分利用了 128M 的闪存。
+仅当编译的固件体积过大时，才需要考虑修改 layout。
+比如，固件中加入了go编译的较大软件包，才需重点检查 kernel+firmware 的体积。
+
+3. 修改 layout 的相关文件。
+
+* `target/linux/ath79/dts/ar9344_netgear_wndr.dtsi`
+
+4. 修改 128M layout 的相关参考链接：
+    - https://blog.csdn.net/u011570312/article/details/112269634
+    - https://www.red-yellow.net/netgear-wndr3700-v4%E5%88%B7openwrt%E5%9B%BA%E4%BB%B6.html
+    - dts [设备树介绍](https://cloud.tencent.com/developer/article/2008640)
+
+5. Optional，对比旧版 [19.07.x 的分区布局](./backup_19.07.x_layout.md)。
+
 ## 进入 `Docker container`
 
 ```
@@ -69,96 +138,7 @@ docker run --rm -i -t -u openwrt \
     shmilee/openwrt-buildsystem:24.10.x /bin/bash
 ```
 
-以下命令默认在 `container` 中运行.
-
-## 128M flash TODO `target/linux/ath79/dts/ar9344_netgear_wndr.dtsi`
-
-ssh 登录路由查看官方固件的信息:
-[1](https://openwrt.org/docs/techref/flash.layout)
-
-```shell
-## firmware = kernel + ubi, kernel is 2048k
-$ cat /proc/cmdline 
- board=WNDR3700_V4 console=ttyS0,115200 mtdparts=ar934x-nfc:256k(u-boot)ro,
-256k(u-boot-env)ro,256k(caldata),512k(pot),2048k(language),512k(config),
-3072k(traffic_meter),2048k(kernel),23552k(ubi),25600k@0x6c0000(firmware),
-256k(caldata_backup),-(reserved) rootfstype=squashfs noinitrd
-
-$ cat /proc/mtd
-dev:    size   erasesize  name
-mtd0: 00040000 00020000 "u-boot"
-mtd1: 00040000 00020000 "u-boot-env"
-mtd2: 00040000 00020000 "caldata"
-mtd3: 00080000 00020000 "pot"
-mtd4: 00200000 00020000 "language"
-mtd5: 00080000 00020000 "config"
-mtd6: 00300000 00020000 "traffic_meter"
-mtd7: 00200000 00020000 "kernel"
-mtd8: 01700000 00020000 "ubi"
-mtd9: 01900000 00020000 "firmware"
-mtd10: 00040000 00020000 "caldata_backup"
-mtd11: 06000000 00020000 "reserved"
-
-$ cat /proc/partitions 
-major minor  #blocks  name
-
-  31        0        256 mtdblock0
-  31        1        256 mtdblock1
-  31        2        256 mtdblock2
-  31        3        512 mtdblock3
-  31        4       2048 mtdblock4
-  31        5        512 mtdblock5
-  31        6       3072 mtdblock6
-  31        7       2048 mtdblock7
-  31        8      23552 mtdblock8
-  31        9      25600 mtdblock9
-  31       10        256 mtdblock10
-  31       11      98304 mtdblock11
- 254        0       2356 ubiblock0_0
-## sum(name[0,1,2,3,4,5,6,10]) = 7M
-## name7 + name8 = name9
-## name11 (reserved)
-## name9 + name 11 = 123904(121M) -> firmware, 123904 - name7 = 121856 -> ubi
-```
-
-ubi firmware 组合:
-
-```
-ubi=23552 #23M
-firmware=25600 #25M
-
-ubi=49152 #48M
-firmware=51200 #50M
-
-ubi=74752 #73M
-firmware=76800 #75M
-
-ubi=100352 #98M
-firmware=102400 #100M
-
-ubi=110592 #108M
-firmware=112640 #110M
-
-ubi=121856 #119M
-firmware=123904 #121M, 最大值
-```
-
-修改 `/home/openwrt/imagebuilder/target/linux/ath79/image/legacy.mk`.
-找到以 `wndr4300_mtdlayout` 开头的行, 尽量多的使用 128M nand flash.
-
-```shell
-$ ubi=110592 #108M
-$ firmware=112640 #110M
-$ cd /home/openwrt/imagebuilder/target/linux/ar71/image
-$ cp legacy.mk legacy.mk.bk
-$ sed -i "s/\(^wndr4300_mtdlayout.*\)23552k\(.ubi..\)25600k\(.*$\)/\1${ubi}k\2${firmware}k\3/" legacy.mk
-$ diff -u0 legacy.mk.bk legacy.mk
---- legacy.mk.bk	2018-08-28 12:04:14.000000000 +0000
-+++ legacy.mk	2018-08-28 12:04:21.000000000 +0000
-@@ -273 +273 @@
--wndr4300_mtdlayout=mtdparts=ar934x-nfc:256k(u-boot)ro,256k(u-boot-env)ro,256k(caldata),512k(pot),2048k(language),512k(config),3072k(traffic_meter),2048k(kernel),23552k(ubi),25600k@0x6c0000(firmware),256k(caldata_backup),-(reserved)
-+wndr4300_mtdlayout=mtdparts=ar934x-nfc:256k(u-boot)ro,256k(u-boot-env)ro,256k(caldata),512k(pot),2048k(language),512k(config),3072k(traffic_meter),2048k(kernel),110592k(ubi),112640k@0x6c0000(firmware),256k(caldata_backup),-(reserved)
-```
+**以下命令默认在 `container` 中运行**。
 
 ## PROFILE
 
@@ -225,8 +205,8 @@ big_ipks=(
     #adguardhome adblock luci-app-adblock
     #frpc luci-app-frpc luci-i18n-frpc-zh-cn
     #frps luci-app-frps luci-i18n-frps-zh-cn
-    #tailscale
-    #v2ray-core
+    tailscale
+    #v2raya luci-app-v2raya luci-i18n-v2raya-zh-cn
 )
 ```
 

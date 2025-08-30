@@ -61,70 +61,9 @@ cd ../
 
 1. openwrt [flash layout 的介绍文档](https://openwrt.org/docs/techref/flash.layout)
 
-2. 刷使用默认分区布局的固件，ssh 登录路由，查看固件信息。
-  mtd size 十六进制，单位 B。partitions blocks 十进制，单位 KB。
+2. 参照 [24.10.x 的分区布局信息](./about_24.10.x_layout.md)，按需修改 layout。
 
-```
-root@OpenWrt:~# cat /proc/mtd
-dev:    size   erasesize  name
-mtd0: 00040000 00020000 "u-boot"
-mtd1: 00040000 00020000 "u-boot-env"
-mtd2: 00040000 00020000 "caldata"
-mtd3: 00080000 00020000 "pot"
-mtd4: 00200000 00020000 "language"
-mtd5: 00080000 00020000 "config"
-mtd6: 00300000 00020000 "traffic_meter"
-mtd7: 01900000 00020000 "firmware"
-mtd8: 00400000 00020000 "kernel"
-mtd9: 01500000 00020000 "ubiconcat0"
-mtd10: 00040000 00020000 "caldata_backup"
-mtd11: 06000000 00020000 "ubiconcat1"
-mtd12: 07500000 00020000 "ubi"
-
-root@OpenWrt:~# cat /proc/partitions
-major minor  #blocks  name
-
-  31        0        256 mtdblock0
-  31        1        256 mtdblock1
-  31        2        256 mtdblock2
-  31        3        512 mtdblock3
-  31        4       2048 mtdblock4
-  31        5        512 mtdblock5
-  31        6       3072 mtdblock6
-  31        7      25600 mtdblock7
-  31        8       4096 mtdblock8
-  31        9      21504 mtdblock9
-  31       10        256 mtdblock10
-  31       11      98304 mtdblock11
-  31       12     119808 mtdblock12
- 254        0      14012 ubiblock0_0
-
-root@OpenWrt:~# ls /dev/ubi*
-/dev/ubi0         /dev/ubi0_0       /dev/ubi0_1       /dev/ubi_ctrl     /dev/ubiblock0_0
-
-root@OpenWrt:~# df -h
-Filesystem                Size      Used Available Use% Mounted on
-/dev/root                13.8M     13.8M         0 100% /rom
-tmpfs                    58.7M    864.0K     57.9M   1% /tmp
-/dev/ubi0_1              87.6M     72.0K     83.0M   0% /overlay
-overlayfs:/overlay       87.6M     72.0K     83.0M   0% /
-tmpfs                   512.0K         0    512.0K   0% /dev
-```
-
-因此 24.10.x 已充分利用了 128M 的闪存。
-仅当编译的固件体积过大时，才需要考虑修改 layout。
-比如，固件中加入了go编译的较大软件包，才需重点检查 kernel+firmware 的体积。
-
-3. 修改 layout 的相关文件。
-
-* `target/linux/ath79/dts/ar9344_netgear_wndr.dtsi`
-
-4. 修改 128M layout 的相关参考链接：
-    - https://blog.csdn.net/u011570312/article/details/112269634
-    - https://www.red-yellow.net/netgear-wndr3700-v4%E5%88%B7openwrt%E5%9B%BA%E4%BB%B6.html
-    - dts [设备树介绍](https://cloud.tencent.com/developer/article/2008640)
-
-5. Optional，对比旧版 [19.07.x 的分区布局](./backup_19.07.x_layout.md)。
+3. Optional，对比旧版 [19.07.x 的分区布局信息](./about_19.07.x_layout.md)。
 
 ## 进入 `Docker container`
 
@@ -150,7 +89,10 @@ $ make info
 Current Target: "ath79/nand"
 Current Architecture: "mips"
 Current Revision: "r28739-d9340319c6"
-Default Packages: base-files ca-bundle dropbear fstools libc libgcc libustream-mbedtls logd mtd netifd uci uclient-fetch urandom-seed urngd kmod-gpio-button-hotplug swconfig kmod-ath9k uboot-envtools wpad-basic-mbedtls procd-ujail dnsmasq firewall4 nftables kmod-nft-offload odhcp6c odhcpd-ipv6only ppp ppp-mod-pppoe opkg
+Default Packages: base-files ca-bundle dropbear fstools libc libgcc libustream-mbedtls logd 
+    mtd netifd uci uclient-fetch urandom-seed urngd kmod-gpio-button-hotplug swconfig 
+    kmod-ath9k uboot-envtools wpad-basic-mbedtls procd-ujail dnsmasq firewall4 nftables 
+    kmod-nft-offload odhcp6c odhcpd-ipv6only ppp ppp-mod-pppoe opkg
 
 netgear_wndr3700-v4:
     NETGEAR WNDR3700 v4
@@ -210,11 +152,8 @@ big_ipks=(
 )
 ```
 
-添加 USB 存储。
-
-> 关于 [block-mount](https://openwrt.org/docs/techref/block_mount)
-
-> `block-mount_2024.07.14~408c2cc4-r1` `block info` 可以检测到的[文件系统](https://git.openwrt.org/?p=project/fstools.git;a=tree;f=libblkid-tiny;h=e904c5305eb1c4f46a0ef5600e8b9c74b976a2df;hb=408c2cc48e6694446c89da7f8121b399063e1067)
+添加 USB 存储。 关于 [block-mount](https://openwrt.org/docs/techref/block_mount)。
+`block-mount_2024.07.14~408c2cc4-r1` `block info` 可以检测到的[文件系统](https://git.openwrt.org/?p=project/fstools.git;a=tree;f=libblkid-tiny;h=e904c5305eb1c4f46a0ef5600e8b9c74b976a2df;hb=408c2cc48e6694446c89da7f8121b399063e1067)。
 
 ```shell
 usb_ipks=(

@@ -187,29 +187,70 @@ Character device major/minor: 249:2
 3. 仅当编译的固件体积过大时，才需要考虑修改 layout。
    比如，固件中加入了go编译的较大软件包，才需重点检查 kernel+rootfs，即 firmware 的体积。
 
-在下载和构建固件的网站：[firmware-selector.openwrt.org](https://firmware-selector.openwrt.org/?version=24.10.2&target=ath79%2Fnand&id=netgear_wndr3700-v4)，
-添加预安装的软件包 `tailscale adguardhome v2raya`，构建过程出现如下错误：
+   在下载和构建固件的网站：[firmware-selector.openwrt.org](https://firmware-selector.openwrt.org/?version=24.10.2&target=ath79%2Fnand&id=netgear_wndr3700-v4)，
+   添加预安装的软件包 `tailscale adguardhome v2raya`，构建过程出现如下错误：
+   ```
+   WARNING: Image file /builder/build_dir/target-mips_24kc_musl/linux-ath79_nand/tmp/openwrt-24.10.2-5f203f8f3f51-ath79-nand-netgear_wndr3700-v4-squashfs-factory.img
+   is too big: 39714816 > 26214400
+   [mkdniimg] *** error: stat failed on /builder/build_dir/target-mips_24kc_musl/linux-ath79_nand/tmp/openwrt-24.10.2-5f203f8f3f51-ath79-nand-netgear_wndr3700-v4-squashfs-factory.img: No such file or directory
+   make[3]: *** [Makefile:125: /builder/build_dir/target-mips_24kc_musl/linux-ath79_nand/tmp/openwrt-24.10.2-5f203f8f3f51-ath79-nand-netgear_wndr3700-v4-squashfs-factory.img] Error 1
+   make[2]: *** [Makefile:268: build_image] Error 2
+   ```
+   其中，
+   ```
+   [rootfs]
+   mode=ubi
+   vol_id=0
+   vol_type=dynamic
+   vol_name=rootfs
+   image=/builder/build_dir/target-mips_24kc_musl/linux-ath79_nand/root.squashfs
+   vol_size=33451008
+   ```
+
+4. 根据 rootfs 的 `vol_size` 或 `IMAGE_SIZE = 39714816 > 25M`，修改 layout 的相关文件。
+   
+* `target/linux/ath79/image/nand.mk`, add `CUSTOM_IMAGE_SIZE=??m` support
+
+```patch
+@@ -366,6 +366,9 @@
+ endef
+ TARGET_DEVICES += netgear_r6100
+ 
++# add cuttom wndr3700-v4 setting
++#   IMAGE_SIZE reset, $$() -> $() when using
++#   DTS_CPPFLAGS, for #if #include in dtsi, not checked/used
+ define Device/netgear_wndr3700-v4
+   SOC := ar9344
+   DEVICE_MODEL := WNDR3700
+@@ -374,6 +377,8 @@
+   NETGEAR_BOARD_ID := WNDR3700v4
+   NETGEAR_HW_ID := 29763948+128+128
+   $(Device/netgear_ath79_nand)
++  IMAGE_SIZE := $$(if $$(CUSTOM_IMAGE_SIZE),$$(CUSTOM_IMAGE_SIZE),25600k)
++  DTS_CPPFLAGS := $$(if $$(CUSTOM_IMAGE_SIZE),-D__CUSTOM_IMAGE_SIZE__)
+ endef
+ TARGET_DEVICES += netgear_wndr3700-v4
+```
+
+* `target/linux/ath79/dts/ar9344_netgear_wndr3700-v4.dts` -/> `target/linux/ath79/dts/ar9344_netgear_wndr.dtsi`
+
+```patch
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+ 
+-#include "ar9344_netgear_wndr.dtsi"
++#include "ar9344_netgear_wndr_custom_image_size.dtsi"
+ #include "ar9344_netgear_wndr_wan.dtsi"
+ #include "ar9344_netgear_wndr_usb.dtsi"
+ ```
+
+* Create file `ar9344_netgear_wndr_custom_image_size.dtsi`
+  by script `target-linux-ath79-dts-ar9344_netgear_wndr_custom_image_size.py`.
+
+commands example for `CUSTOM_IMAGE_SIZE=40m`:
 
 ```
-WARNING: Image file /builder/build_dir/target-mips_24kc_musl/linux-ath79_nand/tmp/openwrt-24.10.2-5f203f8f3f51-ath79-nand-netgear_wndr3700-v4-squashfs-factory.img is too big: 39714816 > 26214400
-[mkdniimg] *** error: stat failed on /builder/build_dir/target-mips_24kc_musl/linux-ath79_nand/tmp/openwrt-24.10.2-5f203f8f3f51-ath79-nand-netgear_wndr3700-v4-squashfs-factory.img: No such file or directory
-make[3]: *** [Makefile:125: /builder/build_dir/target-mips_24kc_musl/linux-ath79_nand/tmp/openwrt-24.10.2-5f203f8f3f51-ath79-nand-netgear_wndr3700-v4-squashfs-factory.img] Error 1
-make[2]: *** [Makefile:268: build_image] Error 2
+patch -i ./flash-layout/ath79-image-nand.mk.patch ./work/imagebuilder-24.10.2-ath79-nand/target/linux/ath79/image/nand.mk
+patch -i ./flash-layout/ath79-dts-ar9344_netgear_wndr3700-v4.dts.patch ./work/imagebuilder-24.10.2-ath79-nand/target/linux/ath79/dts/ar9344_netgear_wndr3700-v4.dts
+./flash-layout/ath79-dts-ar9344_netgear_wndr_custom_image_size.py --imgsize 40m ./work/imagebuilder-24.10.2-ath79-nand/target/linux/ath79/dts/ar9344_netgear_wndr.dtsi
 ```
-
-```
-[rootfs]
-mode=ubi
-vol_id=0
-vol_type=dynamic
-vol_name=rootfs
-image=/builder/build_dir/target-mips_24kc_musl/linux-ath79_nand/root.squashfs
-vol_size=33451008
-```
-
-4. 根据 rootfs 的 `vol_size` 修改 layout 的相关文件。
-
-* `target/linux/ath79/dts/ar9344_netgear_wndr.dtsi`
-* `target/linux/ath79/image/nand.mk`
-
-

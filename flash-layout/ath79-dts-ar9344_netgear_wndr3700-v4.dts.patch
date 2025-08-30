@@ -1,0 +1,10 @@
+--- ../work/imagebuilder-24.10.2-ath79-nand/target/linux/ath79/dts/ar9344_netgear_wndr3700-v4.dts	2025-06-24 04:40:36.000000000 +0800
++++ target-linux-ath79-dts-ar9344_netgear_wndr3700-v4.dts	2025-08-30 16:41:00.732491455 +0800
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+ 
+-#include "ar9344_netgear_wndr.dtsi"
++#include "ar9344_netgear_wndr_custom_image_size.dtsi"
+ #include "ar9344_netgear_wndr_wan.dtsi"
+ #include "ar9344_netgear_wndr_usb.dtsi"
+ 

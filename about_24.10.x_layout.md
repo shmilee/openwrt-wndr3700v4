@@ -1,13 +1,22 @@
-
+---
+title: flash layout of WNDR3700v4
+subtitle: for openwrt 24.10.x
+author:
+    - shmilee
+date: \today
+CJKmainfont: SimSun
+fontsize: 10pt  # 8pt, 10pt, 12pt, 14pt
+---
 
 # 128M flash layout of WNDR3700v4 24.10.x
 
 1. flash layout 相关的一些参考链接：
     - openwrt [flash layout 的介绍文档](https://openwrt.org/docs/techref/flash.layout)
-    - [dts 设备树介绍](https://cloud.tencent.com/developer/article/2008640)
-    - https://blog.csdn.net/u011570312/article/details/112269634
     - https://www.red-yellow.net/netgear-wndr3700-v4刷openwrt固件.html
+    - https://blog.csdn.net/u011570312/article/details/112269634
     - 用于 NAND flash 的 [UBIFS（无序区块镜像文件系统）](https://en.wikipedia.org/wiki/UBIFS)
+    - [DTS 设备树介绍](https://cloud.tencent.com/developer/article/2008640)
+    - [kernel DTS coding style](https://docs.kernel.org/devicetree/bindings/dts-coding-style.html)
 
 2. 刷使用默认分区布局的固件（官方或自建）。ssh 登录路由，查看固件信息。  
   mtd size 十六进制，单位 B。partitions blocks 十进制，单位 KB。
@@ -147,33 +156,60 @@ Character device major/minor: 249:2
         + 第一部分 `/dev/ubi0_0` 用于固件中的 rootfs。  
           rootfs 挂载为 `/rom`, uses SquashFS, 大小取决于包含的软件包多少。  
           上文 `14012 ubiblock0_0` 对应 `14080k /rom`，固件中 /rom 略大，因为其最小块 `BLOCKSIZE:=128k`。
-        + 第二部分 `/dev/ubi0_1` 用于 `/overlay`。  
-        + 89684 "ubiconcat1"(mtd11,96M)
-         对应 `ubiconcat0`
-         对应 `ubiconcat1`
-
-
-Filesystem           1K-blocks      Used Available Use% Mounted on
-/dev/ubi0_1              89684        72     84992   0% /overlay
-overlayfs:/overlay       89684        72     84992   0% /
-
-/dev/ubi0_1 on /overlay type ubifs (rw,noatime,assert=read-only,ubi=0,vol=1)
-
+        + 第二部分 `/dev/ubi0_1`, uses ubifs, 用于 `/overlay`。  
+          可用大小 89684k 少于 "ubiconcat1"(mtd11,96M)。
+          ubi 的两个 volume 卷均小于两个分区 `ubiconcat0` 和 `ubiconcat1` 的最大可用值。
 
 ```
++-----------+-------------------------------------------------------------------------------------------------+
+|  Layer-0  |                                            raw flash                                            |
++===========+=================+=================================+=====================+=======================+
+| Layer-1.1 | u-boot & other, |            firmware,            |   caldata_backup,   |      ubiconcat1,      |
+|           |  <0x0 0x6c0000> |       <0x6c0000 0x1900000>      | <0x1fc0000 0x40000> | <0x2000000 0x6000000> |
+|           |   mtd0 to mtd6  |           mtd7, (25M)           |        mtd10        |      mtd11, (96M)     |
++-----------+-----------------+------------+--------------------+---------------------+                       |
+| Layer-1.2 |                 |   kernel   |     ubiconcat0     |          X          |                       |
+|           |                 | mtd8, (4M) |     mtd9, (21M)    |                     |                       |
++-----------+-----------------+------------+--------------------+---------------------+-----------------------+
+| Layer-1.3 |                 |            |              UBI partition, mtd12=mtd9+mtd11, (117M)             |
++-----------+-----------------+------------+--------------------+---------------------------------------------+
+|  Layer-2  |                 |            |       rootfs,      |                 rootfs_data,                |
+|           |                 |            |  dynamic volume 0, |              dynamic volume 1,              |
+|           |                 |            |  mounted: "/rom",  |             mounted: "/overlay",            |
+|           |                 |            |      SquashFS,     |                    UBIFS,                   |
+|           |                 |            |   size depends on  |           all remaining free space          |
+|           |                 |            |    selected pkgs   |                                             |
++-----------+-----------------+------------+--------------------+---------------------------------------------+
+|  Layer-3  |                 |            |     mounted: "/", OverlayFS, stacking /overlay on top of /rom    |
++-----------+-----------------+------------+------------------------------------------------------------------+
 ```
 
+3. 仅当编译的固件体积过大时，才需要考虑修改 layout。
+   比如，固件中加入了go编译的较大软件包，才需重点检查 kernel+rootfs，即 firmware 的体积。
 
+在下载和构建固件的网站：[firmware-selector.openwrt.org](https://firmware-selector.openwrt.org/?version=24.10.2&target=ath79%2Fnand&id=netgear_wndr3700-v4)，
+添加预安装的软件包 `tailscale adguardhome v2raya`，构建过程出现如下错误：
 
+```
+WARNING: Image file /builder/build_dir/target-mips_24kc_musl/linux-ath79_nand/tmp/openwrt-24.10.2-5f203f8f3f51-ath79-nand-netgear_wndr3700-v4-squashfs-factory.img is too big: 39714816 > 26214400
+[mkdniimg] *** error: stat failed on /builder/build_dir/target-mips_24kc_musl/linux-ath79_nand/tmp/openwrt-24.10.2-5f203f8f3f51-ath79-nand-netgear_wndr3700-v4-squashfs-factory.img: No such file or directory
+make[3]: *** [Makefile:125: /builder/build_dir/target-mips_24kc_musl/linux-ath79_nand/tmp/openwrt-24.10.2-5f203f8f3f51-ath79-nand-netgear_wndr3700-v4-squashfs-factory.img] Error 1
+make[2]: *** [Makefile:268: build_image] Error 2
+```
 
-仅当编译的固件体积过大时，才需要考虑修改 layout。
-比如，固件中加入了go编译的较大软件包，才需重点检查 kernel+firmware 的体积。
+```
+[rootfs]
+mode=ubi
+vol_id=0
+vol_type=dynamic
+vol_name=rootfs
+image=/builder/build_dir/target-mips_24kc_musl/linux-ath79_nand/root.squashfs
+vol_size=33451008
+```
 
-
-
-
-3. 修改 layout 的相关文件。
+4. 根据 rootfs 的 `vol_size` 修改 layout 的相关文件。
 
 * `target/linux/ath79/dts/ar9344_netgear_wndr.dtsi`
+* `target/linux/ath79/image/nand.mk`
 
 

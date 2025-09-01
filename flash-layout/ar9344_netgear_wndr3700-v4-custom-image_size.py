@@ -58,7 +58,7 @@ def update_nand_nodes(image_size):
 		}};
 
 		/delete-node/ partition@1fc0000;
-		/delete-node/ ubiconcat1;
+		/delete-node/ partition@2000000;
 
 		partition@{caldata_backup_start:x} {{
 			label = "caldata_backup";

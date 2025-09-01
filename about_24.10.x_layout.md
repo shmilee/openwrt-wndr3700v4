@@ -112,7 +112,7 @@ Name:        rootfs_data
 Character device major/minor: 249:2
 ```
 
-* 在目录 `./work/imagebuilder-24.10.2-ath79-nand/` 内，寻找layout相关文件。
+3. 在目录 `./work/imagebuilder-24.10.2-ath79-nand/`（或 `./work/sdk-24.10.2-ath79-nand/`）内，寻找layout相关文件。
     - `make info` 输出 -> `netgear_wndr3700-v4`.
     - `Device/netgear_wndr3700-v4` defined in **`target/linux/ath79/image/nand.mk`**, uses `Device/netgear_ath79_nand`.
     - `Device/netgear_ath79_nand` defined in **`target/linux/ath79/image/nand.mk`**.
@@ -136,7 +136,7 @@ Character device major/minor: 249:2
       其中 `ubiconcat1` 对应旧版 19.07.x 未利用的部分。
       因此 24.10.2 已充分利用了 128M 的闪存。
 
-* 根据 `ar9344_netgear_wndr.dtsi` 给出默认的 flash layout。可对照 `/proc/mtd` 和 `/proc/partitions`。
+4. 根据 `ar9344_netgear_wndr.dtsi` 给出默认的 flash layout。可对照 `/proc/mtd` 和 `/proc/partitions`。
     - u-boot和其他前7个分区：  
         + 启动相关的 "u-boot"(mtd0,256k)、"u-boot-env"(mtd1,256k)，  
         + "caldata"(mtd2,256k)、"pot"(mtd3,512k)、"language"(mtd4,2M)
@@ -184,7 +184,9 @@ Character device major/minor: 249:2
 +-----------+-----------------+------------+------------------------------------------------------------------+
 ```
 
-3. 仅当编译的固件体积过大时，才需要考虑修改 layout。
+# 修改 flash layout of WNDR3700v4
+
+1. 仅当编译的固件体积过大时，才需要考虑修改 layout。
    比如，固件中加入了go编译的较大软件包，才需重点检查 kernel+rootfs，即 firmware 的体积。
 
    在下载和构建固件的网站：[firmware-selector.openwrt.org](https://firmware-selector.openwrt.org/?version=24.10.2&target=ath79%2Fnand&id=netgear_wndr3700-v4)，
@@ -207,50 +209,56 @@ Character device major/minor: 249:2
    vol_size=33451008
    ```
 
-4. 根据 rootfs 的 `vol_size` 或 `IMAGE_SIZE = 39714816 > 25M`，修改 layout 的相关文件。
+2. 根据 rootfs 的 `vol_size` 或 `IMAGE_SIZE = 39714816 > 25M`，修改 layout 的相关文件。
    
 * `target/linux/ath79/image/nand.mk`, add `CUSTOM_IMAGE_SIZE=??m` support
+    - change `IMAGE_SIZE`
+    - add `DEVICE_DTS=ar9344_netgear_wndr3700-v4-custom-$(CUSTOM_IMAGE_SIZE)`,
+      see `Device/Build/kernel` in `include/image.mk`
+    - add `DTS_CPPFLAGS`, see `Image/BuildDTB/sub` in `include/image.mk`
+    - patch: `./flash-layout/ath79-image-nand.mk.patch`
 
-```patch
-@@ -366,6 +366,9 @@
- endef
- TARGET_DEVICES += netgear_r6100
- 
-+# add cuttom wndr3700-v4 setting
-+#   IMAGE_SIZE reset, $$() -> $() when using
-+#   DTS_CPPFLAGS, for #if #include in dtsi, not checked/used
- define Device/netgear_wndr3700-v4
-   SOC := ar9344
-   DEVICE_MODEL := WNDR3700
-@@ -374,6 +377,8 @@
-   NETGEAR_BOARD_ID := WNDR3700v4
-   NETGEAR_HW_ID := 29763948+128+128
-   $(Device/netgear_ath79_nand)
-+  IMAGE_SIZE := $$(if $$(CUSTOM_IMAGE_SIZE),$$(CUSTOM_IMAGE_SIZE),25600k)
-+  DTS_CPPFLAGS := $$(if $$(CUSTOM_IMAGE_SIZE),-D__CUSTOM_IMAGE_SIZE__)
- endef
- TARGET_DEVICES += netgear_wndr3700-v4
-```
+* Create file `target/linux/ath79/dts/ar9344_netgear_wndr3700-v4-custom-??m.dts`
+  by script `ar9344_netgear_wndr3700-v4-custom-image_size.py`.
 
-* `target/linux/ath79/dts/ar9344_netgear_wndr3700-v4.dts` -/> `target/linux/ath79/dts/ar9344_netgear_wndr.dtsi`
 
-```patch
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-or-later OR MIT
- 
--#include "ar9344_netgear_wndr.dtsi"
-+#include "ar9344_netgear_wndr_custom_image_size.dtsi"
- #include "ar9344_netgear_wndr_wan.dtsi"
- #include "ar9344_netgear_wndr_usb.dtsi"
- ```
-
-* Create file `ar9344_netgear_wndr_custom_image_size.dtsi`
-  by script `target-linux-ath79-dts-ar9344_netgear_wndr_custom_image_size.py`.
+3. imagebuilder 内测试，修改的 dts 未生效。
 
 commands example for `CUSTOM_IMAGE_SIZE=40m`:
 
 ```
 patch -i ./flash-layout/ath79-image-nand.mk.patch ./work/imagebuilder-24.10.2-ath79-nand/target/linux/ath79/image/nand.mk
-patch -i ./flash-layout/ath79-dts-ar9344_netgear_wndr3700-v4.dts.patch ./work/imagebuilder-24.10.2-ath79-nand/target/linux/ath79/dts/ar9344_netgear_wndr3700-v4.dts
-./flash-layout/ath79-dts-ar9344_netgear_wndr_custom_image_size.py --imgsize 40m ./work/imagebuilder-24.10.2-ath79-nand/target/linux/ath79/dts/ar9344_netgear_wndr.dtsi
+./flash-layout/ar9344_netgear_wndr3700-v4-custom-image_size.py --imgsize 40m \
+    ./work/imagebuilder-24.10.2-ath79-nand/target/linux/ath79/dts/ar9344_netgear_wndr3700-v4.dts
+## then run in imagebuilder container
+make image ADD_LOCAL_KEY=1 PROFILE=netgear_wndr3700-v4 CUSTOM_IMAGE_SIZE=40m
+```
+
+修改不生效，因为
+* imagebuilder 生成固件时，目录 `build_dir/target-mips_24kc_musl/linux-ath79_nand/` 内，
+    - 不更新 `netgear_wndr3700-v4-kernel.bin`，
+    - 无需生成新的 `image-ar9344_netgear_wndr3700-v4-custom-40m.dtb`，
+    - 所以修改不生效，ubiconcat0 仍是 21M。
+    - 参考：[How OpenWrt compiles DTS files?](https://forum.openwrt.org/t/how-openwrt-compiles-dts-files/67532)
+* 一个 mtd 分区可有多个 ubi volume，但一个 ubi volume 不能横跨多个 mtd 分区。
+    - 参考：[NAND/MTD/UBI/UBIFS 概念及使用方法](https://www.cnblogs.com/arnoldlu/p/17689046.html)
+    - 因此大于 21M 的 /rom rootfs 无法放入 ubiconcat0，刷机失败。
+
+4. TODO
+
+在 sdk 中生成 dtb，并结合 imagebuilder 中的已编译的 vmlinuz 合成新的 kernel.bin
+[Custom DTS / DTB building with ImageBuilder](https://lists.openwrt.org/pipermail/openwrt-devel/2021-March/034239.html)
+
+```
+PATH=$(pwd)/staging_dir/host/bin:$(pwd)/staging_dir/toolchain-mips_24kc_gcc-13.3.0_musl/bin:$PATH make --trace -C target/linux/ath79/image "$(pwd)/build_dir/target-mips_24kc_musl/linux-ath79_nand/netgear_wndr3700-v4-kernel.bin" TOPDIR="$(pwd)" INCLUDE_DIR="$(pwd)/include" TARGET_BUILD=1 BOARD="ath79" SUBTARGET="nand" PROFILE=netgear_wndr3700-v4 DEVICE_DTS="ar9344_netgear_wndr3700-v4"
+
+PATH=$(pwd)/staging_dir/host/bin:$PATH make --trace -C target/linux/ath79/image "$(pwd)/build_dir/target-mips_24kc_musl/linux-ath79_nand/netgear_wndr3700-v4-kernel.bin" TOPDIR="$(pwd)" INCLUDE_DIR="$(pwd)/include" TARGET_BUILD=1 BOARD="ath79" SUBTARGET="nand" PROFILE=netgear_wndr3700-v4 DEVICE_DTS="ar9344_netgear_wndr3700-v4"
+
+
+ls build_dir/target-mips_24kc_musl/linux-ath79_nand/*3700*
+build_dir/target-mips_24kc_musl/linux-ath79_nand/image-ar9344_netgear_wndr3700-v4.dtb # 更新
+build_dir/target-mips_24kc_musl/linux-ath79_nand/netgear_wndr3700-v4-kernel.bin # 更新
+build_dir/target-mips_24kc_musl/linux-ath79_nand/netgear_wndr3700-v4-kernel.bin.fakehdr # 未知
+
+build_dir/target-mips_24kc_musl/linux-ath79_nand/vmlinux # 不需重新编译 copy 即可
 ```

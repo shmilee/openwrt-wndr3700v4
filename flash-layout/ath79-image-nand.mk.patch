@@ -1,21 +1,25 @@
---- ../work/imagebuilder-24.10.2-ath79-nand/target/linux/ath79/image/nand.mk	2025-08-30 15:53:16.304542751 +0800
-+++ target-linux-ath79-image-nand.mk	2025-08-30 16:05:10.964529953 +0800
-@@ -366,6 +366,9 @@
+--- ../work/imagebuilder-24.10.2-ath79-nand/target/linux/ath79/image/nand.mk.backup~	2025-08-30 15:53:16.304542751 +0800
++++ nand.mk	2025-09-01 10:13:38.914732262 +0800
+@@ -366,6 +366,11 @@
  endef
  TARGET_DEVICES += netgear_r6100
  
 +# add cuttom wndr3700-v4 setting
-+#   IMAGE_SIZE reset, $$() -> $() when using
-+#   DTS_CPPFLAGS, for #if #include in dtsi, not checked/used
++#   IMAGE_SIZE, $$() -> $() when using
++#   DEVICE_DTS, $$(SOC)_$(1), ar9344_netgear_wndr3700-v4
++#               -> ar9344_netgear_wndr3700-v4-custom-$$(CUSTOM_IMAGE_SIZE)
++#   DTS_CPPFLAGS, not used, from $(TOPDIR)/include/image.mk:Image/BuildDTB/sub
  define Device/netgear_wndr3700-v4
    SOC := ar9344
    DEVICE_MODEL := WNDR3700
-@@ -374,6 +377,8 @@
+@@ -374,6 +379,10 @@
    NETGEAR_BOARD_ID := WNDR3700v4
    NETGEAR_HW_ID := 29763948+128+128
    $(Device/netgear_ath79_nand)
++  DEVICE_DTS := $$(if $$(CUSTOM_IMAGE_SIZE),ar9344_netgear_wndr3700-v4-custom-$$(CUSTOM_IMAGE_SIZE),\
++				ar9344_netgear_wndr3700-v4)
 +  IMAGE_SIZE := $$(if $$(CUSTOM_IMAGE_SIZE),$$(CUSTOM_IMAGE_SIZE),25600k)
-+  DTS_CPPFLAGS := $$(if $$(CUSTOM_IMAGE_SIZE),-D__CUSTOM_IMAGE_SIZE__)
++  DTS_CPPFLAGS := $$(if $$(CUSTOM_IMAGE_SIZE),-D__CUSTOM_IMAGE_SIZE__=$$(CUSTOM_IMAGE_SIZE))
  endef
  TARGET_DEVICES += netgear_wndr3700-v4
  

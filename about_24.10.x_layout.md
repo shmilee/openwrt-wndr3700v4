@@ -244,21 +244,57 @@ make image ADD_LOCAL_KEY=1 PROFILE=netgear_wndr3700-v4 CUSTOM_IMAGE_SIZE=40m
     - 参考：[NAND/MTD/UBI/UBIFS 概念及使用方法](https://www.cnblogs.com/arnoldlu/p/17689046.html)
     - 因此大于 21M 的 /rom rootfs 无法放入 ubiconcat0，刷机失败。
 
-4. TODO
-
-在 sdk 中生成 dtb，并结合 imagebuilder 中的已编译的 vmlinuz 合成新的 kernel.bin
-[Custom DTS / DTB building with ImageBuilder](https://lists.openwrt.org/pipermail/openwrt-devel/2021-March/034239.html)
+4. 结合 `imagebuilder-24.10.2-ath79-nand` 和 `sdk-24.10.2-ath79-nand` 生成 `dtb` 并 更新 `kernel.bin`。
+    - 参考：[Custom DTS / DTB building with ImageBuilder](https://lists.openwrt.org/pipermail/openwrt-devel/2021-March/034239.html)
 
 ```
-PATH=$(pwd)/staging_dir/host/bin:$(pwd)/staging_dir/toolchain-mips_24kc_gcc-13.3.0_musl/bin:$PATH make --trace -C target/linux/ath79/image "$(pwd)/build_dir/target-mips_24kc_musl/linux-ath79_nand/netgear_wndr3700-v4-kernel.bin" TOPDIR="$(pwd)" INCLUDE_DIR="$(pwd)/include" TARGET_BUILD=1 BOARD="ath79" SUBTARGET="nand" PROFILE=netgear_wndr3700-v4 DEVICE_DTS="ar9344_netgear_wndr3700-v4"
+cp -v ./work/imagebuilder-24.10.2-ath79-nand/target/linux/ath79/image/nand.mk{,.backup~}
+patch -i ./flash-layout/ath79-image-nand.mk.patch ./work/imagebuilder-24.10.2-ath79-nand/target/linux/ath79/image/nand.mk
+cp -v ./work/sdk-24.10.2-ath79-nand/target/linux/ath79/image/nand.mk{,.backup~}
+patch -i ./flash-layout/ath79-image-nand.mk.patch ./work/sdk-24.10.2-ath79-nand/target/linux/ath79/image/nand.mk
 
-PATH=$(pwd)/staging_dir/host/bin:$PATH make --trace -C target/linux/ath79/image "$(pwd)/build_dir/target-mips_24kc_musl/linux-ath79_nand/netgear_wndr3700-v4-kernel.bin" TOPDIR="$(pwd)" INCLUDE_DIR="$(pwd)/include" TARGET_BUILD=1 BOARD="ath79" SUBTARGET="nand" PROFILE=netgear_wndr3700-v4 DEVICE_DTS="ar9344_netgear_wndr3700-v4"
+./flash-layout/ar9344_netgear_wndr3700-v4-custom-image_size.py --imgsize 40m \
+    ./work/imagebuilder-24.10.2-ath79-nand/target/linux/ath79/dts/ar9344_netgear_wndr3700-v4.dts
+./flash-layout/ar9344_netgear_wndr3700-v4-custom-image_size.py --imgsize 40m \
+    ./work/sdk-24.10.2-ath79-nand/target/linux/ath79/dts/ar9344_netgear_wndr3700-v4.dts
 
+docker run --rm -i -t -u openwrt \
+    -w /home/openwrt \
+    -v $PWD/work/sdk-24.10.2-ath79-nand:/home/openwrt/sdk \
+    -v $PWD/work/imagebuilder-24.10.2-ath79-nand:/home/openwrt/imagebuilder \
+    shmilee/openwrt-buildsystem:24.10.x /bin/bash
+```
 
-ls build_dir/target-mips_24kc_musl/linux-ath79_nand/*3700*
-build_dir/target-mips_24kc_musl/linux-ath79_nand/image-ar9344_netgear_wndr3700-v4.dtb # 更新
-build_dir/target-mips_24kc_musl/linux-ath79_nand/netgear_wndr3700-v4-kernel.bin # 更新
-build_dir/target-mips_24kc_musl/linux-ath79_nand/netgear_wndr3700-v4-kernel.bin.fakehdr # 未知
+在容器内：
+    - vmlinux 不重新编译，copy imagebuilder to sdk 即可
+    - PATH 无需 cpp 的 `staging_dir/toolchain-mips_24kc_gcc-13.3.0_musl/bin`
+    - 无需指定 `TARGET_BUILD=1 BOARD="ath79" DEVICE_DTS=ar9344_netgear_wndr3700-v4-custom-xx`
 
-build_dir/target-mips_24kc_musl/linux-ath79_nand/vmlinux # 不需重新编译 copy 即可
+```
+dtb_kernel_DIR='build_dir/target-mips_24kc_musl/linux-ath79_nand'
+
+vmlinux_bin="$dtb_kernel_DIR/vmlinux"
+cp -iv ~/imagebuilder/$vmlinux_bin ~/sdk/$vmlinux_bin
+
+cd ~/sdk/
+kernel_bin="$dtb_kernel_DIR/netgear_wndr3700-v4-kernel.bin"
+PATH="$HOME/sdk/staging_dir/host/bin:$PATH" make --trace \
+    -C target/linux/ath79/image "$HOME/sdk/$kernel_bin" \
+    TOPDIR="$HOME/sdk" INCLUDE_DIR="$HOME/sdk/include" SUBTARGET="nand" \
+    PROFILE=netgear_wndr3700-v4 CUSTOM_IMAGE_SIZE=40m
+
+## check
+ls -lh ~/sdk/$dtb_kernel_DIR/*3700*
+md5sum ~/sdk/$dtb_kernel_DIR/*3700*
+
+## backup
+mkdir -v ~/imagebuilder/$dtb_kernel_DIR/netgear_wndr3700-v4-orignal-25m
+mv -v ~/imagebuilder/$dtb_kernel_DIR/*3700* ~/imagebuilder/$dtb_kernel_DIR/netgear_wndr3700-v4-orignal-25m
+
+## cp
+cp -iv ~/sdk/$dtb_kernel_DIR/*3700* ~/imagebuilder/$dtb_kernel_DIR/
+
+## 构建固件，docker run with local packages dir mounted
+##cd ~/imagebuilder/
+##make image ADD_LOCAL_KEY=1 PROFILE=netgear_wndr3700-v4 CUSTOM_IMAGE_SIZE=40m
 ```

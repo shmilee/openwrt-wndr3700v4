@@ -17,5 +17,6 @@ myimages/openwrt-*.img
 mypackages/*.ipk
 mypackages/BaiduExporter*.crx
 mypackages/Packages.gz
+mypackages/Packages.sig
 
 work/*

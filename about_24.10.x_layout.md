@@ -54,21 +54,21 @@ major minor  #blocks  name
   31       10        256 mtdblock10
   31       11      98304 mtdblock11
   31       12     119808 mtdblock12
- 254        0      14012 ubiblock0_0
+ 254        0       3968 ubiblock0_0
 
 root@OpenWrt:~# df
 Filesystem           1K-blocks      Used Available Use% Mounted on
-/dev/root                14080     14080         0 100% /rom
-tmpfs                    60112       748     59364   1% /tmp
-/dev/ubi0_1              89684        72     84992   0% /overlay
-overlayfs:/overlay       89684        72     84992   0% /
+/dev/root                 4096      4096         0 100% /rom
+tmpfs                    60112       184     59928   0% /tmp
+/dev/ubi0_1              98972        44     94092   0% /overlay
+overlayfs:/overlay       98972        44     94092   0% /
 tmpfs                      512         0       512   0% /dev
 
 root@OpenWrt:~# ls /dev/ubi*
 /dev/ubi0         /dev/ubi0_0       /dev/ubi0_1       /dev/ubi_ctrl     /dev/ubiblock0_0
 
 root@OpenWrt:~# mount|grep /dev
-/dev/ubiblock0_0 on /rom type squashfs (ro,relatime,errors=continue)
+/dev/root on /rom type squashfs (ro,relatime,errors=continue)
 /dev/ubi0_1 on /overlay type ubifs (rw,noatime,assert=read-only,ubi=0,vol=1)
 tmpfs on /dev type tmpfs (rw,nosuid,noexec,noatime,size=512k,mode=755)
 devpts on /dev/pts type devpts (rw,nosuid,noexec,noatime,mode=600,ptmxmode=000)
@@ -97,7 +97,7 @@ root@OpenWrt:~# ubinfo /dev/ubi0_0
 Volume ID:   0 (on ubi0)
 Type:        dynamic
 Alignment:   1
-Size:        113 LEBs (14348288 bytes, 13.6 MiB)
+Size:        32 LEBs (4063232 bytes, 3.8 MiB)
 State:       OK
 Name:        rootfs
 Character device major/minor: 249:1
@@ -106,7 +106,7 @@ root@OpenWrt:~# ubinfo /dev/ubi0_1
 Volume ID:   1 (on ubi0)
 Type:        dynamic
 Alignment:   1
-Size:        800 LEBs (101580800 bytes, 96.8 MiB)
+Size:        881 LEBs (111865856 bytes, 106.6 MiB)
 State:       OK
 Name:        rootfs_data
 Character device major/minor: 249:2
@@ -155,10 +155,12 @@ Character device major/minor: 249:2
     - 挂载的文件系统中 ubi （即 `/dev/ubi0`，dtsi 中的 `ubi@0`）的利用情况：
         + 第一部分 `/dev/ubi0_0` 用于固件中的 rootfs。  
           rootfs 挂载为 `/rom`, uses SquashFS, 大小取决于包含的软件包多少。  
-          上文 `14012 ubiblock0_0` 对应 `14080k /rom`，固件中 /rom 略大，因为其最小块 `BLOCKSIZE:=128k`。
+          上文 `3968k ubiblock0_0` 对应 `4096k /rom`，固件中 /rom 略大。其最小块 `BLOCKSIZE:=128k`。
         + 第二部分 `/dev/ubi0_1`, uses ubifs, 用于 `/overlay`。  
-          可用大小 89684k 少于 "ubiconcat1"(mtd11,96M)。
-          ubi 的两个 volume 卷均小于两个分区 `ubiconcat0` 和 `ubiconcat1` 的最大可用值。
+          卷大小 106.6M 大于 "ubiconcat1"(mtd11,96M)。ubi 的两个 volume 与 mtd 分区 `ubiconcat0` 和 `ubiconcat1` 有中间层，大小不受单个分区限制。
+          ~~一个 mtd 分区可有多个 ubi volume，但一个 ubi volume 不能横跨多个 mtd 分区。参考：[NAND/MTD/UBI/UBIFS 概念及使用方法](https://www.cnblogs.com/arnoldlu/p/17689046.html)~~
+        + 挂载 `/dev/ubi0_1` 的分区大小 98972k，小于卷大小 106.6M，其中不能用的部分可能是 mtd 损坏的块。
+          估计有接近 10M 的坏块。
 
 ```
 +-----------+-------------------------------------------------------------------------------------------------+
@@ -210,7 +212,7 @@ Character device major/minor: 249:2
    ```
 
 2. 根据 rootfs 的 `vol_size` 或 `IMAGE_SIZE = 39714816 > 25M`，修改 layout 的相关文件。
-   
+
 * `target/linux/ath79/image/nand.mk`, add `CUSTOM_IMAGE_SIZE=??m` support
     - change `IMAGE_SIZE`
     - add `DEVICE_DTS=ar9344_netgear_wndr3700-v4-custom-$(CUSTOM_IMAGE_SIZE)`,
@@ -235,14 +237,15 @@ make image ADD_LOCAL_KEY=1 PROFILE=netgear_wndr3700-v4 CUSTOM_IMAGE_SIZE=40m
 ```
 
 修改不生效，因为
+
 * imagebuilder 生成固件时，目录 `build_dir/target-mips_24kc_musl/linux-ath79_nand/` 内，
     - 不更新 `netgear_wndr3700-v4-kernel.bin`，
     - 无需生成新的 `image-ar9344_netgear_wndr3700-v4-custom-40m.dtb`，
     - 所以修改不生效，ubiconcat0 仍是 21M。
     - 参考：[How OpenWrt compiles DTS files?](https://forum.openwrt.org/t/how-openwrt-compiles-dts-files/67532)
-* 一个 mtd 分区可有多个 ubi volume，但一个 ubi volume 不能横跨多个 mtd 分区。
-    - 参考：[NAND/MTD/UBI/UBIFS 概念及使用方法](https://www.cnblogs.com/arnoldlu/p/17689046.html)
-    - 因此大于 21M 的 /rom rootfs 无法放入 ubiconcat0，刷机失败。
+* 注意：由于坏块的存在，接近 40M 的固件，ubiconcat0 所需的大小可能要 50M 或更大？
+    - 不然，/rom rootfs 无法放入 ubiconcat0，也会刷机失败。
+    - 此限制未测试，不确定正确与否。
 
 4. 结合 `imagebuilder-24.10.2-ath79-nand` 和 `sdk-24.10.2-ath79-nand` 生成 `dtb` 并 更新 `kernel.bin`。
     - 参考：[Custom DTS / DTB building with ImageBuilder](https://lists.openwrt.org/pipermail/openwrt-devel/2021-March/034239.html)
@@ -262,10 +265,11 @@ docker run --rm -i -t -u openwrt \
     -w /home/openwrt \
     -v $PWD/work/sdk-24.10.2-ath79-nand:/home/openwrt/sdk \
     -v $PWD/work/imagebuilder-24.10.2-ath79-nand:/home/openwrt/imagebuilder \
+    -v $PWD/mirror-tools:/mnt \
     shmilee/openwrt-buildsystem:24.10.x /bin/bash
 ```
 
-在容器内：
+* 在容器内：
     - vmlinux 不重新编译，copy imagebuilder to sdk 即可
     - PATH 无需 cpp 的 `staging_dir/toolchain-mips_24kc_gcc-13.3.0_musl/bin`
     - 无需指定 `TARGET_BUILD=1 BOARD="ath79" DEVICE_DTS=ar9344_netgear_wndr3700-v4-custom-xx`
@@ -295,6 +299,52 @@ mv -v ~/imagebuilder/$dtb_kernel_DIR/*3700* ~/imagebuilder/$dtb_kernel_DIR/netge
 cp -iv ~/sdk/$dtb_kernel_DIR/*3700* ~/imagebuilder/$dtb_kernel_DIR/
 
 ## 构建固件，docker run with local packages dir mounted
-##cd ~/imagebuilder/
-##make image ADD_LOCAL_KEY=1 PROFILE=netgear_wndr3700-v4 CUSTOM_IMAGE_SIZE=40m
+cd ~/imagebuilder/
+make image ADD_LOCAL_KEY=1 PROFILE=netgear_wndr3700-v4 CUSTOM_IMAGE_SIZE=40m
+```
+
+* 刷固件，登陆路由，检查分区信息，并对比官方固件的输出。修改成功。
+
+```
+root@OpenWrt:~# cat /proc/mtd
+dev:    size   erasesize  name
+mtd0: 00040000 00020000 "u-boot"
+mtd1: 00040000 00020000 "u-boot-env"
+mtd2: 00040000 00020000 "caldata"
+mtd3: 00080000 00020000 "pot"
+mtd4: 00200000 00020000 "language"
+mtd5: 00080000 00020000 "config"
+mtd6: 00300000 00020000 "traffic_meter"
+mtd7: 02800000 00020000 "firmware"
+mtd8: 00400000 00020000 "kernel"
+mtd9: 02400000 00020000 "ubiconcat0"
+mtd10: 00040000 00020000 "caldata_backup"
+mtd11: 05100000 00020000 "ubiconcat1"
+mtd12: 07500000 00020000 "ubi"
+
+root@OpenWrt:~# cat /proc/partitions 
+major minor  #blocks  name
+
+  31        0        256 mtdblock0
+  31        1        256 mtdblock1
+  31        2        256 mtdblock2
+  31        3        512 mtdblock3
+  31        4       2048 mtdblock4
+  31        5        512 mtdblock5
+  31        6       3072 mtdblock6
+  31        7      40960 mtdblock7
+  31        8       4096 mtdblock8
+  31        9      36864 mtdblock9
+  31       10        256 mtdblock10
+  31       11      82944 mtdblock11
+  31       12     119808 mtdblock12
+ 254        0       3596 ubiblock0_0
+
+root@OpenWrt:~# df
+Filesystem           1K-blocks      Used Available Use% Mounted on
+/dev/root                 3584      3584         0 100% /rom
+tmpfs                    60112       248     59864   0% /tmp
+/dev/ubi0_1              99316        40     94440   0% /overlay
+overlayfs:/overlay       99316        40     94440   0% /
+tmpfs                      512         0       512   0% /dev
 ```

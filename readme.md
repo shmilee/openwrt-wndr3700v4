@@ -23,76 +23,88 @@ MemTotal:         126020 kB
 WNDR3700v4 Image
 ==================
 
-NOTE:
-   1. note for [trouble upgrade from 19.07 to 21.02](https://forum.openwrt.org/t/trouble-upgrading-netgear-wndr-4300v1-from-19-07-to-21-02/106823), **recommend flashing factory images**!
-   2. 当前版本 [v20211009](https://github.com/shmilee/openwrt-wndr3700v4/releases/tag/v20211009), 采用的是 openwrt-19.07.8。
-   3. master 分支 TODO: openwrt-21.02 check `openwrt/target/linux/ath79/dts/ar9344_netgear_wndr.dtsi`, 128M
-
 固件: 按 [build_myimage.md](./build_myimage.md) 编译,
-版本命名 `openwrt-xx.xx.x-ar71xx-nand-wndr3700v4-ubi-factory-2yyymmdd-with-myfiles.img`.
+版本命名 `openwrt-xx.xx.x-ath79-nand-netgear_wndr3700-v4-squashfs-factory-20YYmmdd-with-myfiles.img`.
+
+当前采用版本 `openwrt-14.10.2`。
 
 Installation via serial console and TFTP
 ========================================
 
-Reset, 直到电源灯由 **橙色闪烁** 变到 **绿色闪烁**.
+LAN 口连接网线，电脑 IP 设为 `192.168.1.100/24` 后，reset 路由，直至电源灯由 **橙色闪烁** 变到 **绿色闪烁**。
 
 ```shell
+[$] ping 192.168.1.1
 [$] tftp 192.168.1.1
 tftp> mode binary
-tftp> put openwrt-xx.xx.x-ar71xx-nand-wndr3700v4-ubi-factory-2yyymmdd-with-myfiles.img
+tftp> put openwrt-xx.xx.x-ar71xx-nand-wndr3700v4-ubi-factory-20YYmmdd-with-myfiles.img
 tftp> quit
 ```
 
 后续
 =====
 
-* ~~首次登录 http://192.168.1.1:180/cgi-bin/luci 后，设置 root 密码。~~
-
-* 更换 zjuvpn 密码, `'/etc/config/network'`, `config interface 'zjuvpn'`
-
-* FIX: 连接 zjuvpn 后, LAN 无法访问外网, 原因是 `adbyby` 添加的防火墙
-
-  `/etc/config/firewall`
-  ```
-  #config include 'adbyby'
-  #       option type 'script'
-  #       option path '/usr/share/adbyby/firewall.include'
-  #       option reload '1' 
-  ```
-
-* FIX: LAN 无法获取校园 ipv6 地址
-
-  `/etc/config/dhcp`
-  ```
-  config dhcp 'lan'  
-        ......
-        option dhcpv6 'hybrid'
-        option ra 'hybrid'
-  ```
+* 登录 http://192.168.37.1:180/
+    - 系统 > 系统 > 系统属性 > 常规设置 > **同步浏览器时间**
+    - 系统 > 管理权 > 路由器密码 > 更改 root 密码
+    - 系统 > 启动项 > 启动脚本 > 禁用暂时不用的启动项：ddns, transmission
 
 * 5G启用，必须 **断电重启** 一次。
 
-* 禁用暂时不用的启动项 shadowsocks, ddns, transmission
+* 终端登陆 `ssh root@192.168.37.1`
+    - FIX: LAN 无法获取 ipv6 地址，修改 `/etc/config/dhcp`，server to hybrid
+      ```
+      config dhcp 'lan'  
+            ......
+            option dhcpv6 'hybrid'
+            option ra 'hybrid'
+      ```
+    - [ZJU 静态 IP、VPN 账号密码和静态路由等](custom-files-templates/zju/readme.md)
+    - 用户 openwrt 家目录权限
+      ```
+      root@OpenWrt:~# chown -R 1000:100 /home/openwrt/
+      ```
+    - 添加电脑 SSH 公钥
+      ```shell
+      ssh-copy-id root@192.168.37.1
+      ssh-copy-id openwrt@192.168.37.1
+      ```
+    - USB 外接硬盘, (电脑上格式化为 ext4, 卷标 RouterUSB: `mkfs.ext4 -L 'RouterUSB' /dev/sdXX`)。  
+      路由中添加目录：
+      ```shell
+      root@OpenWrt:~# mkdir -p /mnt/sda1/aria2
+      root@OpenWrt:~# chown -R aria2:aria2 /mnt/sda1/aria2
+      root@OpenWrt:~# mkdir -p /mnt/sda1/transmission
+      root@OpenWrt:~# chown -R transmission:transmission /mnt/sda1/transmission
+      ```
 
-* ~~添加 user shmilee~~
+* 网络 > 无线 > radio1 > 扫描，加入网络
+    - 网络名称：wwan
+    - 防火墙区域：wan wan6
+    - 密码：xxx
 
-* 添加电脑的SSH公共密钥到 `/etc/dropbear/authorized_keys`.  
-  shmilee 登录需要 `/etc/shmilee/.ssh/authorized_keys`
+* 添加 swap
+    - 创建 swap 文件
+      ```
+      root@OpenWrt:~# dd if=/dev/zero of=/mnt/sda1/swap bs=1024 count=256000
+      root@OpenWrt:~# mkswap /mnt/sda1/swap
+      root@OpenWrt:~# swapon /mnt/sda1/swap
+      ```
+    - /etc/config/fstab 中增加
+      ```
+      config swap
+      	option enabled '1'
+      	option device '/mnt/sda1/swap'
+      ```
 
-* ~~wan ssh登录, 需确保防火墙入站数据为接受 `option input 'ACCEPT'`~~
-
-* 为 `autossh -D 3696` 生成一对密钥, 放在 `/etc/shmilee/.ssh/`.  
-  公钥添加到3690对应的主机. 手动登录一次, 以生成 `/root/.ssh/known_hosts`.
-
-* 恢复 nginx 配置, `nginx-frontend.conf`, `ssl-certs/`.
-
-* USB外接硬盘, 格式化为 `ext4`, 卷标 `RouterUSB`.
-
-```shell
-mkdir -p /etc/shmilee/.aria2
-mkdir -p /mnt/sda1
-chown shmilee:users -R /etc/shmilee/
-chown shmilee:users -R /mnt/sda1
-smbpasswd -a shmilee
-```
+* 添加 tailscale。准备好 `headscale apikeys create`
+  ```
+  root@OpenWrt:~# opkg update
+  root@OpenWrt:~# opkg install tailscale
+  root@OpenWrt:~# tailscale up \
+    --login-server https://headscale.your-server.domain \
+    --accept-routes=true --accept-dns=false \
+    --advertise-routes=10.0.0.0/8 \
+    --auth-key your-apikey-xxxxxx
+  ```
 

@@ -139,7 +139,7 @@ other_ipks=(
     luci-app-transmission luci-i18n-transmission-zh-cn
     #autossh
     #nginx-ssl
-    openssh-client sshfs
+    openssh-client sshfs openssh-sftp-server
     nfs-kernel-server-utils # cmd: nfsstat showmount
 )
 big_ipks=( # 固件偏大，无法加入

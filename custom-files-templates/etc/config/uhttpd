@@ -49,14 +49,25 @@ config uhttpd main
 #	list interpreter	".php=/usr/bin/php-cgi"
 #	list interpreter	".cgi=/usr/bin/perl"
 
-	# Lua url prefix and handler script.
-	# Lua support is disabled if no prefix given.
-	option lua_prefix	/luci
-	option lua_handler	/usr/lib/lua/luci/sgi/uhttpd.lua
+	# List of prefix->Lua handler mappings.
+	# Any request to an URL beneath the prefix
+	# will be dispatched to the associated Lua
+	# handler script. Lua support is disabled when
+	# no handler mappings are specified. Lua prefix
+	# matches have precedence over the CGI prefix.
+	list lua_prefix		"/cgi-bin/luci=/usr/lib/lua/luci/sgi/uhttpd.lua"
+
+	# List of prefix->ucode handler mappings.
+	# Any request to an URL beneath the prefix
+	# will be dispatched to the associated ucode
+	# handler script. Ucode support is disabled when
+	# no handler mappings are specified. Ucode prefix
+	# matches have precedence over the CGI prefix.
+#	list ucode_prefix		"/ucode/example=/usr/share/example.uc"
 
 	# Specify the ubus-rpc prefix and socket path.
 #	option ubus_prefix	/ubus
-#	option ubus_socket	/var/run/ubus.sock
+#	option ubus_socket	/var/run/ubus/ubus.sock
 
 	# CGI/Lua timeout, if the called script does not
 	# write data within the given amount of seconds,
@@ -112,11 +123,19 @@ config uhttpd main
 # Defaults for automatic certificate and key generation
 config cert defaults
 
-	# Validity time
-	option days		730
+	# Validity time, 397 days is maximum allowed by CA/Browser forum
+	option days		397
+
+	# key type: rsa or ec
+	option key_type		ec
 
 	# RSA key size
 	option bits		2048
+
+	# EC curve name
+	# Curve names vary between px5g-{wolfssl,mbedtls} and openssl
+	# P-256 or P-384 are guaranteed to work
+	option ec_curve		P-256
 
 	# Location
 	option country		ZZ

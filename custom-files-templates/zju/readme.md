@@ -1,3 +1,15 @@
+## wan 静态 IP
+
+* `wan-static-network` 替换 `{XXX}` 后，添加至 `etc/config/network`.
+
+## VPN
+
+* `vpn-network` 替换 `{XXX}` 后，添加至 `etc/config/network`.
+
+* `etc/config/firewall` zone wan 中添加 `list network 'zjuvpn'`
+
+## 静态路由
+
 [新版客户端](http://zuits.zju.edu.cn/redir.php?catalog_id=1921&object_id=1935)
 [016.04.14](http://zuits.zju.edu.cn/wescms/sys/filebrowser/file.php?cmd=download&id=391112)
 
@@ -17,4 +29,4 @@ FILE: DoubleLineRouteMgr.ini
 10=58.196.224.0/20
 ```
 
-自行替换 gateway
+* `yq-routes` 或 `zjg-routes`，替换 gateway 后，添加至 `etc/config/network`.

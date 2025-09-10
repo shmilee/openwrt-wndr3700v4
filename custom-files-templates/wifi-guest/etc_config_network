@@ -1,7 +1,13 @@
-config interface 'guest'
+
+config device
+	option name 'br-guest'
 	option type 'bridge'
-	option _orig_ifname 'radio0.network2'
-	option _orig_bridge 'true'
+	option bridge_empty '1'
+
+config interface 'guest'
+	option device 'br-guest'
 	option proto 'static'
 	option ipaddr '{IPADDR}'
 	option netmask '255.255.255.0'
+	list dns '192.168.1.1'
+

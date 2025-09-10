@@ -5,28 +5,33 @@ config dnsmasq
 	option localise_queries	1
 	## 默认开启rebind保护, 是防止域名被指向内网地址(私有网络).
 	## 将'1'改成'0', 不然10.10.0.21(私有网络)的结果就被丢弃了.
-	option rebind_protection '0'  # disable if upstream must serve RFC1918 addresses
+	option rebind_protection 0  # disable if upstream must serve RFC1918 addresses
 	option rebind_localhost 1  # enable for RBL checking and similar services
 	#list rebind_domain example.lan  # whitelist RFC1918 responses for domains
 	option local	'/lan/'
 	option domain	'lan'
 	option expandhosts	1
 	option nonegcache	0
+	option cachesize	1000
 	option authoritative	1
 	option readethers	1
 	option leasefile	'/tmp/dhcp.leases'
-	option resolvfile	'/tmp/resolv.conf.auto'
+	option resolvfile	'/tmp/resolv.conf.d/resolv.conf.auto'
 	#list server		'/mycompany.local/1.2.3.4'
 	option nonwildcard	1 # bind to & keep track of interfaces
 	#list interface		br-lan
 	#list notinterface	lo
 	#list bogusnxdomain     '64.94.110.11'
 	option localservice	0  # disable to allow DNS requests from non-local subnets
+	option ednspacket_max	1232
+	option filter_aaaa	0
+	option filter_a		0
+	#list addnmount		/some/path # read-only mount path to expose it to dnsmasq
 
 config dhcp lan
 	option interface	lan
 	option start 	100
-	option limit	15
+	option limit	16
 	option leasetime	12h
 	list dhcp_option '6,192.168.1.1'
 	option dhcpv6 'hybrid'

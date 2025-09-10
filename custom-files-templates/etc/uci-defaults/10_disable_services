@@ -1,0 +1,3 @@
+/etc/init.d/ddns disable
+
+exit 0

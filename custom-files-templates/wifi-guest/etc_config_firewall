@@ -11,7 +11,7 @@ config forwarding
 	option src guest
 	option dest wan
 
-config rule                             
+config rule
 	option name SSHGuest
 	option src guest
 	option dest_ip '192.168.1.1'
@@ -19,7 +19,7 @@ config rule
 	option proto tcp
 	option target REJECT
 
-config rule                   
+config rule
 	option name LuCIGuest
 	option src guest
 	option dest_ip '192.168.1.1'

@@ -1,7 +1,10 @@
+
 config wifi-iface wifiguest0
 	option device 'radio0'
+	option network 'guest'
 	option mode 'ap'
 	option ssid '{SSID}'
-	option network 'guest'
-	option encryption 'psk2'
+	option encryption 'sae-mixed'
 	option key '{WIFIKEY}'
+	option isolate '1'
+	option ocv '0'

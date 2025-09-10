@@ -1,8 +1,10 @@
+
 config core main
 	option lang 'zh_cn'
 	option mediaurlbase /luci-static/bootstrap
 	option resourcebase /luci-static/resources
-	
+	option ubuspath /ubus/
+
 config extern flash_keep
 	option uci 		"/etc/config/"
 	option dropbear "/etc/dropbear/"
@@ -11,21 +13,21 @@ config extern flash_keep
 	option opkg		"/etc/opkg.conf"
 	option firewall	"/etc/firewall.user"
 	option uploads	"/lib/uci/upload/"
-	
+
 config internal languages
-	option zh_cn '普通话 (Chinese)'
+	option zh_cn '简体中文 (Chinese Simplified)'
 
 config internal sauth
 	option sessionpath "/tmp/luci-sessions"
 	option sessiontime 3600
-	
+
 config internal ccache
 	option enable 1
-		
+
 config internal themes
 
 config internal apply
-	option rollback 30
+	option rollback 90
 	option holdoff 4
 	option timeout 5
 	option display 1.5

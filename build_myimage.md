@@ -17,14 +17,6 @@
 * 依照 [build_mypackage](./build_mypackage.md) 编译软件包,
   生成的 ipk, `package_index` 放到 `./mypackages`
 
-* 签名 `./mypackages/Packages`
-  ```
-  DISTRIB_RELEASE="24.10.2"
-  USIGN=./work/imagebuilder-$DISTRIB_RELEASE-ath79-nand/staging_dir/host/bin/usign
-  BUILD_KEY=./work/imagebuilder-$DISTRIB_RELEASE-ath79-nand/key-build
-  "$USIGN" -S -m ./mypackages/Packages -s "$BUILD_KEY"
-  ```
-
 * 修改软件源 `work/imagebuilder-xx.xx.x-ath79-nand/repositories.conf`.  
   假设 `./mirror-tools` 对应 `/mnt`,  
   `./mypackages` 对应 `/home/openwrt/mypackages` :
@@ -45,15 +37,14 @@ src imagebuilder file:packages
 
 所有修改过的配置, 标记替换敏感信息放入 `./custom-files-templates/` 作为模板.
 
-**用 `myfiles-secret.py` 保存个人敏感信息**, 一个示例 `myfiles-secret-example.py`.
+用 `myfiles-secret-20YYMMDD.py` 填写**敏感内容**, 一个示例 `myfiles-secret-example.py`.
 
 运行 `gen_myfiles.py`, 依照模板生成自定义配置 `myfiles_for_image/`.
 
 ```shell
 cd ./custom-files-templates/
-# gpg -e -r username -a myfiles-secret.py
-gpg -d myfiles-secret.py.asc > myfiles-secret.py
-./gen_myfiles.py myfiles-secret.py
+cp -iv myfiles-secret-example.py myfiles-secret-$(date +%Y%m%d).py
+./gen_myfiles.py myfiles-secret-$(date +%Y%m%d).py
 cd ../
 ```
 
@@ -62,6 +53,12 @@ cd ../
 1. openwrt [flash layout 的介绍文档](https://openwrt.org/docs/techref/flash.layout)
 
 2. 参照 [24.10.x 的分区布局信息](./about_24.10.x_layout.md)，按需修改 layout。
+    - 选用 `CUSTOM_IMAGE_SIZE=40m`
+    - 添加下文 `big_ipks` 等较大软件包后，生成的固件体积大，30～40M，
+      刷机时 tftp put 成功，但路由重启后并不生效。
+      （待定）其限制可能来源于其他设置，如 u-boot。
+      ~~[1](https://openwrt.org/docs/techref/bootloader/uboot.config)
+      [2](https://docs.u-boot.org/en/latest/usage/environment.html)~~
 
 3. Optional，对比旧版 [19.07.x 的分区布局信息](./about_19.07.x_layout.md)。
 
@@ -103,7 +100,7 @@ netgear_wndr3700-v4:
 
 ## PACKAGES
 
-检查默认的 Packages, 删除或添加软件源中的 Packages.
+* 检查默认的 Packages, 删除或添加软件源中的 Packages.
 
 ```shell
 replace_ipks=(
@@ -122,7 +119,8 @@ vpn_ipks=(
     xl2tpd
 )
 other_ipks=(
-    htop iftop ip kmod-sit shadow-su shadow-useradd ss
+    shadow-su shadow-useradd
+    htop iftop ip ss
     luci-app-ddns luci-i18n-ddns-zh-cn
     luci-app-qos luci-i18n-qos-zh-cn
     #luci-app-samba4 luci-i18n-samba4-zh-cn
@@ -139,20 +137,23 @@ other_ipks=(
     ca-certificates # for aria2 verify https
     transmission-daemon transmission-web
     luci-app-transmission luci-i18n-transmission-zh-cn
-    autossh openssh-client sshfs
+    #autossh
+    #nginx-ssl
+    openssh-client sshfs
     nfs-kernel-server-utils # cmd: nfsstat showmount
-    nginx-ssl
 )
-big_ipks=(
+big_ipks=( # 固件偏大，无法加入
     #adguardhome adblock luci-app-adblock
     #frpc luci-app-frpc luci-i18n-frpc-zh-cn
     #frps luci-app-frps luci-i18n-frps-zh-cn
-    tailscale
+    #tailscale
     #v2raya luci-app-v2raya luci-i18n-v2raya-zh-cn
 )
 ```
 
-添加 USB 存储。 关于 [block-mount](https://openwrt.org/docs/techref/block_mount)。
+* 添加 USB 存储。
+
+关于 [block-mount](https://openwrt.org/docs/techref/block_mount)。
 `block-mount_2024.07.14~408c2cc4-r1` `block info` 可以检测到的[文件系统](https://git.openwrt.org/?p=project/fstools.git;a=tree;f=libblkid-tiny;h=e904c5305eb1c4f46a0ef5600e8b9c74b976a2df;hb=408c2cc48e6694446c89da7f8121b399063e1067)。
 
 ```shell
@@ -164,7 +165,7 @@ usb_ipks=(
     block-mount
     kmod-fs-ext4
     # btrfs 据说分区损坏不易恢复
-    #kmod-fs-btrfs
+    kmod-fs-btrfs
     # FAT32 4GB file size limitation
     #kmod-fs-vfat
     # `block info` cannot detect reiserfs, ntfs
@@ -173,14 +174,23 @@ usb_ipks=(
 )
 ```
 
-添加自己编译的 mypackages.
+* 添加自己编译的 mypackages.
 
 ```shell
 my_ipks=(
     vlmcsd luci-app-vlmcsd luci-i18n-vlmcsd-zh-cn
-    luci-app-autossh luci-i18n-autossh-zh-cn
+    #luci-app-autossh luci-i18n-autossh-zh-cn
     luci-app-nfs luci-i18n-nfs-zh-cn
 )
+```
+
+由于 `/home/openwrt/imagebuilder/key-build` 文件一开始不存在，
+所以首需先运行一遍 `make image ADD_LOCAL_KEY=1 PROFILE=netgear_wndr3700-v4` 生成此 key。然后再签名 `mypackages/Packages`
+
+```
+USIGN=/home/openwrt/imagebuilder/staging_dir/host/bin/usign
+BUILD_KEY=/home/openwrt/imagebuilder/key-build
+"$USIGN" -S -m /home/openwrt/mypackages/Packages -s "$BUILD_KEY"
 ```
 
 
@@ -188,7 +198,7 @@ my_ipks=(
 
 ```shell
 $ cd /home/openwrt/imagebuilder/
-$ make image \
+$ make image ADD_LOCAL_KEY=1 \
   PROFILE=netgear_wndr3700-v4 \
   PACKAGES="$(echo\
     ${replace_ipks[@]}\
@@ -198,6 +208,7 @@ $ make image \
     ${big_ipks[@]}\
     ${usb_ipks[@]}\
     ${my_ipks[@]})" \
+  CUSTOM_IMAGE_SIZE=40m \
   FILES="/home/openwrt/myfiles_for_image"
 ```
 

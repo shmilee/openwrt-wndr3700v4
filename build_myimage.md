@@ -120,25 +120,25 @@ vpn_ipks=(
 )
 other_ipks=(
     shadow-su shadow-useradd
-    htop iftop ip ss
+    htop btop iftop ip ss curl
     luci-app-ddns luci-i18n-ddns-zh-cn
     luci-app-qos luci-i18n-qos-zh-cn
     #luci-app-samba4 luci-i18n-samba4-zh-cn
-    luci-app-sqm
+    #luci-app-sqm
     luci-app-statistics luci-i18n-statistics-zh-cn
-    luci-app-watchcat luci-i18n-watchcat-zh-cn
-    luci-app-wol luci-i18n-wol-zh-cn
+    #luci-app-watchcat luci-i18n-watchcat-zh-cn
+    #luci-app-wol luci-i18n-wol-zh-cn
     #luci-app-privoxy luci-i18n-privoxy-zh-cn
     #luci-app-tinyproxy  luci-i18n-tinyproxy-zh-cn
     #luci-app-minidlna luci-i18n-minidlna-zh-cn
     #luci-app-upnp luci-i18n-upnp-zh-cn
     aria2 ariang
     luci-app-aria2 luci-i18n-aria2-zh-cn
-    ca-certificates # for aria2 verify https
+    ca-bundle ca-certificates # for aria2 verify https
     transmission-daemon transmission-web
     luci-app-transmission luci-i18n-transmission-zh-cn
-    #autossh
     #nginx-ssl
+    autossh
     openssh-client sshfs openssh-sftp-server
     nfs-kernel-server-utils # cmd: nfsstat showmount
 )
@@ -179,7 +179,7 @@ usb_ipks=(
 ```shell
 my_ipks=(
     vlmcsd luci-app-vlmcsd luci-i18n-vlmcsd-zh-cn
-    #luci-app-autossh luci-i18n-autossh-zh-cn
+    luci-app-autossh luci-i18n-autossh-zh-cn
     luci-app-nfs luci-i18n-nfs-zh-cn
 )
 ```

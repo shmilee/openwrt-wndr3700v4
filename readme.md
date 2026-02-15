@@ -47,7 +47,8 @@ tftp> quit
 * 登录 http://192.168.37.1:180/
     - 系统 > 系统 > 系统属性 > 常规设置 > **同步浏览器时间**
     - 系统 > 管理权 > 路由器密码 > 更改 root 密码
-    - 系统 > 启动项 > 启动脚本 > 禁用暂时不用的启动项：ddns, transmission
+    - 系统 > 启动项 > 启动脚本 > 禁用暂时不用的启动项：
+      like ddns, hd-idle, etherwake, xl2tpd, watchcat, transmission.
 
 * 5G启用，必须 **断电重启** 一次。
 
@@ -70,7 +71,7 @@ tftp> quit
       ssh-copy-id openwrt@192.168.37.1
       ```
     - USB 外接硬盘, (电脑上格式化为 ext4, 卷标 RouterUSB: `mkfs.ext4 -L 'RouterUSB' /dev/sdXX`)。  
-      路由中添加目录：
+      路由中(sda1)添加目录：
       ```shell
       root@OpenWrt:~# mkdir -p /mnt/sda1/aria2
       root@OpenWrt:~# chown -R aria2:aria2 /mnt/sda1/aria2
@@ -83,28 +84,37 @@ tftp> quit
     - 防火墙区域：wan wan6
     - 密码：xxx
 
-* 添加 swap
-    - 创建 swap 文件
+* 添加 swap 分区
+    - 创建 swap 分区
       ```
-      root@OpenWrt:~# dd if=/dev/zero of=/mnt/sda1/swap bs=1024 count=256000
-      root@OpenWrt:~# mkswap /mnt/sda1/swap
-      root@OpenWrt:~# swapon /mnt/sda1/swap
+      root@OpenWrt:~# mkswap /mnt/sda2
+      root@OpenWrt:~# swapon /mnt/sda2
       ```
     - /etc/config/fstab 中增加
       ```
       config swap
       	option enabled '1'
-      	option device '/mnt/sda1/swap'
+      	option device '/dev/sda2'
       ```
 
-* 添加 tailscale。准备好 `headscale apikeys create`
-  ```
-  root@OpenWrt:~# opkg update
-  root@OpenWrt:~# opkg install tailscale
-  root@OpenWrt:~# tailscale up \
-    --login-server https://headscale.your-server.domain \
-    --accept-routes=true --accept-dns=false \
-    --advertise-routes=10.0.0.0/8 \
-    --auth-key your-apikey-xxxxxx
-  ```
+* 添加 tailscale。
+    - 自签证书的根证书追加至 `ca-bundle`
+      ```
+      scp /usr/share/ca-certificates/trust-source/anchors/shmilee_root.crt root@192.168.37.1:/etc/ssl/certs/
+
+      root@OpenWrt:~# cat /etc/ssl/certs/shmilee_root.crt >>/etc/ssl/certs/ca-certificates.crt
+      ```
+    - 路由安装连接 tailscale
+      ```
+      root@OpenWrt:~# opkg update
+      root@OpenWrt:~# opkg install tailscale
+      root@OpenWrt:~# tailscale up \
+        --login-server https://headscale.my-server.domain \
+        --accept-routes=true --accept-dns=false \
+        --advertise-routes=10.0.0.0/8
+      ```
+    - 根据提示完成 headscale 服务器认证 node
+      ```
+      headscale nodes register --user USERNAME-of-net --key nodekey:xxxx
+      ```
 
